@@ -1,0 +1,5 @@
+# evernote #
+This gem is a high level wrapper around Evernote's Thrift-generated ruby code.
+
+## Copyright ##
+Copyright (c) 2010 Chris Sepic. See LICENSE for details.
