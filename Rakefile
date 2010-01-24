@@ -9,6 +9,7 @@ begin
     gem.email = "chris.sepic@gmail.com"
     gem.homepage = "http://github.com/cgs/evernote"
     gem.authors = ["Chris Sepic"]
+    gem.files.include %w{vendor/**/*}
     gem.add_dependency("thrift_client")
     gem.add_development_dependency "rspec"
     gem.add_development_dependency "yard"
