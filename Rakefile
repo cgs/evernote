@@ -5,11 +5,11 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "evernote"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{High level wrapper for the Evernote API}
     gem.email = "chris.sepic@gmail.com"
     gem.homepage = "http://github.com/cgs/evernote"
     gem.authors = ["Chris Sepic"]
+    gem.add_dependency("thrift_client")
     gem.add_development_dependency "rspec"
     gem.add_development_dependency "yard"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
