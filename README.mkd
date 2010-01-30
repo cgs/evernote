@@ -1,5 +1,10 @@
 # evernote #
-This gem is a high level wrapper around Evernote's Thrift-generated ruby code.
+This gem is a high level wrapper around Evernote's Thrift-generated ruby code. It currently just bundles up Evernote's thrift-generated code. After installing, just require the gem in your project:
+
+require 'evernote'
+
+# future releases #
+This gem will eventually provide a cleaner API around the generated code, so you don't feel like you're writing Java.
 
 ## Copyright ##
 Copyright (c) 2010 Chris Sepic. See LICENSE for details.
