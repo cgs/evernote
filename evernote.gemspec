@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
      "README.mkd",
      "Rakefile",
      "VERSION",
+     "evernote.gemspec",
      "lib/evernote.rb",
      "spec/evernote_spec.rb",
      "spec/spec.opts",
