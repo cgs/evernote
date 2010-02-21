@@ -8,4 +8,13 @@ describe "Evernote::Client" do
     
     Evernote::Client.new(klass, "https://www.example.com")
   end
+
+  it "delegates method calls to the underlying ThriftClient" do
+    client = Evernote::Client.new(Evernote::EDAM::UserStore::UserStore::Client, "https://www.example.com")
+    internal_client = client.instance_variable_get(:@client)
+    internal_client.stub(:checkVersion)
+    internal_client.should_receive(:checkVersion)
+
+    client.checkVersion
+  end
 end
