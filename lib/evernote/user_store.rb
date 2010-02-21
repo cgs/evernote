@@ -25,7 +25,11 @@ module Evernote
     end
 
     def version_valid?
-      @client.checkVersion("Ruby EDAMTest", Evernote::EDAM::UserStore::EDAM_VERSION_MAJOR, Evernote::EDAM::UserStore::EDAM_VERSION_MINOR)
+      checkVersion("Ruby EDAMTest", Evernote::EDAM::UserStore::EDAM_VERSION_MAJOR, Evernote::EDAM::UserStore::EDAM_VERSION_MINOR)
+    end
+
+    def method_missing(name, *args, &block)
+      @client.client.send(name, *args, &block)
     end
   end
 end

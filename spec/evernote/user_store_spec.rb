@@ -7,14 +7,14 @@ describe "Evernote::UserStore" do
   end
 
   it "initializes an Evernote::Client and validate the client code version" do
-    client = mock("client", :checkVersion => true)
+    client = mock("Evernote::Client", :client => mock("ThriftClient", :checkVersion => true))
     Evernote::Client.should_receive(:new).with(Evernote::EDAM::UserStore::UserStore::Client, "https://sandbox.evernote.com/edam/user", {}).and_return(client)
 
     Evernote::UserStore.new("https://sandbox.evernote.com/edam/user", @opts, @thrift_client_opts)
   end
 
   it "should raise an error on init if the version is not up to date" do
-    client = mock("client", :checkVersion => false)
+    client = mock("Evernote::Client", :client => mock("ThriftClient", :checkVersion => false))
     Evernote::Client.should_receive(:new).with(Evernote::EDAM::UserStore::UserStore::Client, "https://sandbox.evernote.com/edam/user", {}).and_return(client)
 
     lambda {
