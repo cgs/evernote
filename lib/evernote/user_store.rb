@@ -1,4 +1,7 @@
 module Evernote
+
+  VersionOutOfDate = Class.new(StandardError)
+
   class UserStore
     AuthenticationFailure = Class.new(StandardError)
     
@@ -15,6 +18,8 @@ module Evernote
       end
 
       @client = Evernote::Client.new(Evernote::EDAM::UserStore::UserStore::Client, uri, thrift_client_options)
+      
+      validate_version
     end
     
     def authenticate
@@ -25,6 +30,14 @@ module Evernote
     
     def method_missing(name, *args, &block)
       @client.send(name, *args, &block)
+    end
+
+    def validate_version
+      raise VersionOutOfDate, "The vendored Evernote client code is out of date and needs to be regenerated" unless version_valid?
+    end
+
+    def version_valid?
+      checkVersion("Ruby EDAMTest", Evernote::EDAM::UserStore::EDAM_VERSION_MAJOR, Evernote::EDAM::UserStore::EDAM_VERSION_MINOR)
     end
   end
 end

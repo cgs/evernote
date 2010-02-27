@@ -1,6 +1,6 @@
 module Evernote
   class Client
-  
+
     THRIFT_DEFAULTS = {
       :transport => Thrift::HTTPClientTransport
     }.freeze
