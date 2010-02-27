@@ -8,4 +8,13 @@ describe "Evernote::Client" do
     
     Evernote::Client.new(klass, "https://www.example.com")
   end
+  
+  it "should proxy methods" do
+    thrift_client = mock("ThriftClient")
+    ThriftClient.stub!(:new => thrift_client)
+    thrift_client.should_receive(:foobar)
+
+    client = Evernote::Client.new(mock("SomeInternalEvernoteClass"), "https://www.example.com")
+    client.foobar
+  end
 end

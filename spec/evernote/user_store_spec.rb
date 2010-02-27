@@ -2,44 +2,44 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe "Evernote::UserStore" do
   before(:each) do
-    @opts = { :consumer_key => "12345", :consumer_secret => "ABCDE", :username => "cgs", :password => "password" }
+    @auth_file = File.dirname(__FILE__) + "/auth.yaml"
+    @env = :sandbox
   end
 
   it "initializes an Evernote::Client" do
     Evernote::Client.should_receive(:new).with(Evernote::EDAM::UserStore::UserStore::Client, "https://sandbox.evernote.com/edam/user", {})
 
-    Evernote::UserStore.new("https://sandbox.evernote.com/edam/user", @opts)
+    Evernote::UserStore.new("https://sandbox.evernote.com/edam/user", @auth_file, @env)
   end
 
-  it "raises an exception if no consumer key is set" do
-    thrift_client_opts = {}
-    @opts.delete(:consumer_key)
-    lambda {
-      Evernote::UserStore.new("https://sandbox.evernote.com/edam/user", @opts, thrift_client_opts)
-    }.should raise_error(ArgumentError, ":consumer_key, :consumer_secret, :username and :password are required")
+  %w(consumer_key consumer_secret username password).each do |credential|
+    it "raises an exception if no #{credential} is set" do
+      lambda {
+        Evernote::UserStore.new("https://sandbox.evernote.com/edam/user", @auth_file, :invalid)
+      }.should raise_error(ArgumentError, "'consumer_key', 'consumer_secret', 'username' and 'password' are required")
+    end
   end
-              
-  it "raises an exception if no consumer secret is set" do
-    thrift_client_opts = {}
-    @opts.delete(:consumer_secret)
-    lambda {
-      Evernote::UserStore.new("https://sandbox.evernote.com/edam/user", @opts, thrift_client_opts)
-    }.should raise_error(ArgumentError, ":consumer_key, :consumer_secret, :username and :password are required")
+  
+  it "should authenticate" do
+    user_store = Evernote::UserStore.new("https://sandbox.evernote.com/edam/user", @auth_file, @env)
+    user_store.instance_variable_get(:@client).should_receive(:authenticate).with("cgs", "password", "12345", "ABCDE").and_return(nil)
+    
+    user_store.authenticate
   end
-
-  it "raises an exception if no username is set" do
-    thrift_client_opts = {}
-    @opts.delete(:username)
+  
+  it "should wrap authentication failure" do
+    user_store = Evernote::UserStore.new("https://sandbox.evernote.com/edam/user", @auth_file, @env)
+    user_store.instance_variable_get(:@client).should_receive(:authenticate).and_raise(Evernote::EDAM::Error::EDAMUserException)
+    
     lambda {
-      Evernote::UserStore.new("https://sandbox.evernote.com/edam/user", @opts, thrift_client_opts)
-    }.should raise_error(ArgumentError, ":consumer_key, :consumer_secret, :username and :password are required")
+      user_store.authenticate
+    }.should raise_error(Evernote::UserStore::AuthenticationFailure)
   end
-
-  it "raises an exception if no password is set" do
-    thrift_client_opts = {}
-    @opts.delete(:password)
-    lambda {
-      Evernote::UserStore.new("https://sandbox.evernote.com/edam/user", @opts, thrift_client_opts)
-    }.should raise_error(ArgumentError, ":consumer_key, :consumer_secret, :username and :password are required")
+  
+  it "should proxy methods" do
+    user_store = Evernote::UserStore.new("https://sandbox.evernote.com/edam/user", @auth_file, @env)
+    user_store.instance_variable_get(:@client).should_receive(:foobar).and_return(nil)
+    
+    user_store.foobar
   end
 end
