@@ -1,0 +1,11 @@
+sandbox:
+  username: cgs
+  password: password
+  consumer_key: "12345"
+  consumer_secret: ABCDE
+  
+invalid:
+  username: 
+  password:
+  consumer_key:
+  consumer_secret:
