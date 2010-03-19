@@ -1,10 +1,48 @@
 # evernote #
-This gem is a high level wrapper around Evernote's Thrift-generated ruby code. It currently just bundles up Evernote's thrift-generated code. After installing, just require the gem in your project:
+This gem is a high level wrapper around Evernote's Thrift-generated ruby code. It bundles up Evernote's thrift-generated code and creates some simple wrapper classes.
 
-require 'evernote'
+# usage #
+Create a config yml:
 
-# future releases #
-This gem will eventually provide a cleaner API around the generated code, so you don't feel like you're writing Java.
+    sandbox:
+      username: user
+      password: password
+      consumer_key: key
+      consumer_secret: secret
+  
+    production:
+      username: user
+      password: password
+      consumer_key: key
+      consumer_secret: secret
+
+Here's an example using the sandbox key:
+
+    require 'evernote'
+
+    user_store_url = "https://sandbox.evernote.com/edam/user"
+    config = File.dirname(__FILE__) + "/config.yml"
+    user_store = Evernote::UserStore.new(user_store_url, config, "sandbox")
+
+    auth_result = user_store.authenticate
+    user = auth_result.user
+    auth_token = auth_result.authenticationToken
+    puts "Authentication was successful for #{user.username}"
+    puts "Authentication token = #{auth_token}"
+
+Once you've authenticated, you could do something like list all of your notebooks:
+
+    note_store_url = "http://sandbox.evernote.com/edam/note/#{user.shardId}"
+    note_store = Evernote::NoteStore.new(note_store_url)
+
+    notebooks = note_store.listNotebooks(auth_token)
+    puts "Found #{notebooks.size} notebooks:"
+    default_notebook = notebooks[0]
+    notebooks.each { |notebook| puts "  * #{notebook.name}"}
+
+The evernote API can be viewed at http://www.evernote.com/about/developer/api/ref/
+
+If the vendored code is out of date and you get an error indicating so, feel free to create an issue at http://github.com/cgs/evernote/issues
 
 ## Copyright ##
 Copyright (c) 2010 Chris Sepic. See LICENSE for details.
