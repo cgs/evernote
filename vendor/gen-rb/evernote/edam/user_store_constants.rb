@@ -11,7 +11,7 @@ require 'user_store_types'
           module UserStore
             EDAM_VERSION_MAJOR = 1
 
-            EDAM_VERSION_MINOR = 14
+            EDAM_VERSION_MINOR = 17
 
     end
   end

@@ -32,8 +32,9 @@ module Evernote
               UPDATED = 2
               RELEVANCE = 3
               UPDATE_SEQUENCE_NUMBER = 4
-              VALUE_MAP = {1 => "CREATED", 2 => "UPDATED", 3 => "RELEVANCE", 4 => "UPDATE_SEQUENCE_NUMBER"}
-              VALID_VALUES = Set.new([CREATED, UPDATED, RELEVANCE, UPDATE_SEQUENCE_NUMBER]).freeze
+              TITLE = 5
+              VALUE_MAP = {1 => "CREATED", 2 => "UPDATED", 3 => "RELEVANCE", 4 => "UPDATE_SEQUENCE_NUMBER", 5 => "TITLE"}
+              VALID_VALUES = Set.new([CREATED, UPDATED, RELEVANCE, UPDATE_SEQUENCE_NUMBER, TITLE]).freeze
             end
 
             module PremiumOrderStatus
@@ -74,16 +75,15 @@ module Evernote
             #    </dd>
             #  </dl>
             class Data
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               BODYHASH = 1
               SIZE = 2
               BODY = 3
 
-              ::Thrift::Struct.field_accessor self, :bodyHash, :size, :body
               FIELDS = {
-                BODYHASH => {:type => ::Thrift::Types::STRING, :name => 'bodyHash', :optional => true},
+                BODYHASH => {:type => ::Thrift::Types::STRING, :name => 'bodyHash', :binary => true, :optional => true},
                 SIZE => {:type => ::Thrift::Types::I32, :name => 'size', :optional => true},
-                BODY => {:type => ::Thrift::Types::STRING, :name => 'body', :optional => true}
+                BODY => {:type => ::Thrift::Types::STRING, :name => 'body', :binary => true, :optional => true}
               }
 
               def struct_fields; FIELDS; end
@@ -91,6 +91,7 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             #  A structure holding the optional attributes that can be stored
@@ -246,8 +247,14 @@ module Evernote
             #    </dd>
             #  </dl>
             # 
+            #  <dt>educationalInstitution</dt>
+            #    <dd>a flag indicating that the user is part of an educational institution which
+            #    makes them eligible for discounts on bulk purchases
+            #    </dd>
+            #  </dl>
+            # 
             class UserAttributes
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               DEFAULTLOCATIONNAME = 1
               DEFAULTLATITUDE = 2
               DEFAULTLONGITUDE = 3
@@ -273,8 +280,9 @@ module Evernote
               GROUPNAME = 25
               RECOGNITIONLANGUAGE = 26
               CUSTOMERPROFILEID = 27
+              REFERRALPROOF = 28
+              EDUCATIONALDISCOUNT = 29
 
-              ::Thrift::Struct.field_accessor self, :defaultLocationName, :defaultLatitude, :defaultLongitude, :preactivation, :viewedPromotions, :incomingEmailAddress, :recentMailedAddresses, :comments, :dateAgreedToTermsOfService, :maxReferrals, :referralCount, :refererCode, :sentEmailDate, :sentEmailCount, :dailyEmailLimit, :emailOptOutDate, :partnerEmailOptInDate, :preferredLanguage, :preferredCountry, :clipFullPage, :twitterUserName, :twitterId, :groupName, :recognitionLanguage, :customerProfileId
               FIELDS = {
                 DEFAULTLOCATIONNAME => {:type => ::Thrift::Types::STRING, :name => 'defaultLocationName', :optional => true},
                 DEFAULTLATITUDE => {:type => ::Thrift::Types::DOUBLE, :name => 'defaultLatitude', :optional => true},
@@ -300,7 +308,9 @@ module Evernote
                 TWITTERID => {:type => ::Thrift::Types::STRING, :name => 'twitterId', :optional => true},
                 GROUPNAME => {:type => ::Thrift::Types::STRING, :name => 'groupName', :optional => true},
                 RECOGNITIONLANGUAGE => {:type => ::Thrift::Types::STRING, :name => 'recognitionLanguage', :optional => true},
-                CUSTOMERPROFILEID => {:type => ::Thrift::Types::I64, :name => 'customerProfileId', :optional => true}
+                CUSTOMERPROFILEID => {:type => ::Thrift::Types::I64, :name => 'customerProfileId', :optional => true},
+                REFERRALPROOF => {:type => ::Thrift::Types::STRING, :name => 'referralProof', :optional => true},
+                EDUCATIONALDISCOUNT => {:type => ::Thrift::Types::BOOL, :name => 'educationalDiscount', :optional => true}
               }
 
               def struct_fields; FIELDS; end
@@ -308,6 +318,7 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             #  This represents the bookkeeping information for the user's subscription.
@@ -328,7 +339,7 @@ module Evernote
             #    the start of the new month.
             #    </dd>
             #  <dt>uploadLimitNextMonth</dt>
-            #    <dd> When uploadLimitEnd is research the service
+            #    <dd> When uploadLimitEnd is reached, the service
             #    will change uploadLimit to uploadLimitNextMonth. If a premium account is
             #    canceled, this mechanism will reset the quota appropriately.
             #    </dd>
@@ -381,7 +392,7 @@ module Evernote
             #    </dd>
             #  </dl>
             class Accounting
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               UPLOADLIMIT = 1
               UPLOADLIMITEND = 2
               UPLOADLIMITNEXTMONTH = 3
@@ -399,7 +410,6 @@ module Evernote
               PREMIUMSUBSCRIPTIONNUMBER = 16
               LASTREQUESTEDCHARGE = 17
 
-              ::Thrift::Struct.field_accessor self, :uploadLimit, :uploadLimitEnd, :uploadLimitNextMonth, :premiumServiceStatus, :premiumOrderNumber, :premiumCommerceService, :premiumServiceStart, :premiumServiceSKU, :lastSuccessfulCharge, :lastFailedCharge, :lastFailedChargeReason, :nextPaymentDue, :premiumLockUntil, :updated, :premiumSubscriptionNumber, :lastRequestedCharge
               FIELDS = {
                 UPLOADLIMIT => {:type => ::Thrift::Types::I64, :name => 'uploadLimit', :optional => true},
                 UPLOADLIMITEND => {:type => ::Thrift::Types::I64, :name => 'uploadLimitEnd', :optional => true},
@@ -427,6 +437,7 @@ module Evernote
                 end
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             #  This represents the information about a single user account.
@@ -522,7 +533,7 @@ module Evernote
             #    </dd>
             #  </dl>
             class User
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               ID = 1
               USERNAME = 2
               EMAIL = 3
@@ -537,7 +548,6 @@ module Evernote
               ATTRIBUTES = 15
               ACCOUNTING = 16
 
-              ::Thrift::Struct.field_accessor self, :id, :username, :email, :name, :timezone, :privilege, :created, :updated, :deleted, :active, :shardId, :attributes, :accounting
               FIELDS = {
                 ID => {:type => ::Thrift::Types::I32, :name => 'id', :optional => true},
                 USERNAME => {:type => ::Thrift::Types::STRING, :name => 'username', :optional => true},
@@ -562,6 +572,7 @@ module Evernote
                 end
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             #  A tag within a user's account is a unique name which may be organized
@@ -609,13 +620,12 @@ module Evernote
             #    </dd>
             #  </dl>
             class Tag
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               GUID = 1
               NAME = 2
               PARENTGUID = 3
               UPDATESEQUENCENUM = 4
 
-              ::Thrift::Struct.field_accessor self, :guid, :name, :parentGuid, :updateSequenceNum
               FIELDS = {
                 GUID => {:type => ::Thrift::Types::STRING, :name => 'guid', :optional => true},
                 NAME => {:type => ::Thrift::Types::STRING, :name => 'name', :optional => true},
@@ -628,6 +638,7 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # Structure holding the optional attributes of a Resource
@@ -693,7 +704,7 @@ module Evernote
             #   </dd>
             # </dl>
             class ResourceAttributes
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               SOURCEURL = 1
               TIMESTAMP = 2
               LATITUDE = 3
@@ -706,7 +717,6 @@ module Evernote
               FILENAME = 10
               ATTACHMENT = 11
 
-              ::Thrift::Struct.field_accessor self, :sourceURL, :timestamp, :latitude, :longitude, :altitude, :cameraMake, :cameraModel, :clientWillIndex, :recoType, :fileName, :attachment
               FIELDS = {
                 SOURCEURL => {:type => ::Thrift::Types::STRING, :name => 'sourceURL', :optional => true},
                 TIMESTAMP => {:type => ::Thrift::Types::I64, :name => 'timestamp', :optional => true},
@@ -726,6 +736,7 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # Every media file that is embedded or attached to a note is represented
@@ -753,7 +764,8 @@ module Evernote
             # 
             # <dt>data</dt>
             #   <dd>The contents of the resource.
-            #   Maximum length:  The data.body is limited to 25 MB (26214400 bytes)
+            #   Maximum length:  The data.body is limited to EDAM_RESOURCE_SIZE_MAX_FREE
+            #   for free accounts and EDAM_RESOURCE_SIZE_MAX_PREMIUM for premium accounts.
             #   </dd>
             # 
             # <dt>mime</dt>
@@ -806,7 +818,7 @@ module Evernote
             #   this field will be unset.</dd>
             # </dl>
             class Resource
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               GUID = 1
               NOTEGUID = 2
               DATA = 3
@@ -820,7 +832,6 @@ module Evernote
               UPDATESEQUENCENUM = 12
               ALTERNATEDATA = 13
 
-              ::Thrift::Struct.field_accessor self, :guid, :noteGuid, :data, :mime, :width, :height, :duration, :active, :recognition, :attributes, :updateSequenceNum, :alternateData
               FIELDS = {
                 GUID => {:type => ::Thrift::Types::STRING, :name => 'guid', :optional => true},
                 NOTEGUID => {:type => ::Thrift::Types::STRING, :name => 'noteGuid', :optional => true},
@@ -841,6 +852,7 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # The list of optional attributes that can be stored on a note.
@@ -889,7 +901,7 @@ module Evernote
             #   </dd>
             # </dl>
             class NoteAttributes
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               SUBJECTDATE = 1
               LATITUDE = 10
               LONGITUDE = 11
@@ -899,7 +911,6 @@ module Evernote
               SOURCEURL = 15
               SOURCEAPPLICATION = 16
 
-              ::Thrift::Struct.field_accessor self, :subjectDate, :latitude, :longitude, :altitude, :author, :source, :sourceURL, :sourceApplication
               FIELDS = {
                 SUBJECTDATE => {:type => ::Thrift::Types::I64, :name => 'subjectDate', :optional => true},
                 LATITUDE => {:type => ::Thrift::Types::DOUBLE, :name => 'latitude', :optional => true},
@@ -916,6 +927,7 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # Represents a single note in the user's account.
@@ -1046,7 +1058,7 @@ module Evernote
             #   </dd>
             # </dl>
             class Note
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               GUID = 1
               TITLE = 2
               CONTENT = 3
@@ -1063,12 +1075,11 @@ module Evernote
               ATTRIBUTES = 14
               TAGNAMES = 15
 
-              ::Thrift::Struct.field_accessor self, :guid, :title, :content, :contentHash, :contentLength, :created, :updated, :deleted, :active, :updateSequenceNum, :notebookGuid, :tagGuids, :resources, :attributes, :tagNames
               FIELDS = {
                 GUID => {:type => ::Thrift::Types::STRING, :name => 'guid', :optional => true},
                 TITLE => {:type => ::Thrift::Types::STRING, :name => 'title', :optional => true},
                 CONTENT => {:type => ::Thrift::Types::STRING, :name => 'content', :optional => true},
-                CONTENTHASH => {:type => ::Thrift::Types::STRING, :name => 'contentHash', :optional => true},
+                CONTENTHASH => {:type => ::Thrift::Types::STRING, :name => 'contentHash', :binary => true, :optional => true},
                 CONTENTLENGTH => {:type => ::Thrift::Types::I32, :name => 'contentLength', :optional => true},
                 CREATED => {:type => ::Thrift::Types::I64, :name => 'created', :optional => true},
                 UPDATED => {:type => ::Thrift::Types::I64, :name => 'updated', :optional => true},
@@ -1087,6 +1098,7 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # If a Notebook has been opened to the public, the Notebook will have a
@@ -1128,13 +1140,12 @@ module Evernote
             #   </dd>
             # </dl>
             class Publishing
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               URI = 1
               ORDER = 2
               ASCENDING = 3
               PUBLICDESCRIPTION = 4
 
-              ::Thrift::Struct.field_accessor self, :uri, :order, :ascending, :publicDescription
               FIELDS = {
                 URI => {:type => ::Thrift::Types::STRING, :name => 'uri', :optional => true},
                 ORDER => {:type => ::Thrift::Types::I32, :name => 'order', :optional => true, :enum_class => Evernote::EDAM::Type::NoteSortOrder},
@@ -1150,6 +1161,7 @@ module Evernote
                 end
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # A unique container for a set of notes.
@@ -1225,9 +1237,24 @@ module Evernote
             #   Clients that do not wish to change the publishing behavior of a Notebook
             #   should not set this value when calling NoteStore.updateNotebook().
             #   </dd>
+            # 
+            # <dt>stack</dt>
+            #   <dd>If this is set, then the notebook is visually contained within a stack
+            #   of notebooks with this name.  All notebooks in the same account with the
+            #   same 'stack' field are considered to be in the same stack.
+            #   Notebooks with no stack set are "top level" and not contained within a
+            #   stack.
+            #   </dd>
+            # 
+            # <dt>sharedNotebookIds</dt>
+            #   <dd>If this notebook has been shared with one or more individuals, then
+            #   this will contain the 'id' fields to identify those SharedNotebook
+            #   entries in the NoteStore.  This field is only set by the server, and it
+            #   is ignored in calls to createNotebook, updateNotebook, etc.
+            #   </dd>
             # </dl>
             class Notebook
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               GUID = 1
               NAME = 2
               UPDATESEQUENCENUM = 5
@@ -1236,8 +1263,9 @@ module Evernote
               SERVICEUPDATED = 8
               PUBLISHING = 10
               PUBLISHED = 11
+              STACK = 12
+              SHAREDNOTEBOOKIDS = 13
 
-              ::Thrift::Struct.field_accessor self, :guid, :name, :updateSequenceNum, :defaultNotebook, :serviceCreated, :serviceUpdated, :publishing, :published
               FIELDS = {
                 GUID => {:type => ::Thrift::Types::STRING, :name => 'guid', :optional => true},
                 NAME => {:type => ::Thrift::Types::STRING, :name => 'name', :optional => true},
@@ -1246,7 +1274,9 @@ module Evernote
                 SERVICECREATED => {:type => ::Thrift::Types::I64, :name => 'serviceCreated', :optional => true},
                 SERVICEUPDATED => {:type => ::Thrift::Types::I64, :name => 'serviceUpdated', :optional => true},
                 PUBLISHING => {:type => ::Thrift::Types::STRUCT, :name => 'publishing', :class => Evernote::EDAM::Type::Publishing, :optional => true},
-                PUBLISHED => {:type => ::Thrift::Types::BOOL, :name => 'published', :optional => true}
+                PUBLISHED => {:type => ::Thrift::Types::BOOL, :name => 'published', :optional => true},
+                STACK => {:type => ::Thrift::Types::STRING, :name => 'stack', :optional => true},
+                SHAREDNOTEBOOKIDS => {:type => ::Thrift::Types::LIST, :name => 'sharedNotebookIds', :element => {:type => ::Thrift::Types::I64}, :optional => true}
               }
 
               def struct_fields; FIELDS; end
@@ -1254,6 +1284,7 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # A named search associated with the account that can be quickly re-used.
@@ -1296,14 +1327,13 @@ module Evernote
             #   </dd>
             # </dl>
             class SavedSearch
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               GUID = 1
               NAME = 2
               QUERY = 3
               FORMAT = 4
               UPDATESEQUENCENUM = 5
 
-              ::Thrift::Struct.field_accessor self, :guid, :name, :query, :format, :updateSequenceNum
               FIELDS = {
                 GUID => {:type => ::Thrift::Types::STRING, :name => 'guid', :optional => true},
                 NAME => {:type => ::Thrift::Types::STRING, :name => 'name', :optional => true},
@@ -1320,6 +1350,7 @@ module Evernote
                 end
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # An advertisement that may be displayed within an Evernote client.
@@ -1381,7 +1412,7 @@ module Evernote
             #   three times more frequently than an ad with a frequency of 1.0.</dd>
             # </dl>
             class Ad
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               ID = 1
               WIDTH = 2
               HEIGHT = 3
@@ -1395,7 +1426,6 @@ module Evernote
               HTML = 11
               DISPLAYFREQUENCY = 12
 
-              ::Thrift::Struct.field_accessor self, :id, :width, :height, :advertiserName, :imageUrl, :destinationUrl, :displaySeconds, :score, :image, :imageMime, :html, :displayFrequency
               FIELDS = {
                 ID => {:type => ::Thrift::Types::I32, :name => 'id', :optional => true},
                 WIDTH => {:type => ::Thrift::Types::I16, :name => 'width', :optional => true},
@@ -1405,7 +1435,7 @@ module Evernote
                 DESTINATIONURL => {:type => ::Thrift::Types::STRING, :name => 'destinationUrl', :optional => true},
                 DISPLAYSECONDS => {:type => ::Thrift::Types::I16, :name => 'displaySeconds', :optional => true},
                 SCORE => {:type => ::Thrift::Types::DOUBLE, :name => 'score', :optional => true},
-                IMAGE => {:type => ::Thrift::Types::STRING, :name => 'image', :optional => true},
+                IMAGE => {:type => ::Thrift::Types::STRING, :name => 'image', :binary => true, :optional => true},
                 IMAGEMIME => {:type => ::Thrift::Types::STRING, :name => 'imageMime', :optional => true},
                 HTML => {:type => ::Thrift::Types::STRING, :name => 'html', :optional => true},
                 DISPLAYFREQUENCY => {:type => ::Thrift::Types::DOUBLE, :name => 'displayFrequency', :optional => true}
@@ -1416,6 +1446,7 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # Shared notebooks represent a relationship between a notebook and a single
@@ -1425,17 +1456,17 @@ module Evernote
             # <dd>the primary identifier of the share</dd>
             # 
             # <dt>userId</dt>
-            # <dd>The user id of the owner of the notebook</dd>
+            # <dd>the user id of the owner of the notebook</dd>
             # 
             # <dt>notebookGuid</dt>
-            # <dd>the GUID of the notebooks that's being shared.</dd>
+            # <dd>the GUID of the associated notebook shared.</dd>
             # 
             # <dt>email</dt>
             # <dd>the email address of the recipient - used by the notebook
             # owner to identify who they shared with.</dd>
             # 
             # <dt>notebookModifiable</dt>
-            # <dd>a flag indicating the a share is read/write -otherwise it's read only</dd>
+            # <dd>a flag indicating the share is read/write -otherwise it's read only</dd>
             # 
             # <dt>requireLogin</dt>
             # <dd>indicates that a user must login to access the share</dd>
@@ -1449,7 +1480,7 @@ module Evernote
             #   Once it's assigned it cannot be changed.</dd>
             # </dl>
             class SharedNotebook
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               ID = 1
               USERID = 2
               NOTEBOOKGUID = 3
@@ -1460,7 +1491,6 @@ module Evernote
               SHAREKEY = 8
               USERNAME = 9
 
-              ::Thrift::Struct.field_accessor self, :id, :userId, :notebookGuid, :email, :notebookModifiable, :requireLogin, :serviceCreated, :shareKey, :username
               FIELDS = {
                 ID => {:type => ::Thrift::Types::I64, :name => 'id', :optional => true},
                 USERID => {:type => ::Thrift::Types::I32, :name => 'userId', :optional => true},
@@ -1478,15 +1508,13 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # A link in an users account that refers them to a public or individual share in
             # another user's account.
             # 
             # <dl>
-            # <dt>id</dt>
-            # <dd>the primary identify of a linked notebook only used for deleting.</dd>
-            # 
             # <dt>shareName</dt>
             # <dd>the display name of the shared notebook.
             #   The link owner can change this.</dd>
@@ -1502,23 +1530,42 @@ module Evernote
             # 
             # <dt>uri</dt>
             # <dd>the identifier of the public notebook</dd>
+            # 
+            # <dt>guid</dt>
+            #   <dd>The unique identifier of this linked notebook.  Will be set whenever
+            #   a resource is retrieved from the service, but may be null when a client
+            #   is creating a resource.
+            #   <br/>
+            #   Length:  EDAM_GUID_LEN_MIN - EDAM_GUID_LEN_MAX
+            #   <br/>
+            #   Regex:  EDAM_GUID_REGEX
+            #   </dd>
+            # 
+            # <dt>updateSequenceNum</dt>
+            #   <dd>A number identifying the last transaction to
+            #   modify the state of this object.  The USN values are sequential within an
+            #   account, and can be used to compare the order of modifications within the
+            #   service.
+            #   </dd>
+            # </dl>
             class LinkedNotebook
-              include ::Thrift::Struct
-              ID = 1
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               SHARENAME = 2
               USERNAME = 3
               SHARDID = 4
               SHAREKEY = 5
               URI = 6
+              GUID = 7
+              UPDATESEQUENCENUM = 8
 
-              ::Thrift::Struct.field_accessor self, :id, :shareName, :username, :shardId, :shareKey, :uri
               FIELDS = {
-                ID => {:type => ::Thrift::Types::I64, :name => 'id', :optional => true},
                 SHARENAME => {:type => ::Thrift::Types::STRING, :name => 'shareName', :optional => true},
                 USERNAME => {:type => ::Thrift::Types::STRING, :name => 'username', :optional => true},
                 SHARDID => {:type => ::Thrift::Types::STRING, :name => 'shardId', :optional => true},
                 SHAREKEY => {:type => ::Thrift::Types::STRING, :name => 'shareKey', :optional => true},
-                URI => {:type => ::Thrift::Types::STRING, :name => 'uri', :optional => true}
+                URI => {:type => ::Thrift::Types::STRING, :name => 'uri', :optional => true},
+                GUID => {:type => ::Thrift::Types::STRING, :name => 'guid', :optional => true},
+                UPDATESEQUENCENUM => {:type => ::Thrift::Types::I32, :name => 'updateSequenceNum', :optional => true}
               }
 
               def struct_fields; FIELDS; end
@@ -1526,6 +1573,7 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
           end

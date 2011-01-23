@@ -46,16 +46,17 @@ module Evernote
             #    this account in the current monthly period.  This can be compared against
             #    Accounting.uploadLimit (from the UserStore) to determine how close the user
             #    is to their monthly upload limit.
+            #    This value may not be present if the SyncState has been retrieved by
+            #    a caller that only has read access to the account.
             #    </dd>
             #  </dl>
             class SyncState
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               CURRENTTIME = 1
               FULLSYNCBEFORE = 2
               UPDATECOUNT = 3
               UPLOADED = 4
 
-              ::Thrift::Struct.field_accessor self, :currentTime, :fullSyncBefore, :updateCount, :uploaded
               FIELDS = {
                 CURRENTTIME => {:type => ::Thrift::Types::I64, :name => 'currentTime'},
                 FULLSYNCBEFORE => {:type => ::Thrift::Types::I64, :name => 'fullSyncBefore'},
@@ -71,6 +72,7 @@ module Evernote
                 raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field updateCount is unset!') unless @updateCount
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             #  This structure is given out by the NoteStore when a client asks to
@@ -165,9 +167,21 @@ module Evernote
             #    If present, the GUIDs of all of the saved searches
             #    that were permanently expunged in this chunk.
             #    </dd>
+            # 
+            #  <dt>linkedNotebooks</dt>
+            #    <dd>
+            #    If present, this is a list of non-expunged LinkedNotebooks that
+            #    have a USN in this chunk.
+            #    </dd>
+            # 
+            #  <dt>expungedLinkedNotebooks</dt>
+            #    <dd>
+            #    If present, the GUIDs of all of the LinkedNotebooks
+            #    that were permanently expunged in this chunk.
+            #    </dd>
             #  </dl>
             class SyncChunk
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               CURRENTTIME = 1
               CHUNKHIGHUSN = 2
               UPDATECOUNT = 3
@@ -180,8 +194,9 @@ module Evernote
               EXPUNGEDNOTEBOOKS = 10
               EXPUNGEDTAGS = 11
               EXPUNGEDSEARCHES = 12
+              LINKEDNOTEBOOKS = 13
+              EXPUNGEDLINKEDNOTEBOOKS = 14
 
-              ::Thrift::Struct.field_accessor self, :currentTime, :chunkHighUSN, :updateCount, :notes, :notebooks, :tags, :searches, :resources, :expungedNotes, :expungedNotebooks, :expungedTags, :expungedSearches
               FIELDS = {
                 CURRENTTIME => {:type => ::Thrift::Types::I64, :name => 'currentTime'},
                 CHUNKHIGHUSN => {:type => ::Thrift::Types::I32, :name => 'chunkHighUSN', :optional => true},
@@ -194,7 +209,9 @@ module Evernote
                 EXPUNGEDNOTES => {:type => ::Thrift::Types::LIST, :name => 'expungedNotes', :element => {:type => ::Thrift::Types::STRING}, :optional => true},
                 EXPUNGEDNOTEBOOKS => {:type => ::Thrift::Types::LIST, :name => 'expungedNotebooks', :element => {:type => ::Thrift::Types::STRING}, :optional => true},
                 EXPUNGEDTAGS => {:type => ::Thrift::Types::LIST, :name => 'expungedTags', :element => {:type => ::Thrift::Types::STRING}, :optional => true},
-                EXPUNGEDSEARCHES => {:type => ::Thrift::Types::LIST, :name => 'expungedSearches', :element => {:type => ::Thrift::Types::STRING}, :optional => true}
+                EXPUNGEDSEARCHES => {:type => ::Thrift::Types::LIST, :name => 'expungedSearches', :element => {:type => ::Thrift::Types::STRING}, :optional => true},
+                LINKEDNOTEBOOKS => {:type => ::Thrift::Types::LIST, :name => 'linkedNotebooks', :element => {:type => ::Thrift::Types::STRUCT, :class => Evernote::EDAM::Type::LinkedNotebook}, :optional => true},
+                EXPUNGEDLINKEDNOTEBOOKS => {:type => ::Thrift::Types::LIST, :name => 'expungedLinkedNotebooks', :element => {:type => ::Thrift::Types::STRING}, :optional => true}
               }
 
               def struct_fields; FIELDS; end
@@ -204,6 +221,7 @@ module Evernote
                 raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field updateCount is unset!') unless @updateCount
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             #  A list of criteria that are used to indicate which notes are desired from
@@ -259,7 +277,7 @@ module Evernote
             #    </dd>
             #  </dl>
             class NoteFilter
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               ORDER = 1
               ASCENDING = 2
               WORDS = 3
@@ -268,7 +286,6 @@ module Evernote
               TIMEZONE = 6
               INACTIVE = 7
 
-              ::Thrift::Struct.field_accessor self, :order, :ascending, :words, :notebookGuid, :tagGuids, :timeZone, :inactive
               FIELDS = {
                 ORDER => {:type => ::Thrift::Types::I32, :name => 'order', :optional => true},
                 ASCENDING => {:type => ::Thrift::Types::BOOL, :name => 'ascending', :optional => true},
@@ -284,6 +301,7 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             #  A small structure for returning a list of notes out of a larger set.
@@ -323,22 +341,33 @@ module Evernote
             #    include a list of those words.  Any stopped words will not be included
             #    in this list.
             #    </dd>
+            # 
+            #  <dt>updateCount</dt>
+            #    <dd>
+            #    Indicates the total number of transactions that have
+            #    been committed within the account.  This reflects (for example) the
+            #    number of discrete additions or modifications that have been made to
+            #    the data in this account (tags, notes, resources, etc.).
+            #    This number is the "high water mark" for Update Sequence Numbers (USN)
+            #    within the account.
+            #    </dd>
             #  </dl>
             class NoteList
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               STARTINDEX = 1
               TOTALNOTES = 2
               NOTES = 3
               STOPPEDWORDS = 4
               SEARCHEDWORDS = 5
+              UPDATECOUNT = 6
 
-              ::Thrift::Struct.field_accessor self, :startIndex, :totalNotes, :notes, :stoppedWords, :searchedWords
               FIELDS = {
                 STARTINDEX => {:type => ::Thrift::Types::I32, :name => 'startIndex'},
                 TOTALNOTES => {:type => ::Thrift::Types::I32, :name => 'totalNotes'},
                 NOTES => {:type => ::Thrift::Types::LIST, :name => 'notes', :element => {:type => ::Thrift::Types::STRUCT, :class => Evernote::EDAM::Type::Note}},
                 STOPPEDWORDS => {:type => ::Thrift::Types::LIST, :name => 'stoppedWords', :element => {:type => ::Thrift::Types::STRING}, :optional => true},
-                SEARCHEDWORDS => {:type => ::Thrift::Types::LIST, :name => 'searchedWords', :element => {:type => ::Thrift::Types::STRING}, :optional => true}
+                SEARCHEDWORDS => {:type => ::Thrift::Types::LIST, :name => 'searchedWords', :element => {:type => ::Thrift::Types::STRING}, :optional => true},
+                UPDATECOUNT => {:type => ::Thrift::Types::I32, :name => 'updateCount', :optional => true}
               }
 
               def struct_fields; FIELDS; end
@@ -349,6 +378,7 @@ module Evernote
                 raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field notes is unset!') unless @notes
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             #  A data structure representing the number of notes for each notebook
@@ -376,12 +406,11 @@ module Evernote
             #    </dd>
             #  </dl>
             class NoteCollectionCounts
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               NOTEBOOKCOUNTS = 1
               TAGCOUNTS = 2
               TRASHCOUNT = 3
 
-              ::Thrift::Struct.field_accessor self, :notebookCounts, :tagCounts, :trashCount
               FIELDS = {
                 NOTEBOOKCOUNTS => {:type => ::Thrift::Types::MAP, :name => 'notebookCounts', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::I32}, :optional => true},
                 TAGCOUNTS => {:type => ::Thrift::Types::MAP, :name => 'tagCounts', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::I32}, :optional => true},
@@ -393,6 +422,7 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # Information for tracking the display of a particular ad by a client.
@@ -418,12 +448,11 @@ module Evernote
             #    </dd>
             # </dl>
             class AdImpressions
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               ADID = 1
               IMPRESSIONCOUNT = 2
               IMPRESSIONTIME = 3
 
-              ::Thrift::Struct.field_accessor self, :adId, :impressionCount, :impressionTime
               FIELDS = {
                 ADID => {:type => ::Thrift::Types::I32, :name => 'adId'},
                 IMPRESSIONCOUNT => {:type => ::Thrift::Types::I32, :name => 'impressionCount'},
@@ -438,6 +467,7 @@ module Evernote
                 raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field impressionTime is unset!') unless @impressionTime
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # Parameters that will be given by a client to the service when it requests
@@ -473,13 +503,12 @@ module Evernote
             #    </dd>
             # </dl>
             class AdParameters
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               CLIENTLANGUAGE = 2
               IMPRESSIONS = 4
               SUPPORTHTML = 5
               CLIENTPROPERTIES = 6
 
-              ::Thrift::Struct.field_accessor self, :clientLanguage, :impressions, :supportHtml, :clientProperties
               FIELDS = {
                 CLIENTLANGUAGE => {:type => ::Thrift::Types::STRING, :name => 'clientLanguage', :optional => true},
                 IMPRESSIONS => {:type => ::Thrift::Types::LIST, :name => 'impressions', :element => {:type => ::Thrift::Types::STRUCT, :class => Evernote::EDAM::NoteStore::AdImpressions}, :optional => true},
@@ -492,6 +521,7 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # Parameters that must be given to the NoteStore emailNote call. These allow
@@ -541,7 +571,7 @@ module Evernote
             #    </dd>
             # </dl>
             class NoteEmailParameters
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               GUID = 1
               NOTE = 2
               TOADDRESSES = 3
@@ -549,7 +579,6 @@ module Evernote
               SUBJECT = 5
               MESSAGE = 6
 
-              ::Thrift::Struct.field_accessor self, :guid, :note, :toAddresses, :ccAddresses, :subject, :message
               FIELDS = {
                 GUID => {:type => ::Thrift::Types::STRING, :name => 'guid', :optional => true},
                 NOTE => {:type => ::Thrift::Types::STRUCT, :name => 'note', :class => Evernote::EDAM::Type::Note, :optional => true},
@@ -564,6 +593,63 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
+            end
+
+            # Identfying information about previous versions of a note that are backed up
+            # within Evernote's servers.  Used in the return value of the listNoteVersions
+            # call.
+            # 
+            # <dl>
+            #  <dt>updateSequenceNum</dt>
+            #  <dd>
+            #    The update sequence number for the Note when it last had this content.
+            #    This serves to uniquely identify each version of the note, since USN
+            #    values are unique within an account for each update.
+            #  </dd>
+            #  <dt>updated</dt>
+            #  <dd>
+            #    The 'updated' time that was set on the Note when it had this version
+            #    of the content.  This is the user-modifiable modification time on the
+            #    note, so it's not reliable for guaranteeing the order of various
+            #    versions.  (E.g. if someone modifies the note, then changes this time
+            #    manually into the past and then updates the note again.)
+            #  </dd>
+            #  <dt>saved</dt>
+            #  <dd>
+            #    A timestamp that holds the date and time when this version of the note
+            #    was backed up by Evernote's servers.  This
+            #  </dd>
+            #  <dt>title</dt>
+            #  <dd>
+            #    The title of the note when this particular verison was saved.  (The
+            #    current title of the note may differ from this value.)
+            #  </dd>
+            # </dl>
+            class NoteVersionId
+              include ::Thrift::Struct, ::Thrift::Struct_Union
+              UPDATESEQUENCENUM = 1
+              UPDATED = 2
+              SAVED = 3
+              TITLE = 4
+
+              FIELDS = {
+                UPDATESEQUENCENUM => {:type => ::Thrift::Types::I32, :name => 'updateSequenceNum'},
+                UPDATED => {:type => ::Thrift::Types::I64, :name => 'updated'},
+                SAVED => {:type => ::Thrift::Types::I64, :name => 'saved'},
+                TITLE => {:type => ::Thrift::Types::STRING, :name => 'title'}
+              }
+
+              def struct_fields; FIELDS; end
+
+              def validate
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field updateSequenceNum is unset!') unless @updateSequenceNum
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field updated is unset!') unless @updated
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field saved is unset!') unless @saved
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field title is unset!') unless @title
+              end
+
+              ::Thrift::Struct.generate_accessors self
             end
 
           end

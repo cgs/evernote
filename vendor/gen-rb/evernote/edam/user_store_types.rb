@@ -32,13 +32,12 @@ module Evernote
             #    </dd>
             #  </dl>
             class PublicUserInfo
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               USERID = 1
               SHARDID = 2
               PRIVILEGE = 3
               USERNAME = 4
 
-              ::Thrift::Struct.field_accessor self, :userId, :shardId, :privilege, :username
               FIELDS = {
                 USERID => {:type => ::Thrift::Types::I32, :name => 'userId'},
                 SHARDID => {:type => ::Thrift::Types::STRING, :name => 'shardId'},
@@ -56,6 +55,7 @@ module Evernote
                 end
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             #  When an authentication (or re-authentication) is performed, this structure
@@ -92,14 +92,13 @@ module Evernote
             #    </dd>
             #  </dl>
             class AuthenticationResult
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               CURRENTTIME = 1
               AUTHENTICATIONTOKEN = 2
               EXPIRATION = 3
               USER = 4
               PUBLICUSERINFO = 5
 
-              ::Thrift::Struct.field_accessor self, :currentTime, :authenticationToken, :expiration, :user, :publicUserInfo
               FIELDS = {
                 CURRENTTIME => {:type => ::Thrift::Types::I64, :name => 'currentTime'},
                 AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
@@ -116,6 +115,7 @@ module Evernote
                 raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field expiration is unset!') unless @expiration
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
           end

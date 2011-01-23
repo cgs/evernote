@@ -41,11 +41,10 @@ module Evernote
             # parameter:  If the error applied to a particular input parameter, this will
             #   indicate which parameter.
             class EDAMUserException < ::Thrift::Exception
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               ERRORCODE = 1
               PARAMETER = 2
 
-              ::Thrift::Struct.field_accessor self, :errorCode, :parameter
               FIELDS = {
                 ERRORCODE => {:type => ::Thrift::Types::I32, :name => 'errorCode', :enum_class => Evernote::EDAM::Error::EDAMErrorCode},
                 PARAMETER => {:type => ::Thrift::Types::STRING, :name => 'parameter', :optional => true}
@@ -60,6 +59,7 @@ module Evernote
                 end
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # This exception is thrown by EDAM procedures when a call fails as a result of
@@ -70,11 +70,10 @@ module Evernote
             # 
             # message:  This may contain additional information about the error
             class EDAMSystemException < ::Thrift::Exception
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               ERRORCODE = 1
               MESSAGE = 2
 
-              ::Thrift::Struct.field_accessor self, :errorCode, :message
               FIELDS = {
                 ERRORCODE => {:type => ::Thrift::Types::I32, :name => 'errorCode', :enum_class => Evernote::EDAM::Error::EDAMErrorCode},
                 MESSAGE => {:type => ::Thrift::Types::STRING, :name => 'message', :optional => true}
@@ -89,6 +88,7 @@ module Evernote
                 end
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
             # This exception is thrown by EDAM procedures when a caller asks to perform
@@ -101,11 +101,10 @@ module Evernote
             # key:  the value passed from the client in the identifier, which was not
             #   found.  E.g. the GUID of an object that was not found.
             class EDAMNotFoundException < ::Thrift::Exception
-              include ::Thrift::Struct
+              include ::Thrift::Struct, ::Thrift::Struct_Union
               IDENTIFIER = 1
               KEY = 2
 
-              ::Thrift::Struct.field_accessor self, :identifier, :key
               FIELDS = {
                 IDENTIFIER => {:type => ::Thrift::Types::STRING, :name => 'identifier', :optional => true},
                 KEY => {:type => ::Thrift::Types::STRING, :name => 'key', :optional => true}
@@ -116,6 +115,7 @@ module Evernote
               def validate
               end
 
+              ::Thrift::Struct.generate_accessors self
             end
 
           end

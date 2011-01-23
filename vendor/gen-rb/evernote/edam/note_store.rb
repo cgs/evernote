@@ -48,6 +48,42 @@ require 'note_store_types'
                         raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getSyncChunk failed: unknown result')
                       end
 
+                      def getLinkedNotebookSyncState(authenticationToken, linkedNotebook)
+                        send_getLinkedNotebookSyncState(authenticationToken, linkedNotebook)
+                        return recv_getLinkedNotebookSyncState()
+                      end
+
+                      def send_getLinkedNotebookSyncState(authenticationToken, linkedNotebook)
+                        send_message('getLinkedNotebookSyncState', GetLinkedNotebookSyncState_args, :authenticationToken => authenticationToken, :linkedNotebook => linkedNotebook)
+                      end
+
+                      def recv_getLinkedNotebookSyncState()
+                        result = receive_message(GetLinkedNotebookSyncState_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getLinkedNotebookSyncState failed: unknown result')
+                      end
+
+                      def getLinkedNotebookSyncChunk(authenticationToken, linkedNotebook, afterUSN, maxEntries, fullSyncOnly)
+                        send_getLinkedNotebookSyncChunk(authenticationToken, linkedNotebook, afterUSN, maxEntries, fullSyncOnly)
+                        return recv_getLinkedNotebookSyncChunk()
+                      end
+
+                      def send_getLinkedNotebookSyncChunk(authenticationToken, linkedNotebook, afterUSN, maxEntries, fullSyncOnly)
+                        send_message('getLinkedNotebookSyncChunk', GetLinkedNotebookSyncChunk_args, :authenticationToken => authenticationToken, :linkedNotebook => linkedNotebook, :afterUSN => afterUSN, :maxEntries => maxEntries, :fullSyncOnly => fullSyncOnly)
+                      end
+
+                      def recv_getLinkedNotebookSyncChunk()
+                        result = receive_message(GetLinkedNotebookSyncChunk_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getLinkedNotebookSyncChunk failed: unknown result')
+                      end
+
                       def listNotebooks(authenticationToken)
                         send_listNotebooks(authenticationToken)
                         return recv_listNotebooks()
@@ -379,6 +415,7 @@ require 'note_store_types'
                         return result.success unless result.success.nil?
                         raise result.userException unless result.userException.nil?
                         raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
                         raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'findNotes failed: unknown result')
                       end
 
@@ -396,6 +433,7 @@ require 'note_store_types'
                         return result.success unless result.success.nil?
                         raise result.userException unless result.userException.nil?
                         raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
                         raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'findNoteCounts failed: unknown result')
                       end
 
@@ -435,13 +473,13 @@ require 'note_store_types'
                         raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getNoteContent failed: unknown result')
                       end
 
-                      def getNoteSearchText(authenticationToken, guid)
-                        send_getNoteSearchText(authenticationToken, guid)
+                      def getNoteSearchText(authenticationToken, guid, noteOnly, tokenizeForIndexing)
+                        send_getNoteSearchText(authenticationToken, guid, noteOnly, tokenizeForIndexing)
                         return recv_getNoteSearchText()
                       end
 
-                      def send_getNoteSearchText(authenticationToken, guid)
-                        send_message('getNoteSearchText', GetNoteSearchText_args, :authenticationToken => authenticationToken, :guid => guid)
+                      def send_getNoteSearchText(authenticationToken, guid, noteOnly, tokenizeForIndexing)
+                        send_message('getNoteSearchText', GetNoteSearchText_args, :authenticationToken => authenticationToken, :guid => guid, :noteOnly => noteOnly, :tokenizeForIndexing => tokenizeForIndexing)
                       end
 
                       def recv_getNoteSearchText()
@@ -451,6 +489,24 @@ require 'note_store_types'
                         raise result.systemException unless result.systemException.nil?
                         raise result.notFoundException unless result.notFoundException.nil?
                         raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getNoteSearchText failed: unknown result')
+                      end
+
+                      def getResourceSearchText(authenticationToken, guid)
+                        send_getResourceSearchText(authenticationToken, guid)
+                        return recv_getResourceSearchText()
+                      end
+
+                      def send_getResourceSearchText(authenticationToken, guid)
+                        send_message('getResourceSearchText', GetResourceSearchText_args, :authenticationToken => authenticationToken, :guid => guid)
+                      end
+
+                      def recv_getResourceSearchText()
+                        result = receive_message(GetResourceSearchText_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getResourceSearchText failed: unknown result')
                       end
 
                       def getNoteTagNames(authenticationToken, guid)
@@ -505,6 +561,24 @@ require 'note_store_types'
                         raise result.systemException unless result.systemException.nil?
                         raise result.notFoundException unless result.notFoundException.nil?
                         raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'updateNote failed: unknown result')
+                      end
+
+                      def deleteNote(authenticationToken, guid)
+                        send_deleteNote(authenticationToken, guid)
+                        return recv_deleteNote()
+                      end
+
+                      def send_deleteNote(authenticationToken, guid)
+                        send_message('deleteNote', DeleteNote_args, :authenticationToken => authenticationToken, :guid => guid)
+                      end
+
+                      def recv_deleteNote()
+                        result = receive_message(DeleteNote_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'deleteNote failed: unknown result')
                       end
 
                       def expungeNote(authenticationToken, guid)
@@ -576,6 +650,42 @@ require 'note_store_types'
                         raise result.systemException unless result.systemException.nil?
                         raise result.notFoundException unless result.notFoundException.nil?
                         raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'copyNote failed: unknown result')
+                      end
+
+                      def listNoteVersions(authenticationToken, noteGuid)
+                        send_listNoteVersions(authenticationToken, noteGuid)
+                        return recv_listNoteVersions()
+                      end
+
+                      def send_listNoteVersions(authenticationToken, noteGuid)
+                        send_message('listNoteVersions', ListNoteVersions_args, :authenticationToken => authenticationToken, :noteGuid => noteGuid)
+                      end
+
+                      def recv_listNoteVersions()
+                        result = receive_message(ListNoteVersions_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'listNoteVersions failed: unknown result')
+                      end
+
+                      def getNoteVersion(authenticationToken, noteGuid, updateSequenceNum, withResourcesData, withResourcesRecognition, withResourcesAlternateData)
+                        send_getNoteVersion(authenticationToken, noteGuid, updateSequenceNum, withResourcesData, withResourcesRecognition, withResourcesAlternateData)
+                        return recv_getNoteVersion()
+                      end
+
+                      def send_getNoteVersion(authenticationToken, noteGuid, updateSequenceNum, withResourcesData, withResourcesRecognition, withResourcesAlternateData)
+                        send_message('getNoteVersion', GetNoteVersion_args, :authenticationToken => authenticationToken, :noteGuid => noteGuid, :updateSequenceNum => updateSequenceNum, :withResourcesData => withResourcesData, :withResourcesRecognition => withResourcesRecognition, :withResourcesAlternateData => withResourcesAlternateData)
+                      end
+
+                      def recv_getNoteVersion()
+                        result = receive_message(GetNoteVersion_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getNoteVersion failed: unknown result')
                       end
 
                       def getResource(authenticationToken, guid, withData, withRecognition, withAttributes, withAlternateData)
@@ -880,13 +990,13 @@ require 'note_store_types'
                         raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'listLinkedNotebooks failed: unknown result')
                       end
 
-                      def expungeLinkedNotebook(authenticationToken, linkedNotebookId)
-                        send_expungeLinkedNotebook(authenticationToken, linkedNotebookId)
+                      def expungeLinkedNotebook(authenticationToken, guid)
+                        send_expungeLinkedNotebook(authenticationToken, guid)
                         return recv_expungeLinkedNotebook()
                       end
 
-                      def send_expungeLinkedNotebook(authenticationToken, linkedNotebookId)
-                        send_message('expungeLinkedNotebook', ExpungeLinkedNotebook_args, :authenticationToken => authenticationToken, :linkedNotebookId => linkedNotebookId)
+                      def send_expungeLinkedNotebook(authenticationToken, guid)
+                        send_message('expungeLinkedNotebook', ExpungeLinkedNotebook_args, :authenticationToken => authenticationToken, :guid => guid)
                       end
 
                       def recv_expungeLinkedNotebook()
@@ -980,6 +1090,36 @@ require 'note_store_types'
                           result.systemException = systemException
                         end
                         write_result(result, oprot, 'getSyncChunk', seqid)
+                      end
+
+                      def process_getLinkedNotebookSyncState(seqid, iprot, oprot)
+                        args = read_args(iprot, GetLinkedNotebookSyncState_args)
+                        result = GetLinkedNotebookSyncState_result.new()
+                        begin
+                          result.success = @handler.getLinkedNotebookSyncState(args.authenticationToken, args.linkedNotebook)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'getLinkedNotebookSyncState', seqid)
+                      end
+
+                      def process_getLinkedNotebookSyncChunk(seqid, iprot, oprot)
+                        args = read_args(iprot, GetLinkedNotebookSyncChunk_args)
+                        result = GetLinkedNotebookSyncChunk_result.new()
+                        begin
+                          result.success = @handler.getLinkedNotebookSyncChunk(args.authenticationToken, args.linkedNotebook, args.afterUSN, args.maxEntries, args.fullSyncOnly)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'getLinkedNotebookSyncChunk', seqid)
                       end
 
                       def process_listNotebooks(seqid, iprot, oprot)
@@ -1249,6 +1389,8 @@ require 'note_store_types'
                           result.userException = userException
                         rescue Evernote::EDAM::Error::EDAMSystemException => systemException
                           result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
                         end
                         write_result(result, oprot, 'findNotes', seqid)
                       end
@@ -1262,6 +1404,8 @@ require 'note_store_types'
                           result.userException = userException
                         rescue Evernote::EDAM::Error::EDAMSystemException => systemException
                           result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
                         end
                         write_result(result, oprot, 'findNoteCounts', seqid)
                       end
@@ -1300,7 +1444,7 @@ require 'note_store_types'
                         args = read_args(iprot, GetNoteSearchText_args)
                         result = GetNoteSearchText_result.new()
                         begin
-                          result.success = @handler.getNoteSearchText(args.authenticationToken, args.guid)
+                          result.success = @handler.getNoteSearchText(args.authenticationToken, args.guid, args.noteOnly, args.tokenizeForIndexing)
                         rescue Evernote::EDAM::Error::EDAMUserException => userException
                           result.userException = userException
                         rescue Evernote::EDAM::Error::EDAMSystemException => systemException
@@ -1309,6 +1453,21 @@ require 'note_store_types'
                           result.notFoundException = notFoundException
                         end
                         write_result(result, oprot, 'getNoteSearchText', seqid)
+                      end
+
+                      def process_getResourceSearchText(seqid, iprot, oprot)
+                        args = read_args(iprot, GetResourceSearchText_args)
+                        result = GetResourceSearchText_result.new()
+                        begin
+                          result.success = @handler.getResourceSearchText(args.authenticationToken, args.guid)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'getResourceSearchText', seqid)
                       end
 
                       def process_getNoteTagNames(seqid, iprot, oprot)
@@ -1354,6 +1513,21 @@ require 'note_store_types'
                           result.notFoundException = notFoundException
                         end
                         write_result(result, oprot, 'updateNote', seqid)
+                      end
+
+                      def process_deleteNote(seqid, iprot, oprot)
+                        args = read_args(iprot, DeleteNote_args)
+                        result = DeleteNote_result.new()
+                        begin
+                          result.success = @handler.deleteNote(args.authenticationToken, args.guid)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'deleteNote', seqid)
                       end
 
                       def process_expungeNote(seqid, iprot, oprot)
@@ -1412,6 +1586,36 @@ require 'note_store_types'
                           result.notFoundException = notFoundException
                         end
                         write_result(result, oprot, 'copyNote', seqid)
+                      end
+
+                      def process_listNoteVersions(seqid, iprot, oprot)
+                        args = read_args(iprot, ListNoteVersions_args)
+                        result = ListNoteVersions_result.new()
+                        begin
+                          result.success = @handler.listNoteVersions(args.authenticationToken, args.noteGuid)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'listNoteVersions', seqid)
+                      end
+
+                      def process_getNoteVersion(seqid, iprot, oprot)
+                        args = read_args(iprot, GetNoteVersion_args)
+                        result = GetNoteVersion_result.new()
+                        begin
+                          result.success = @handler.getNoteVersion(args.authenticationToken, args.noteGuid, args.updateSequenceNum, args.withResourcesData, args.withResourcesRecognition, args.withResourcesAlternateData)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'getNoteVersion', seqid)
                       end
 
                       def process_getResource(seqid, iprot, oprot)
@@ -1665,7 +1869,7 @@ require 'note_store_types'
                         args = read_args(iprot, ExpungeLinkedNotebook_args)
                         result = ExpungeLinkedNotebook_result.new()
                         begin
-                          result.success = @handler.expungeLinkedNotebook(args.authenticationToken, args.linkedNotebookId)
+                          result.success = @handler.expungeLinkedNotebook(args.authenticationToken, args.guid)
                         rescue Evernote::EDAM::Error::EDAMUserException => userException
                           result.userException = userException
                         rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
@@ -1726,10 +1930,9 @@ require 'note_store_types'
                     # HELPER FUNCTIONS AND STRUCTURES
 
                     class GetSyncState_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'}
                       }
@@ -1739,15 +1942,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetSyncState_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::NoteStore::SyncState},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -1759,16 +1962,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetSyncChunk_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       AFTERUSN = 2
                       MAXENTRIES = 3
                       FULLSYNCONLY = 4
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :afterUSN, :maxEntries, :fullSyncOnly
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         AFTERUSN => {:type => ::Thrift::Types::I32, :name => 'afterUSN'},
@@ -1781,15 +1984,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetSyncChunk_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::NoteStore::SyncChunk},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -1801,13 +2004,99 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetLinkedNotebookSyncState_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      LINKEDNOTEBOOK = 2
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        LINKEDNOTEBOOK => {:type => ::Thrift::Types::STRUCT, :name => 'linkedNotebook', :class => Evernote::EDAM::Type::LinkedNotebook}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetLinkedNotebookSyncState_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::NoteStore::SyncState},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetLinkedNotebookSyncChunk_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      LINKEDNOTEBOOK = 2
+                      AFTERUSN = 3
+                      MAXENTRIES = 4
+                      FULLSYNCONLY = 5
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        LINKEDNOTEBOOK => {:type => ::Thrift::Types::STRUCT, :name => 'linkedNotebook', :class => Evernote::EDAM::Type::LinkedNotebook},
+                        AFTERUSN => {:type => ::Thrift::Types::I32, :name => 'afterUSN'},
+                        MAXENTRIES => {:type => ::Thrift::Types::I32, :name => 'maxEntries'},
+                        FULLSYNCONLY => {:type => ::Thrift::Types::BOOL, :name => 'fullSyncOnly'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetLinkedNotebookSyncChunk_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::NoteStore::SyncChunk},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ListNotebooks_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'}
                       }
@@ -1817,15 +2106,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ListNotebooks_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => Evernote::EDAM::Type::Notebook}},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -1837,14 +2126,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetNotebook_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
@@ -1855,16 +2144,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetNotebook_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::Notebook},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -1877,13 +2166,13 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetDefaultNotebook_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'}
                       }
@@ -1893,15 +2182,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetDefaultNotebook_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::Notebook},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -1913,14 +2202,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class CreateNotebook_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       NOTEBOOK = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :notebook
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         NOTEBOOK => {:type => ::Thrift::Types::STRUCT, :name => 'notebook', :class => Evernote::EDAM::Type::Notebook}
@@ -1931,15 +2220,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class CreateNotebook_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::Notebook},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -1951,14 +2240,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class UpdateNotebook_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       NOTEBOOK = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :notebook
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         NOTEBOOK => {:type => ::Thrift::Types::STRUCT, :name => 'notebook', :class => Evernote::EDAM::Type::Notebook}
@@ -1969,16 +2258,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class UpdateNotebook_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -1991,14 +2280,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ExpungeNotebook_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
@@ -2009,16 +2298,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ExpungeNotebook_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2031,13 +2320,13 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ListTags_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'}
                       }
@@ -2047,15 +2336,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ListTags_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => Evernote::EDAM::Type::Tag}},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2067,14 +2356,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ListTagsByNotebook_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       NOTEBOOKGUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :notebookGuid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         NOTEBOOKGUID => {:type => ::Thrift::Types::STRING, :name => 'notebookGuid'}
@@ -2085,16 +2374,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ListTagsByNotebook_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => Evernote::EDAM::Type::Tag}},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2107,14 +2396,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetTag_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
@@ -2125,16 +2414,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetTag_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::Tag},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2147,14 +2436,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class CreateTag_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       TAG = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :tag
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         TAG => {:type => ::Thrift::Types::STRUCT, :name => 'tag', :class => Evernote::EDAM::Type::Tag}
@@ -2165,16 +2454,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class CreateTag_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::Tag},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2187,14 +2476,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class UpdateTag_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       TAG = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :tag
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         TAG => {:type => ::Thrift::Types::STRUCT, :name => 'tag', :class => Evernote::EDAM::Type::Tag}
@@ -2205,16 +2494,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class UpdateTag_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2227,14 +2516,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class UntagAll_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
@@ -2245,15 +2534,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class UntagAll_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :userException, :systemException, :notFoundException
                       FIELDS = {
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
                         SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
@@ -2265,14 +2554,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ExpungeTag_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
@@ -2283,16 +2572,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ExpungeTag_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2305,13 +2594,13 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ListSearches_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'}
                       }
@@ -2321,15 +2610,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ListSearches_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => Evernote::EDAM::Type::SavedSearch}},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2341,14 +2630,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetSearch_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
@@ -2359,16 +2648,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetSearch_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::SavedSearch},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2381,14 +2670,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class CreateSearch_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       SEARCH = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :search
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         SEARCH => {:type => ::Thrift::Types::STRUCT, :name => 'search', :class => Evernote::EDAM::Type::SavedSearch}
@@ -2399,15 +2688,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class CreateSearch_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::SavedSearch},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2419,14 +2708,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class UpdateSearch_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       SEARCH = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :search
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         SEARCH => {:type => ::Thrift::Types::STRUCT, :name => 'search', :class => Evernote::EDAM::Type::SavedSearch}
@@ -2437,16 +2726,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class UpdateSearch_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2459,14 +2748,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ExpungeSearch_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
@@ -2477,16 +2766,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ExpungeSearch_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2499,16 +2788,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class FindNotes_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       FILTER = 2
                       OFFSET = 3
                       MAXNOTES = 4
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :filter, :offset, :maxNotes
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         FILTER => {:type => ::Thrift::Types::STRUCT, :name => 'filter', :class => Evernote::EDAM::NoteStore::NoteFilter},
@@ -2521,19 +2810,21 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class FindNotes_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::NoteStore::NoteList},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
-                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException}
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
                       }
 
                       def struct_fields; FIELDS; end
@@ -2541,15 +2832,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class FindNoteCounts_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       FILTER = 2
                       WITHTRASH = 3
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :filter, :withTrash
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         FILTER => {:type => ::Thrift::Types::STRUCT, :name => 'filter', :class => Evernote::EDAM::NoteStore::NoteFilter},
@@ -2561,19 +2852,21 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class FindNoteCounts_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::NoteStore::NoteCollectionCounts},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
-                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException}
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
                       }
 
                       def struct_fields; FIELDS; end
@@ -2581,10 +2874,11 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetNote_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
                       WITHCONTENT = 3
@@ -2592,7 +2886,6 @@ require 'note_store_types'
                       WITHRESOURCESRECOGNITION = 5
                       WITHRESOURCESALTERNATEDATA = 6
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid, :withContent, :withResourcesData, :withResourcesRecognition, :withResourcesAlternateData
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'},
@@ -2607,16 +2900,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetNote_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::Note},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2629,14 +2922,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetNoteContent_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
@@ -2647,16 +2940,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetNoteContent_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2669,17 +2962,21 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetNoteSearchText_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
+                      NOTEONLY = 3
+                      TOKENIZEFORINDEXING = 4
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
-                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'},
+                        NOTEONLY => {:type => ::Thrift::Types::BOOL, :name => 'noteOnly'},
+                        TOKENIZEFORINDEXING => {:type => ::Thrift::Types::BOOL, :name => 'tokenizeForIndexing'}
                       }
 
                       def struct_fields; FIELDS; end
@@ -2687,16 +2984,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetNoteSearchText_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2709,14 +3006,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
-                    class GetNoteTagNames_args
-                      include ::Thrift::Struct
+                    class GetResourceSearchText_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
@@ -2727,16 +3024,56 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
-                    class GetNoteTagNames_result
-                      include ::Thrift::Struct
+                    class GetResourceSearchText_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success'},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetNoteTagNames_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      GUID = 2
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetNoteTagNames_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRING}},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2749,14 +3086,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class CreateNote_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       NOTE = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :note
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         NOTE => {:type => ::Thrift::Types::STRUCT, :name => 'note', :class => Evernote::EDAM::Type::Note}
@@ -2767,16 +3104,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class CreateNote_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::Note},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2789,14 +3126,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class UpdateNote_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       NOTE = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :note
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         NOTE => {:type => ::Thrift::Types::STRUCT, :name => 'note', :class => Evernote::EDAM::Type::Note}
@@ -2807,16 +3144,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class UpdateNote_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::Note},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2829,14 +3166,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
-                    class ExpungeNote_args
-                      include ::Thrift::Struct
+                    class DeleteNote_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
@@ -2847,16 +3184,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
-                    class ExpungeNote_result
-                      include ::Thrift::Struct
+                    class DeleteNote_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2869,14 +3206,54 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class ExpungeNote_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      GUID = 2
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class ExpungeNote_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ExpungeNotes_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       NOTEGUIDS = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :noteGuids
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         NOTEGUIDS => {:type => ::Thrift::Types::LIST, :name => 'noteGuids', :element => {:type => ::Thrift::Types::STRING}}
@@ -2887,16 +3264,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ExpungeNotes_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2909,13 +3286,13 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ExpungeInactiveNotes_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'}
                       }
@@ -2925,15 +3302,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ExpungeInactiveNotes_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2945,15 +3322,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class CopyNote_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       NOTEGUID = 2
                       TONOTEBOOKGUID = 3
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :noteGuid, :toNotebookGuid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         NOTEGUID => {:type => ::Thrift::Types::STRING, :name => 'noteGuid'},
@@ -2965,16 +3342,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class CopyNote_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::Note},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -2987,10 +3364,99 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class ListNoteVersions_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      NOTEGUID = 2
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        NOTEGUID => {:type => ::Thrift::Types::STRING, :name => 'noteGuid'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class ListNoteVersions_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => Evernote::EDAM::NoteStore::NoteVersionId}},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetNoteVersion_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      NOTEGUID = 2
+                      UPDATESEQUENCENUM = 3
+                      WITHRESOURCESDATA = 4
+                      WITHRESOURCESRECOGNITION = 5
+                      WITHRESOURCESALTERNATEDATA = 6
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        NOTEGUID => {:type => ::Thrift::Types::STRING, :name => 'noteGuid'},
+                        UPDATESEQUENCENUM => {:type => ::Thrift::Types::I32, :name => 'updateSequenceNum'},
+                        WITHRESOURCESDATA => {:type => ::Thrift::Types::BOOL, :name => 'withResourcesData'},
+                        WITHRESOURCESRECOGNITION => {:type => ::Thrift::Types::BOOL, :name => 'withResourcesRecognition'},
+                        WITHRESOURCESALTERNATEDATA => {:type => ::Thrift::Types::BOOL, :name => 'withResourcesAlternateData'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetNoteVersion_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::Note},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetResource_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
                       WITHDATA = 3
@@ -2998,7 +3464,6 @@ require 'note_store_types'
                       WITHATTRIBUTES = 5
                       WITHALTERNATEDATA = 6
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid, :withData, :withRecognition, :withAttributes, :withAlternateData
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'},
@@ -3013,16 +3478,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetResource_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::Resource},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3035,14 +3500,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class UpdateResource_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       RESOURCE = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :resource
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         RESOURCE => {:type => ::Thrift::Types::STRUCT, :name => 'resource', :class => Evernote::EDAM::Type::Resource}
@@ -3053,16 +3518,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class UpdateResource_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3075,14 +3540,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetResourceData_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
@@ -3093,18 +3558,18 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetResourceData_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
-                        SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success'},
+                        SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success', :binary => true},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
                         SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
                         NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
@@ -3115,10 +3580,11 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetResourceByHash_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       NOTEGUID = 2
                       CONTENTHASH = 3
@@ -3126,11 +3592,10 @@ require 'note_store_types'
                       WITHRECOGNITION = 5
                       WITHALTERNATEDATA = 6
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :noteGuid, :contentHash, :withData, :withRecognition, :withAlternateData
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         NOTEGUID => {:type => ::Thrift::Types::STRING, :name => 'noteGuid'},
-                        CONTENTHASH => {:type => ::Thrift::Types::STRING, :name => 'contentHash'},
+                        CONTENTHASH => {:type => ::Thrift::Types::STRING, :name => 'contentHash', :binary => true},
                         WITHDATA => {:type => ::Thrift::Types::BOOL, :name => 'withData'},
                         WITHRECOGNITION => {:type => ::Thrift::Types::BOOL, :name => 'withRecognition'},
                         WITHALTERNATEDATA => {:type => ::Thrift::Types::BOOL, :name => 'withAlternateData'}
@@ -3141,16 +3606,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetResourceByHash_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::Resource},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3163,14 +3628,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetResourceRecognition_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
@@ -3181,18 +3646,18 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetResourceRecognition_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
-                        SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success'},
+                        SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success', :binary => true},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
                         SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
                         NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
@@ -3203,14 +3668,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetResourceAlternateData_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
@@ -3221,18 +3686,18 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetResourceAlternateData_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
-                        SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success'},
+                        SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success', :binary => true},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
                         SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
                         NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
@@ -3243,14 +3708,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetResourceAttributes_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :guid
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
@@ -3261,16 +3726,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetResourceAttributes_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
                       NOTFOUNDEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::ResourceAttributes},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3283,13 +3748,13 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetAccountSize_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'}
                       }
@@ -3299,15 +3764,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetAccountSize_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::I64, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3319,14 +3784,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetAds_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       ADPARAMETERS = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :adParameters
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         ADPARAMETERS => {:type => ::Thrift::Types::STRUCT, :name => 'adParameters', :class => Evernote::EDAM::NoteStore::AdParameters}
@@ -3337,15 +3802,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetAds_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => Evernote::EDAM::Type::Ad}},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3357,14 +3822,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetRandomAd_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       ADPARAMETERS = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :adParameters
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         ADPARAMETERS => {:type => ::Thrift::Types::STRUCT, :name => 'adParameters', :class => Evernote::EDAM::NoteStore::AdParameters}
@@ -3375,15 +3840,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetRandomAd_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       SYSTEMEXCEPTION = 2
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::Ad},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3395,14 +3860,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetPublicNotebook_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       USERID = 1
                       PUBLICURI = 2
 
-                      ::Thrift::Struct.field_accessor self, :userId, :publicUri
                       FIELDS = {
                         USERID => {:type => ::Thrift::Types::I32, :name => 'userId'},
                         PUBLICURI => {:type => ::Thrift::Types::STRING, :name => 'publicUri'}
@@ -3413,15 +3878,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetPublicNotebook_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       SYSTEMEXCEPTION = 1
                       NOTFOUNDEXCEPTION = 2
 
-                      ::Thrift::Struct.field_accessor self, :success, :systemException, :notFoundException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::Notebook},
                         SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
@@ -3433,14 +3898,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class CreateSharedNotebook_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       SHAREDNOTEBOOK = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :sharedNotebook
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         SHAREDNOTEBOOK => {:type => ::Thrift::Types::STRUCT, :name => 'sharedNotebook', :class => Evernote::EDAM::Type::SharedNotebook}
@@ -3451,16 +3916,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class CreateSharedNotebook_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       NOTFOUNDEXCEPTION = 2
                       SYSTEMEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :notFoundException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::SharedNotebook},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3473,13 +3938,13 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ListSharedNotebooks_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'}
                       }
@@ -3489,16 +3954,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ListSharedNotebooks_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       NOTFOUNDEXCEPTION = 2
                       SYSTEMEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :notFoundException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => Evernote::EDAM::Type::SharedNotebook}},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3511,14 +3976,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ExpungeSharedNotebooks_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       SHAREDNOTEBOOKIDS = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :sharedNotebookIds
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         SHAREDNOTEBOOKIDS => {:type => ::Thrift::Types::LIST, :name => 'sharedNotebookIds', :element => {:type => ::Thrift::Types::I64}}
@@ -3529,16 +3994,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ExpungeSharedNotebooks_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       NOTFOUNDEXCEPTION = 2
                       SYSTEMEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :notFoundException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3551,14 +4016,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class CreateLinkedNotebook_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       LINKEDNOTEBOOK = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :linkedNotebook
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         LINKEDNOTEBOOK => {:type => ::Thrift::Types::STRUCT, :name => 'linkedNotebook', :class => Evernote::EDAM::Type::LinkedNotebook}
@@ -3569,16 +4034,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class CreateLinkedNotebook_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       NOTFOUNDEXCEPTION = 2
                       SYSTEMEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :notFoundException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::LinkedNotebook},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3591,14 +4056,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class UpdateLinkedNotebook_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       LINKEDNOTEBOOK = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :linkedNotebook
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         LINKEDNOTEBOOK => {:type => ::Thrift::Types::STRUCT, :name => 'linkedNotebook', :class => Evernote::EDAM::Type::LinkedNotebook}
@@ -3609,18 +4074,18 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class UpdateLinkedNotebook_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       NOTFOUNDEXCEPTION = 2
                       SYSTEMEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :notFoundException, :systemException
                       FIELDS = {
-                        SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::LinkedNotebook},
+                        SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
                         NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException},
                         SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException}
@@ -3631,13 +4096,13 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ListLinkedNotebooks_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'}
                       }
@@ -3647,16 +4112,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ListLinkedNotebooks_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       NOTFOUNDEXCEPTION = 2
                       SYSTEMEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :notFoundException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => Evernote::EDAM::Type::LinkedNotebook}},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3669,17 +4134,17 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ExpungeLinkedNotebook_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
-                      LINKEDNOTEBOOKID = 2
+                      GUID = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :linkedNotebookId
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
-                        LINKEDNOTEBOOKID => {:type => ::Thrift::Types::I64, :name => 'linkedNotebookId'}
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
                       }
 
                       def struct_fields; FIELDS; end
@@ -3687,16 +4152,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class ExpungeLinkedNotebook_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       NOTFOUNDEXCEPTION = 2
                       SYSTEMEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :notFoundException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3709,14 +4174,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class AuthenticateToSharedNotebook_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SHAREKEY = 1
                       AUTHENTICATIONTOKEN = 2
 
-                      ::Thrift::Struct.field_accessor self, :shareKey, :authenticationToken
                       FIELDS = {
                         SHAREKEY => {:type => ::Thrift::Types::STRING, :name => 'shareKey'},
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'}
@@ -3727,16 +4192,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class AuthenticateToSharedNotebook_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       NOTFOUNDEXCEPTION = 2
                       SYSTEMEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :notFoundException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::UserStore::AuthenticationResult},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3749,13 +4214,13 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetSharedNotebookByAuth_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'}
                       }
@@ -3765,16 +4230,16 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class GetSharedNotebookByAuth_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
                       NOTFOUNDEXCEPTION = 2
                       SYSTEMEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :success, :userException, :notFoundException, :systemException
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::SharedNotebook},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
@@ -3787,14 +4252,14 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class EmailNote_args
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
                       PARAMETERS = 2
 
-                      ::Thrift::Struct.field_accessor self, :authenticationToken, :parameters
                       FIELDS = {
                         AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
                         PARAMETERS => {:type => ::Thrift::Types::STRUCT, :name => 'parameters', :class => Evernote::EDAM::NoteStore::NoteEmailParameters}
@@ -3805,15 +4270,15 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                     class EmailNote_result
-                      include ::Thrift::Struct
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
                       USEREXCEPTION = 1
                       NOTFOUNDEXCEPTION = 2
                       SYSTEMEXCEPTION = 3
 
-                      ::Thrift::Struct.field_accessor self, :userException, :notFoundException, :systemException
                       FIELDS = {
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
                         NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException},
@@ -3825,6 +4290,7 @@ require 'note_store_types'
                       def validate
                       end
 
+                      ::Thrift::Struct.generate_accessors self
                     end
 
                   end

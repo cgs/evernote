@@ -82,6 +82,10 @@ require 'limits_types'
 
             EDAM_COMMERCE_SERVICE_TRIALPAY = %q"TrialPay"
 
+            EDAM_COMMERCE_SERVICE_TRIAL = %q"Trial"
+
+            EDAM_COMMERCE_SERVICE_GROUP = %q"Group"
+
             EDAM_SEARCH_QUERY_LEN_MIN = 0
 
             EDAM_SEARCH_QUERY_LEN_MAX = 1024
@@ -124,6 +128,12 @@ require 'limits_types'
 
             EDAM_NOTEBOOK_NAME_REGEX = %q"^[^\\p{Cc}\\p{Z}]([^\\p{Cc}\\p{Zl}\\p{Zp}]{0,98}[^\\p{Cc}\\p{Z}])?$"
 
+            EDAM_NOTEBOOK_STACK_LEN_MIN = 1
+
+            EDAM_NOTEBOOK_STACK_LEN_MAX = 100
+
+            EDAM_NOTEBOOK_STACK_REGEX = %q"^[^\\p{Cc}\\p{Z}]([^\\p{Cc}\\p{Zl}\\p{Zp}]{0,98}[^\\p{Cc}\\p{Z}])?$"
+
             EDAM_PUBLISHING_URI_LEN_MIN = 1
 
             EDAM_PUBLISHING_URI_LEN_MAX = 255
@@ -162,7 +172,7 @@ require 'limits_types'
 
             EDAM_USER_NOTES_MAX = 100000
 
-            EDAM_USER_NOTEBOOKS_MAX = 100
+            EDAM_USER_NOTEBOOKS_MAX = 250
 
             EDAM_USER_RECENT_MAILED_ADDRESSES_MAX = 10
 
@@ -180,7 +190,7 @@ require 'limits_types'
 
             EDAM_USER_LINKED_NOTEBOOK_MAX = 100
 
-            EDAM_NOTEBOOK_SHARED_NOTEBOOK_MAX = 100
+            EDAM_NOTEBOOK_SHARED_NOTEBOOK_MAX = 250
 
     end
   end
