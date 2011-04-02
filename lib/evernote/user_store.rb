@@ -5,8 +5,7 @@ module Evernote
   class UserStore
     AuthenticationFailure = Class.new(StandardError)
     
-    def initialize(uri, auth_file, auth_env, thrift_client_options = {})
-      credentials = YAML.load_file(auth_file)[auth_env.to_s]
+    def initialize(uri, credentials, thrift_client_options = {})
       
       @consumer_key = credentials["consumer_key"]
       @consumer_secret = credentials["consumer_secret"]
