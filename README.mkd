@@ -1,14 +1,18 @@
 # evernote #
 This gem is a high level wrapper around Evernote's Thrift-generated ruby code. It bundles up Evernote's thrift-generated code and creates some simple wrapper classes.
 
-# usage #
-Get yourself an API key from Evernote, which gives you a "consumer_key" and "consumer_secret".  Put those in a YML file or any other place you put configuration information.  Also, get yourself a username and password (probably on their sandbox system).
+# setup #
+Get yourself a "Client application" API key from Evernote (http://www.evernote.com/about/developer/api/#key), which gives you a "consumer_key" and "consumer_secret" (note that a "web application" API key uses OAuth to authenticate and will not work).  Put the key in a YML file or any other place you put configuration information.  Also, get yourself a username and password on both their sandbox system (http://sandbox.evernote.com) and live system.  You will be using sandbox for testing.
 
+# usage #
 
     require 'evernote'
 
     user_store_url = "https://sandbox.evernote.com/edam/user"
                config={'username'=>'YOUR_USERNAME','password'=>'YOUR_PASSWORD','consumer_key'=>'YOUR_CONSUMER_KEY_FROM_EVERNOTE','consumer_secret'=>'YOUR_CONSUMER_SECRECT_FROM_EVERNOTE'}
+               
+    # note, you could also read in your consumer key information from a YML file
+    
     user_store = Evernote::UserStore.new(user_store_url, config)
 
     auth_result = user_store.authenticate
