@@ -9,7 +9,13 @@ Get yourself a "Client application" API key from Evernote (http://www.evernote.c
     require 'evernote'
 
     user_store_url = "https://sandbox.evernote.com/edam/user"
-               config={'username'=>'YOUR_USERNAME','password'=>'YOUR_PASSWORD','consumer_key'=>'YOUR_CONSUMER_KEY_FROM_EVERNOTE','consumer_secret'=>'YOUR_CONSUMER_SECRECT_FROM_EVERNOTE'}
+      
+    config = {
+       :username => 'YOUR_USERNAME',
+       :password => 'YOUR_PASSWORD',
+       :consumer_key => 'YOUR_CONSUMER_KEY_FROM_EVERNOTE',
+       :consumer_secret => 'YOUR_CONSUMER_SECRECT_FROM_EVERNOTE'
+             }
                
     # note, you could also read in your consumer key information from a YML file
     
