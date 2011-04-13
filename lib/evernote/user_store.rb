@@ -7,10 +7,14 @@ module Evernote
     
     def initialize(uri, credentials, thrift_client_options = {})
       
-      @consumer_key = credentials["consumer_key"]
-      @consumer_secret = credentials["consumer_secret"]
-      @username = credentials["username"]
-      @password = credentials["password"]
+      raise ArgumentError, "credentials must be passed in as a hash" unless credentials.class == Hash
+      
+      credentials=credentials.inject({}) { |h,(k,v)| h[k.to_sym] = v; h } # convert any stringifyed hash keys into symbols
+      
+      @consumer_key = credentials[:consumer_key] 
+      @consumer_secret = credentials[:consumer_key] 
+      @username = credentials[:username]
+      @password = credentials[:password]
 
       unless @consumer_key && @consumer_secret && @username && @password
         raise ArgumentError, "'consumer_key', 'consumer_secret', 'username' and 'password' are required"
