@@ -36,7 +36,7 @@ describe "Evernote::UserStore" do
   
   it "should authenticate" do
     Evernote::Client.stub!(:new => mock("Evernote::Client", :checkVersion => true))
-    Evernote::UserStore.new(@user_store_url, @config)
+    user_store=Evernote::UserStore.new(@user_store_url, @config)
     user_store.instance_variable_get(:@client).should_receive(:authenticate).with("cgs", "password", "12345", "ABCDE").and_return(nil)
     
     user_store.authenticate
@@ -49,7 +49,7 @@ describe "Evernote::UserStore" do
     
   it "should wrap authentication failure" do
     Evernote::Client.stub!(:new => mock("Evernote::Client", :checkVersion => true))
-    Evernote::UserStore.new(@user_store_url, @config)
+    user_store=Evernote::UserStore.new(@user_store_url, @config)
     user_store.instance_variable_get(:@client).should_receive(:authenticate).and_raise(Evernote::EDAM::Error::EDAMUserException)
     
     lambda {
@@ -59,7 +59,7 @@ describe "Evernote::UserStore" do
   
   it "should proxy methods" do
     Evernote::Client.stub!(:new => mock("Evernote::Client", :checkVersion => true))
-    Evernote::UserStore.new(@user_store_url, @config)
+    user_store=Evernote::UserStore.new(@user_store_url, @config)
     user_store.instance_variable_get(:@client).should_receive(:foobar).and_return(nil)
     
     user_store.foobar
