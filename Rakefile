@@ -23,10 +23,12 @@ end
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
+  spec.rspec_opts = %w{ --colour }
 end
 
 RSpec::Core::RakeTask.new(:rcov) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
+  spec.rspec_opts = %w{ --colour }
   spec.rcov = true
 end
 
