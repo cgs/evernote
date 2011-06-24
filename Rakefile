@@ -29,6 +29,7 @@ end
 RSpec::Core::RakeTask.new(:rcov) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
   spec.rspec_opts = %w{ --colour }
+  spec.rcov_opts = %w{ --exclude gems\/,spec\/ -t}
   spec.rcov = true
 end
 
