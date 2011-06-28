@@ -4,11 +4,11 @@ describe "Evernote::UserStore" do
   before(:each) do
     @user_store_url = "https://sandbox.evernote.com/edam/user" 
     @config = {
-       :username => 'cgs',
-       :password => 'password',
-       :consumer_key => '12345',
-       :consumer_secret => 'ABCDE'
-             }    
+      :username => 'cgs',
+      :password => 'password',
+      :consumer_key => '12345',
+      :consumer_secret => 'ABCDE'
+    }    
   end
 
   it "initializes an Evernote::Client and validate the client code version" do
@@ -44,7 +44,7 @@ describe "Evernote::UserStore" do
   
   it "should raise an exception if the config parameter is not a hash" do
     not_a_hash="hello, I am a string"
-    Evernote::UserStore.new(@user_store_url, not_a_hash).should raise_error(ArgumentError, "credentials must be passed in as a hash")    
+    lambda {Evernote::UserStore.new(@user_store_url, not_a_hash)}.should raise_error(ArgumentError, "credentials must be passed in as a hash")    
   end
     
   it "should wrap authentication failure" do

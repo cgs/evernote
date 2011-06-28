@@ -12,7 +12,7 @@ module Evernote
       credentials=credentials.inject({}) { |h,(k,v)| h[k.to_sym] = v; h } # convert any stringifyed hash keys into symbols
       
       @consumer_key = credentials[:consumer_key] 
-      @consumer_secret = credentials[:consumer_key] 
+      @consumer_secret = credentials[:consumer_secret] 
       @username = credentials[:username]
       @password = credentials[:password]
 
