@@ -41,5 +41,12 @@ The evernote API can be viewed at http://www.evernote.com/about/developer/api/re
 
 If the vendored code is out of date and you get an error indicating so, feel free to create an issue at http://github.com/cgs/evernote/issues
 
+# contributors #
+Thanks to the following peeps for helping out:
+
+* Peter Mangiafico (peetucket)
+* d1
+
+
 ## Copyright ##
-Copyright (c) 2010 Chris Sepic. See LICENSE for details.
+Copyright (c) 2011 Chris Sepic. See LICENSE for details.
