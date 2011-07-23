@@ -239,20 +239,21 @@ module Evernote
             #        when processing images and PDF files to find text.
             #        If not set, then the 'preferredLanguage' will be used.
             #    </dd>
-            #  </dl>
             # 
             #  <dt>customerProfileId</dt>
             #    <dd>a numeric identified which provides a linkage between the user record
             #        and the direct credit card payment creditcard profile.
             #    </dd>
-            #  </dl>
             # 
             #  <dt>educationalInstitution</dt>
             #    <dd>a flag indicating that the user is part of an educational institution which
             #    makes them eligible for discounts on bulk purchases
             #    </dd>
-            #  </dl>
             # 
+            #  <dt>businessAddress</dt>
+            #    <dd>A string recording the business address of a Sponsored Account user who has requested invoicing.
+            #    </dd>
+            #  </dl>
             class UserAttributes
               include ::Thrift::Struct, ::Thrift::Struct_Union
               DEFAULTLOCATIONNAME = 1
@@ -282,6 +283,7 @@ module Evernote
               CUSTOMERPROFILEID = 27
               REFERRALPROOF = 28
               EDUCATIONALDISCOUNT = 29
+              BUSINESSADDRESS = 30
 
               FIELDS = {
                 DEFAULTLOCATIONNAME => {:type => ::Thrift::Types::STRING, :name => 'defaultLocationName', :optional => true},
@@ -310,7 +312,8 @@ module Evernote
                 RECOGNITIONLANGUAGE => {:type => ::Thrift::Types::STRING, :name => 'recognitionLanguage', :optional => true},
                 CUSTOMERPROFILEID => {:type => ::Thrift::Types::I64, :name => 'customerProfileId', :optional => true},
                 REFERRALPROOF => {:type => ::Thrift::Types::STRING, :name => 'referralProof', :optional => true},
-                EDUCATIONALDISCOUNT => {:type => ::Thrift::Types::BOOL, :name => 'educationalDiscount', :optional => true}
+                EDUCATIONALDISCOUNT => {:type => ::Thrift::Types::BOOL, :name => 'educationalDiscount', :optional => true},
+                BUSINESSADDRESS => {:type => ::Thrift::Types::STRING, :name => 'businessAddress', :optional => true}
               }
 
               def struct_fields; FIELDS; end
@@ -390,6 +393,12 @@ module Evernote
             #    <dd>The number number identifying the
             #    recurring subscription used to make the recurring charges.
             #    </dd>
+            #  <dt>lastRequestedCharge</dt>
+            #    <dd>Date charge last attempted</dd>
+            #  <dt>currency</dt>
+            #    <dd>ISO 4217 currency code</dd>
+            #  <dt>unitPrice</dt>
+            #    <dd>charge in the smallest unit of the currency (e.g. cents for USD)</dd>
             #  </dl>
             class Accounting
               include ::Thrift::Struct, ::Thrift::Struct_Union
@@ -409,6 +418,8 @@ module Evernote
               UPDATED = 14
               PREMIUMSUBSCRIPTIONNUMBER = 16
               LASTREQUESTEDCHARGE = 17
+              CURRENCY = 18
+              UNITPRICE = 19
 
               FIELDS = {
                 UPLOADLIMIT => {:type => ::Thrift::Types::I64, :name => 'uploadLimit', :optional => true},
@@ -426,7 +437,9 @@ module Evernote
                 PREMIUMLOCKUNTIL => {:type => ::Thrift::Types::I64, :name => 'premiumLockUntil', :optional => true},
                 UPDATED => {:type => ::Thrift::Types::I64, :name => 'updated', :optional => true},
                 PREMIUMSUBSCRIPTIONNUMBER => {:type => ::Thrift::Types::STRING, :name => 'premiumSubscriptionNumber', :optional => true},
-                LASTREQUESTEDCHARGE => {:type => ::Thrift::Types::I64, :name => 'lastRequestedCharge', :optional => true}
+                LASTREQUESTEDCHARGE => {:type => ::Thrift::Types::I64, :name => 'lastRequestedCharge', :optional => true},
+                CURRENCY => {:type => ::Thrift::Types::STRING, :name => 'currency', :optional => true},
+                UNITPRICE => {:type => ::Thrift::Types::I32, :name => 'unitPrice', :optional => true}
               }
 
               def struct_fields; FIELDS; end
@@ -899,6 +912,15 @@ module Evernote
             #   <br/>
             #   Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX
             #   </dd>
+            # 
+            # <dt>shareDate</dt>
+            #  <dd>The date and time when this note was directly shared via its own URL.
+            #  This is only set on notes that were individually shared, it's independent
+            #  of any notebook-level sharing of the containing notepbook.  This field
+            #  is treated as "read-only" for clients ... the server will ignore changes
+            #  to this field from an external client.
+            #  </dd>
+            # 
             # </dl>
             class NoteAttributes
               include ::Thrift::Struct, ::Thrift::Struct_Union
@@ -910,6 +932,7 @@ module Evernote
               SOURCE = 14
               SOURCEURL = 15
               SOURCEAPPLICATION = 16
+              SHAREDATE = 17
 
               FIELDS = {
                 SUBJECTDATE => {:type => ::Thrift::Types::I64, :name => 'subjectDate', :optional => true},
@@ -919,7 +942,8 @@ module Evernote
                 AUTHOR => {:type => ::Thrift::Types::STRING, :name => 'author', :optional => true},
                 SOURCE => {:type => ::Thrift::Types::STRING, :name => 'source', :optional => true},
                 SOURCEURL => {:type => ::Thrift::Types::STRING, :name => 'sourceURL', :optional => true},
-                SOURCEAPPLICATION => {:type => ::Thrift::Types::STRING, :name => 'sourceApplication', :optional => true}
+                SOURCEAPPLICATION => {:type => ::Thrift::Types::STRING, :name => 'sourceApplication', :optional => true},
+                SHAREDATE => {:type => ::Thrift::Types::I64, :name => 'shareDate', :optional => true}
               }
 
               def struct_fields; FIELDS; end
@@ -1410,6 +1434,10 @@ module Evernote
             #   ad should be displayed in the daily set of ads, relative to a base
             #   frequency of 1.0.  I.e. an ad with a frequency of 3.0 should be displayed
             #   three times more frequently than an ad with a frequency of 1.0.</dd>
+            # 
+            #   <dt>openInTrunk</dt>
+            #   <dd>If true, the ad should be opened in the embedded Trunk window by
+            #   clients with Trunk support.</dd>
             # </dl>
             class Ad
               include ::Thrift::Struct, ::Thrift::Struct_Union
@@ -1425,6 +1453,7 @@ module Evernote
               IMAGEMIME = 10
               HTML = 11
               DISPLAYFREQUENCY = 12
+              OPENINTRUNK = 13
 
               FIELDS = {
                 ID => {:type => ::Thrift::Types::I32, :name => 'id', :optional => true},
@@ -1438,7 +1467,8 @@ module Evernote
                 IMAGE => {:type => ::Thrift::Types::STRING, :name => 'image', :binary => true, :optional => true},
                 IMAGEMIME => {:type => ::Thrift::Types::STRING, :name => 'imageMime', :optional => true},
                 HTML => {:type => ::Thrift::Types::STRING, :name => 'html', :optional => true},
-                DISPLAYFREQUENCY => {:type => ::Thrift::Types::DOUBLE, :name => 'displayFrequency', :optional => true}
+                DISPLAYFREQUENCY => {:type => ::Thrift::Types::DOUBLE, :name => 'displayFrequency', :optional => true},
+                OPENINTRUNK => {:type => ::Thrift::Types::BOOL, :name => 'openInTrunk', :optional => true}
               }
 
               def struct_fields; FIELDS; end

@@ -243,7 +243,8 @@ module Evernote
             # 
             #  <dt>words</dt>
             #    <dd>
-            #    The string query containing keywords to match, if present.
+            #    If present, a search query string that will filter the set of notes to be returned.
+            #    Accepts the full search grammar documented in the Evernote API Overview.
             #    </dd>
             # 
             #  <dt>notebookGuid</dt>
@@ -376,6 +377,190 @@ module Evernote
                 raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field startIndex is unset!') unless @startIndex
                 raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field totalNotes is unset!') unless @totalNotes
                 raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field notes is unset!') unless @notes
+              end
+
+              ::Thrift::Struct.generate_accessors self
+            end
+
+            # * This structure is used in the set of results returned by the
+            # * findNotesMetadata function.  It represents the high-level information about
+            # * a single Note, without some of the larger deep structure.  This allows
+            # * for the information about a list of Notes to be returned relatively quickly
+            # * with less marshalling and data transfer to remote clients.
+            # * Most fields in this structure are identical to the corresponding field in
+            # * the Note structure, with the exception of:
+            # *
+            # * <dl>
+            #  * <dt>largestResourceMime</dt>
+            # *   <dd>If set, then this will contain the MIME type of the largest Resource
+            # *   (in bytes) within the Note.  This may be useful, for example, to choose
+            # *   an appropriate icon or thumbnail to represent the Note.
+            # *   </dd>
+            # *
+            # * <dt>largestResourceSize</dt>
+            # *  <dd>If set, this will contain the size of the largest Resource file, in
+            # *  bytes, within the Note.  This may be useful, for example, to decide whether
+            # *  to ask the server for a thumbnail to represent the Note.
+            # *  </dd>
+            # * </dl>
+            class NoteMetadata
+              include ::Thrift::Struct, ::Thrift::Struct_Union
+              GUID = 1
+              TITLE = 2
+              CONTENTLENGTH = 5
+              CREATED = 6
+              UPDATED = 7
+              UPDATESEQUENCENUM = 10
+              NOTEBOOKGUID = 11
+              TAGGUIDS = 12
+              ATTRIBUTES = 14
+              LARGESTRESOURCEMIME = 20
+              LARGESTRESOURCESIZE = 21
+
+              FIELDS = {
+                GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'},
+                TITLE => {:type => ::Thrift::Types::STRING, :name => 'title', :optional => true},
+                CONTENTLENGTH => {:type => ::Thrift::Types::I32, :name => 'contentLength', :optional => true},
+                CREATED => {:type => ::Thrift::Types::I64, :name => 'created', :optional => true},
+                UPDATED => {:type => ::Thrift::Types::I64, :name => 'updated', :optional => true},
+                UPDATESEQUENCENUM => {:type => ::Thrift::Types::I32, :name => 'updateSequenceNum', :optional => true},
+                NOTEBOOKGUID => {:type => ::Thrift::Types::STRING, :name => 'notebookGuid', :optional => true},
+                TAGGUIDS => {:type => ::Thrift::Types::LIST, :name => 'tagGuids', :element => {:type => ::Thrift::Types::STRING}, :optional => true},
+                ATTRIBUTES => {:type => ::Thrift::Types::STRUCT, :name => 'attributes', :class => Evernote::EDAM::Type::NoteAttributes, :optional => true},
+                LARGESTRESOURCEMIME => {:type => ::Thrift::Types::STRING, :name => 'largestResourceMime', :optional => true},
+                LARGESTRESOURCESIZE => {:type => ::Thrift::Types::I32, :name => 'largestResourceSize', :optional => true}
+              }
+
+              def struct_fields; FIELDS; end
+
+              def validate
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field guid is unset!') unless @guid
+              end
+
+              ::Thrift::Struct.generate_accessors self
+            end
+
+            #  This structure is returned from calls to the findNotesMetadata function to
+            #  give the high-level metadata about a subset of Notes that are found to
+            #  match a specified NoteFilter in a search.
+            #  
+            # <dl>
+            #  <dt>startIndex</dt>
+            #    <dd>
+            #    The starting index within the overall set of notes.  This
+            #    is also the number of notes that are "before" this list in the set.
+            #    </dd>
+            # 
+            #  <dt>totalNotes</dt>
+            #    <dd>
+            #    The number of notes in the larger set.  This can be used
+            #    to calculate how many notes are "after" this note in the set.
+            #    (I.e.  remaining = totalNotes - (startIndex + notes.length)  )
+            #    </dd>
+            # 
+            #  <dt>notes</dt>
+            #    <dd>
+            #    The list of metadata for Notes in this range.  The set of optional fields
+            #    that are set in each metadata structure will depend on the
+            #    NotesMetadataResultSpec provided by the caller when the search was
+            #    performed.  Only the 'guid' field will be guaranteed to be set in each
+            #    Note.
+            #    </dd>
+            # 
+            #  <dt>stoppedWords</dt>
+            #    <dd>
+            #    If the NoteList was produced using a text based search
+            #    query that included words that are not indexed or searched by the service,
+            #    this will include a list of those ignored words.
+            #    </dd>
+            # 
+            #  <dt>searchedWords</dt>
+            #    <dd>
+            #    If the NoteList was produced using a text based search
+            #    query that included viable search words or quoted expressions, this will
+            #    include a list of those words.  Any stopped words will not be included
+            #    in this list.
+            #    </dd>
+            # 
+            #  <dt>updateCount</dt>
+            #    <dd>
+            #    Indicates the total number of transactions that have
+            #    been committed within the account.  This reflects (for example) the
+            #    number of discrete additions or modifications that have been made to
+            #    the data in this account (tags, notes, resources, etc.).
+            #    This number is the "high water mark" for Update Sequence Numbers (USN)
+            #    within the account.
+            #    </dd>
+            #  </dl>
+            class NotesMetadataList
+              include ::Thrift::Struct, ::Thrift::Struct_Union
+              STARTINDEX = 1
+              TOTALNOTES = 2
+              NOTES = 3
+              STOPPEDWORDS = 4
+              SEARCHEDWORDS = 5
+              UPDATECOUNT = 6
+
+              FIELDS = {
+                STARTINDEX => {:type => ::Thrift::Types::I32, :name => 'startIndex'},
+                TOTALNOTES => {:type => ::Thrift::Types::I32, :name => 'totalNotes'},
+                NOTES => {:type => ::Thrift::Types::LIST, :name => 'notes', :element => {:type => ::Thrift::Types::STRUCT, :class => Evernote::EDAM::NoteStore::NoteMetadata}},
+                STOPPEDWORDS => {:type => ::Thrift::Types::LIST, :name => 'stoppedWords', :element => {:type => ::Thrift::Types::STRING}, :optional => true},
+                SEARCHEDWORDS => {:type => ::Thrift::Types::LIST, :name => 'searchedWords', :element => {:type => ::Thrift::Types::STRING}, :optional => true},
+                UPDATECOUNT => {:type => ::Thrift::Types::I32, :name => 'updateCount', :optional => true}
+              }
+
+              def struct_fields; FIELDS; end
+
+              def validate
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field startIndex is unset!') unless @startIndex
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field totalNotes is unset!') unless @totalNotes
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field notes is unset!') unless @notes
+              end
+
+              ::Thrift::Struct.generate_accessors self
+            end
+
+            # This structure is provided to the findNotesMetadata function to specify
+            # the subset of fields that should be included in each NoteMetadata element
+            # that is returned in the NotesMetadataList.
+            # Each field on this structure is a boolean flag that indicates whether the
+            # corresponding field should be included in the NoteMetadata structure when
+            # it is returned.  For example, if the 'includeTitle' field is set on this
+            # structure when calling findNotesMetadata, then each NoteMetadata in the
+            # list should have its 'title' field set.
+            # If one of the fields in this spec is not set, then it will be treated as
+            # 'false' by the server, so the default behavior is to include nothing in
+            # replies (but the mandatory GUID)
+            class NotesMetadataResultSpec
+              include ::Thrift::Struct, ::Thrift::Struct_Union
+              INCLUDETITLE = 2
+              INCLUDECONTENTLENGTH = 5
+              INCLUDECREATED = 6
+              INCLUDEUPDATED = 7
+              INCLUDEUPDATESEQUENCENUM = 10
+              INCLUDENOTEBOOKGUID = 11
+              INCLUDETAGGUIDS = 12
+              INCLUDEATTRIBUTES = 14
+              INCLUDELARGESTRESOURCEMIME = 20
+              INCLUDELARGESTRESOURCESIZE = 21
+
+              FIELDS = {
+                INCLUDETITLE => {:type => ::Thrift::Types::BOOL, :name => 'includeTitle', :optional => true},
+                INCLUDECONTENTLENGTH => {:type => ::Thrift::Types::BOOL, :name => 'includeContentLength', :optional => true},
+                INCLUDECREATED => {:type => ::Thrift::Types::BOOL, :name => 'includeCreated', :optional => true},
+                INCLUDEUPDATED => {:type => ::Thrift::Types::BOOL, :name => 'includeUpdated', :optional => true},
+                INCLUDEUPDATESEQUENCENUM => {:type => ::Thrift::Types::BOOL, :name => 'includeUpdateSequenceNum', :optional => true},
+                INCLUDENOTEBOOKGUID => {:type => ::Thrift::Types::BOOL, :name => 'includeNotebookGuid', :optional => true},
+                INCLUDETAGGUIDS => {:type => ::Thrift::Types::BOOL, :name => 'includeTagGuids', :optional => true},
+                INCLUDEATTRIBUTES => {:type => ::Thrift::Types::BOOL, :name => 'includeAttributes', :optional => true},
+                INCLUDELARGESTRESOURCEMIME => {:type => ::Thrift::Types::BOOL, :name => 'includeLargestResourceMime', :optional => true},
+                INCLUDELARGESTRESOURCESIZE => {:type => ::Thrift::Types::BOOL, :name => 'includeLargestResourceSize', :optional => true}
+              }
+
+              def struct_fields; FIELDS; end
+
+              def validate
               end
 
               ::Thrift::Struct.generate_accessors self

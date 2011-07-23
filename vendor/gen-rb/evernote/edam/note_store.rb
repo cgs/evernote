@@ -419,6 +419,42 @@ require 'note_store_types'
                         raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'findNotes failed: unknown result')
                       end
 
+                      def findNoteOffset(authenticationToken, filter, guid)
+                        send_findNoteOffset(authenticationToken, filter, guid)
+                        return recv_findNoteOffset()
+                      end
+
+                      def send_findNoteOffset(authenticationToken, filter, guid)
+                        send_message('findNoteOffset', FindNoteOffset_args, :authenticationToken => authenticationToken, :filter => filter, :guid => guid)
+                      end
+
+                      def recv_findNoteOffset()
+                        result = receive_message(FindNoteOffset_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'findNoteOffset failed: unknown result')
+                      end
+
+                      def findNotesMetadata(authenticationToken, filter, offset, maxNotes, resultSpec)
+                        send_findNotesMetadata(authenticationToken, filter, offset, maxNotes, resultSpec)
+                        return recv_findNotesMetadata()
+                      end
+
+                      def send_findNotesMetadata(authenticationToken, filter, offset, maxNotes, resultSpec)
+                        send_message('findNotesMetadata', FindNotesMetadata_args, :authenticationToken => authenticationToken, :filter => filter, :offset => offset, :maxNotes => maxNotes, :resultSpec => resultSpec)
+                      end
+
+                      def recv_findNotesMetadata()
+                        result = receive_message(FindNotesMetadata_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'findNotesMetadata failed: unknown result')
+                      end
+
                       def findNoteCounts(authenticationToken, filter, withTrash)
                         send_findNoteCounts(authenticationToken, filter, withTrash)
                         return recv_findNoteCounts()
@@ -1061,6 +1097,59 @@ require 'note_store_types'
                         return
                       end
 
+                      def shareNote(authenticationToken, guid)
+                        send_shareNote(authenticationToken, guid)
+                        return recv_shareNote()
+                      end
+
+                      def send_shareNote(authenticationToken, guid)
+                        send_message('shareNote', ShareNote_args, :authenticationToken => authenticationToken, :guid => guid)
+                      end
+
+                      def recv_shareNote()
+                        result = receive_message(ShareNote_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'shareNote failed: unknown result')
+                      end
+
+                      def stopSharingNote(authenticationToken, guid)
+                        send_stopSharingNote(authenticationToken, guid)
+                        recv_stopSharingNote()
+                      end
+
+                      def send_stopSharingNote(authenticationToken, guid)
+                        send_message('stopSharingNote', StopSharingNote_args, :authenticationToken => authenticationToken, :guid => guid)
+                      end
+
+                      def recv_stopSharingNote()
+                        result = receive_message(StopSharingNote_result)
+                        raise result.userException unless result.userException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        return
+                      end
+
+                      def authenticateToSharedNote(guid, noteKey)
+                        send_authenticateToSharedNote(guid, noteKey)
+                        return recv_authenticateToSharedNote()
+                      end
+
+                      def send_authenticateToSharedNote(guid, noteKey)
+                        send_message('authenticateToSharedNote', AuthenticateToSharedNote_args, :guid => guid, :noteKey => noteKey)
+                      end
+
+                      def recv_authenticateToSharedNote()
+                        result = receive_message(AuthenticateToSharedNote_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'authenticateToSharedNote failed: unknown result')
+                      end
+
                     end
 
                     class Processor
@@ -1393,6 +1482,36 @@ require 'note_store_types'
                           result.notFoundException = notFoundException
                         end
                         write_result(result, oprot, 'findNotes', seqid)
+                      end
+
+                      def process_findNoteOffset(seqid, iprot, oprot)
+                        args = read_args(iprot, FindNoteOffset_args)
+                        result = FindNoteOffset_result.new()
+                        begin
+                          result.success = @handler.findNoteOffset(args.authenticationToken, args.filter, args.guid)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'findNoteOffset', seqid)
+                      end
+
+                      def process_findNotesMetadata(seqid, iprot, oprot)
+                        args = read_args(iprot, FindNotesMetadata_args)
+                        result = FindNotesMetadata_result.new()
+                        begin
+                          result.success = @handler.findNotesMetadata(args.authenticationToken, args.filter, args.offset, args.maxNotes, args.resultSpec)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'findNotesMetadata', seqid)
                       end
 
                       def process_findNoteCounts(seqid, iprot, oprot)
@@ -1923,6 +2042,51 @@ require 'note_store_types'
                           result.systemException = systemException
                         end
                         write_result(result, oprot, 'emailNote', seqid)
+                      end
+
+                      def process_shareNote(seqid, iprot, oprot)
+                        args = read_args(iprot, ShareNote_args)
+                        result = ShareNote_result.new()
+                        begin
+                          result.success = @handler.shareNote(args.authenticationToken, args.guid)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        end
+                        write_result(result, oprot, 'shareNote', seqid)
+                      end
+
+                      def process_stopSharingNote(seqid, iprot, oprot)
+                        args = read_args(iprot, StopSharingNote_args)
+                        result = StopSharingNote_result.new()
+                        begin
+                          @handler.stopSharingNote(args.authenticationToken, args.guid)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        end
+                        write_result(result, oprot, 'stopSharingNote', seqid)
+                      end
+
+                      def process_authenticateToSharedNote(seqid, iprot, oprot)
+                        args = read_args(iprot, AuthenticateToSharedNote_args)
+                        result = AuthenticateToSharedNote_result.new()
+                        begin
+                          result.success = @handler.authenticateToSharedNote(args.guid, args.noteKey)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        end
+                        write_result(result, oprot, 'authenticateToSharedNote', seqid)
                       end
 
                     end
@@ -2822,6 +2986,94 @@ require 'note_store_types'
 
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::NoteStore::NoteList},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class FindNoteOffset_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      FILTER = 2
+                      GUID = 3
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        FILTER => {:type => ::Thrift::Types::STRUCT, :name => 'filter', :class => Evernote::EDAM::NoteStore::NoteFilter},
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class FindNoteOffset_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class FindNotesMetadata_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      FILTER = 2
+                      OFFSET = 3
+                      MAXNOTES = 4
+                      RESULTSPEC = 5
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        FILTER => {:type => ::Thrift::Types::STRUCT, :name => 'filter', :class => Evernote::EDAM::NoteStore::NoteFilter},
+                        OFFSET => {:type => ::Thrift::Types::I32, :name => 'offset'},
+                        MAXNOTES => {:type => ::Thrift::Types::I32, :name => 'maxNotes'},
+                        RESULTSPEC => {:type => ::Thrift::Types::STRUCT, :name => 'resultSpec', :class => Evernote::EDAM::NoteStore::NotesMetadataResultSpec}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class FindNotesMetadata_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::NoteStore::NotesMetadataList},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
                         SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
                         NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
@@ -4280,6 +4532,124 @@ require 'note_store_types'
                       SYSTEMEXCEPTION = 3
 
                       FIELDS = {
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class ShareNote_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      GUID = 2
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class ShareNote_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      NOTFOUNDEXCEPTION = 2
+                      SYSTEMEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success'},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class StopSharingNote_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      GUID = 2
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class StopSharingNote_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      USEREXCEPTION = 1
+                      NOTFOUNDEXCEPTION = 2
+                      SYSTEMEXCEPTION = 3
+
+                      FIELDS = {
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class AuthenticateToSharedNote_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      GUID = 1
+                      NOTEKEY = 2
+
+                      FIELDS = {
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'},
+                        NOTEKEY => {:type => ::Thrift::Types::STRING, :name => 'noteKey'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class AuthenticateToSharedNote_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      NOTFOUNDEXCEPTION = 2
+                      SYSTEMEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::UserStore::AuthenticationResult},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
                         NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException},
                         SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException}

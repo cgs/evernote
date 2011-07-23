@@ -4,15 +4,11 @@
 # DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 #
 
-require 'user_store_types'
+require 'errors_types'
 
       module Evernote
         module EDAM
-          module UserStore
-            EDAM_VERSION_MAJOR = 1
-
-            EDAM_VERSION_MINOR = 19
-
+          module Error
     end
   end
 end
