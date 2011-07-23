@@ -177,7 +177,7 @@ require 'user_store_types'
                       FIELDS = {
                         CLIENTNAME => {:type => ::Thrift::Types::STRING, :name => 'clientName'},
                         EDAMVERSIONMAJOR => {:type => ::Thrift::Types::I16, :name => 'edamVersionMajor', :default => 1},
-                        EDAMVERSIONMINOR => {:type => ::Thrift::Types::I16, :name => 'edamVersionMinor', :default => 17}
+                        EDAMVERSIONMINOR => {:type => ::Thrift::Types::I16, :name => 'edamVersionMinor', :default => 19}
                       }
 
                       def struct_fields; FIELDS; end
