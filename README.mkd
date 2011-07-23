@@ -5,6 +5,7 @@ This gem is a high level wrapper around Evernote's Thrift-generated ruby code. I
 Get yourself a "Client application" API key from Evernote (http://www.evernote.com/about/developer/api/#key), which gives you a "consumer_key" and "consumer_secret" (note that a "web application" API key uses OAuth to authenticate and will not work).  Put the key in a YML file or any other place you put configuration information.  Also, get yourself a username and password on both their sandbox system (http://sandbox.evernote.com) and live system.  You will be using sandbox for testing.
 
 # usage #
+This script is also located in /example.rb
 
     require 'evernote'
 
@@ -17,8 +18,6 @@ Get yourself a "Client application" API key from Evernote (http://www.evernote.c
        :consumer_secret => 'YOUR_CONSUMER_SECRECT_FROM_EVERNOTE'
              }
                
-    # note, you could also read in your consumer key information from a YML file
-    
     user_store = Evernote::UserStore.new(user_store_url, config)
 
     auth_result = user_store.authenticate
@@ -46,6 +45,7 @@ Thanks to the following peeps for helping out:
 
 * Peter Mangiafico (peetucket)
 * d1
+* Mikhail Zelenin (MioGreen)
 
 
 ## Copyright ##

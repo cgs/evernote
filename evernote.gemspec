@@ -22,6 +22,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "yard"
  
   s.files = Dir.glob("{lib,spec,vendor}/**/*") +
-    %w(LICENSE README.mkd Rakefile .gitignore)
+    %w(LICENSE README.mkd Rakefile .gitignore example.rb)
   s.require_path = 'lib'
 end
