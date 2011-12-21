@@ -10,14 +10,14 @@ This script is also located in /example.rb
     require 'evernote'
 
     user_store_url = "https://sandbox.evernote.com/edam/user"
-      
+
     config = {
        :username => 'YOUR_USERNAME',
        :password => 'YOUR_PASSWORD',
        :consumer_key => 'YOUR_CONSUMER_KEY_FROM_EVERNOTE',
        :consumer_secret => 'YOUR_CONSUMER_SECRECT_FROM_EVERNOTE'
              }
-               
+
     user_store = Evernote::UserStore.new(user_store_url, config)
 
     auth_result = user_store.authenticate

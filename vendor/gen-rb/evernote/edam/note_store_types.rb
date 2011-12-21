@@ -20,7 +20,7 @@ module Evernote
             #    <dd>
             #    The server's current date and time.
             #    </dd>
-            # 
+            #
             #  <dt>fullSyncBefore</dt>
             #    <dd>
             #    The cutoff date and time for client caches to be
@@ -29,7 +29,7 @@ module Evernote
             #    objects.  This cutoff point will change over time as archival data is
             #    deleted or special circumstances on the service require resynchronization.
             #    </dd>
-            # 
+            #
             #  <dt>updateCount</dt>
             #    <dd>
             #    Indicates the total number of transactions that have
@@ -39,7 +39,7 @@ module Evernote
             #    This number is the "high water mark" for Update Sequence Numbers (USN)
             #    within the account.
             #    </dd>
-            # 
+            #
             #  <dt>uploaded</dt>
             #    <dd>
             #    The total number of bytes that have been uploaded to
@@ -80,23 +80,23 @@ module Evernote
             #  state one chunk at a time in order to allow clients to retrieve the state
             #  of a large account without needing to transfer the entire account in
             #  a single message.
-            # 
+            #
             #  The server always gives SyncChunks using an ascending series of Update
             #  Sequence Numbers (USNs).
-            # 
+            #
             # <dl>
             #  <dt>currentTime</dt>
             #    <dd>
             #    The server's current date and time.
             #    </dd>
-            # 
+            #
             #  <dt>chunkHighUSN</dt>
             #    <dd>
             #    The highest USN for any of the data objects represented
             #    in this sync chunk.  If there are no objects in the chunk, this will not be
             #    set.
             #    </dd>
-            # 
+            #
             #  <dt>updateCount</dt>
             #    <dd>
             #    The total number of updates that have been performed in
@@ -105,7 +105,7 @@ module Evernote
             #    and chunkHighUSN are identical, that means that this is the last chunk
             #    in the account ... there is no more recent information.
             #    </dd>
-            # 
+            #
             #  <dt>notes</dt>
             #    <dd>
             #    If present, this is a list of non-expunged notes that
@@ -114,26 +114,26 @@ module Evernote
             #    of tags and resources, but the resource content and recognition data
             #    will not be supplied.
             #    </dd>
-            # 
+            #
             #  <dt>notebooks</dt>
             #    <dd>
             #    If present, this is a list of non-expunged notebooks that
             #    have a USN in this chunk.  This will include notebooks that are "deleted"
             #    but not expunged (i.e. in the trash).
             #    </dd>
-            # 
+            #
             #  <dt>tags</dt>
             #    <dd>
             #    If present, this is a list of the non-expunged tags that have a
             #    USN in this chunk.
             #    </dd>
-            # 
+            #
             #  <dt>searches</dt>
             #    <dd>
             #    If present, this is a list of non-expunged searches that
             #    have a USN in this chunk.
             #    </dd>
-            # 
+            #
             #  <dt>resources</dt>
             #    <dd>
             #    If present, this is a list of the non-expunged resources
@@ -141,13 +141,13 @@ module Evernote
             #    resource, but not its binary contents or recognition data, which must be
             #    retrieved separately.
             #    </dd>
-            # 
+            #
             #  <dt>expungedNotes</dt>
             #    <dd>
             #    If present, the GUIDs of all of the notes that were
             #    permanently expunged in this chunk.
             #    </dd>
-            # 
+            #
             #  <dt>expungedNotebooks</dt>
             #    <dd>
             #    If present, the GUIDs of all of the notebooks that
@@ -155,25 +155,25 @@ module Evernote
             #    this implies that all of its child notes (and their resources) were
             #    also expunged.
             #    </dd>
-            # 
+            #
             #  <dt>expungedTags</dt>
             #    <dd>
             #    If present, the GUIDs of all of the tags that were
             #    permanently expunged in this chunk.
             #    </dd>
-            # 
+            #
             #  <dt>expungedSearches</dt>
             #    <dd>
             #    If present, the GUIDs of all of the saved searches
             #    that were permanently expunged in this chunk.
             #    </dd>
-            # 
+            #
             #  <dt>linkedNotebooks</dt>
             #    <dd>
             #    If present, this is a list of non-expunged LinkedNotebooks that
             #    have a USN in this chunk.
             #    </dd>
-            # 
+            #
             #  <dt>expungedLinkedNotebooks</dt>
             #    <dd>
             #    If present, the GUIDs of all of the LinkedNotebooks
@@ -227,38 +227,38 @@ module Evernote
             #  A list of criteria that are used to indicate which notes are desired from
             #  the account.  This is used in queries to the NoteStore to determine
             #  which notes should be retrieved.
-            # 
+            #
             # <dl>
             #  <dt>order</dt>
             #    <dd>
             #    The NoteSortOrder value indicating what criterion should be
             #    used to sort the results of the filter.
             #    </dd>
-            # 
+            #
             #  <dt>ascending</dt>
             #    <dd>
             #    If true, the results will be ascending in the requested
             #    sort order.  If false, the results will be descending.
             #    </dd>
-            # 
+            #
             #  <dt>words</dt>
             #    <dd>
             #    If present, a search query string that will filter the set of notes to be returned.
             #    Accepts the full search grammar documented in the Evernote API Overview.
             #    </dd>
-            # 
+            #
             #  <dt>notebookGuid</dt>
             #    <dd>
             #    If present, the Guid of the notebook that must contain
             #    the notes.
             #    </dd>
-            # 
+            #
             #  <dt>tagGuids</dt>
             #    <dd>
             #    If present, the list of tags (by GUID) that must be present
             #    on the notes.
             #    </dd>
-            # 
+            #
             #  <dt>timeZone</dt>
             #    <dd>
             #    The zone ID for the user, which will be used to interpret
@@ -269,7 +269,7 @@ module Evernote
             #    The format must be encoded as a standard zone ID such as
             #    "America/Los_Angeles".
             #    </dd>
-            # 
+            #
             #  <dt>inactive</dt>
             #    <dd>
             #    If true, then only notes that are not active (i.e. notes in
@@ -306,35 +306,35 @@ module Evernote
             end
 
             #  A small structure for returning a list of notes out of a larger set.
-            # 
+            #
             # <dl>
             #  <dt>startIndex</dt>
             #    <dd>
             #    The starting index within the overall set of notes.  This
             #    is also the number of notes that are "before" this list in the set.
             #    </dd>
-            # 
+            #
             #  <dt>totalNotes</dt>
             #    <dd>
             #    The number of notes in the larger set.  This can be used
             #    to calculate how many notes are "after" this note in the set.
             #    (I.e.  remaining = totalNotes - (startIndex + notes.length)  )
             #    </dd>
-            # 
+            #
             #  <dt>notes</dt>
             #    <dd>
             #    The list of notes from this range.  The Notes will include all
             #    metadata (attributes, resources, etc.), but will not include the ENML
             #    content of the note or the binary contents of any resources.
             #    </dd>
-            # 
+            #
             #  <dt>stoppedWords</dt>
             #    <dd>
             #    If the NoteList was produced using a text based search
             #    query that included words that are not indexed or searched by the service,
             #    this will include a list of those ignored words.
             #    </dd>
-            # 
+            #
             #  <dt>searchedWords</dt>
             #    <dd>
             #    If the NoteList was produced using a text based search
@@ -342,7 +342,7 @@ module Evernote
             #    include a list of those words.  Any stopped words will not be included
             #    in this list.
             #    </dd>
-            # 
+            #
             #  <dt>updateCount</dt>
             #    <dd>
             #    Indicates the total number of transactions that have
@@ -443,21 +443,21 @@ module Evernote
             #  This structure is returned from calls to the findNotesMetadata function to
             #  give the high-level metadata about a subset of Notes that are found to
             #  match a specified NoteFilter in a search.
-            #  
+            #
             # <dl>
             #  <dt>startIndex</dt>
             #    <dd>
             #    The starting index within the overall set of notes.  This
             #    is also the number of notes that are "before" this list in the set.
             #    </dd>
-            # 
+            #
             #  <dt>totalNotes</dt>
             #    <dd>
             #    The number of notes in the larger set.  This can be used
             #    to calculate how many notes are "after" this note in the set.
             #    (I.e.  remaining = totalNotes - (startIndex + notes.length)  )
             #    </dd>
-            # 
+            #
             #  <dt>notes</dt>
             #    <dd>
             #    The list of metadata for Notes in this range.  The set of optional fields
@@ -466,14 +466,14 @@ module Evernote
             #    performed.  Only the 'guid' field will be guaranteed to be set in each
             #    Note.
             #    </dd>
-            # 
+            #
             #  <dt>stoppedWords</dt>
             #    <dd>
             #    If the NoteList was produced using a text based search
             #    query that included words that are not indexed or searched by the service,
             #    this will include a list of those ignored words.
             #    </dd>
-            # 
+            #
             #  <dt>searchedWords</dt>
             #    <dd>
             #    If the NoteList was produced using a text based search
@@ -481,7 +481,7 @@ module Evernote
             #    include a list of those words.  Any stopped words will not be included
             #    in this list.
             #    </dd>
-            # 
+            #
             #  <dt>updateCount</dt>
             #    <dd>
             #    Indicates the total number of transactions that have
@@ -568,20 +568,20 @@ module Evernote
 
             #  A data structure representing the number of notes for each notebook
             #  and tag with a non-zero set of applicable notes.
-            # 
+            #
             # <dl>
             #  <dt>notebookCounts</dt>
             #    <dd>
             #    A mapping from the Notebook GUID to the number of
             #    notes (from some selection) that are in the corresponding notebook.
             #    </dd>
-            # 
+            #
             #  <dt>tagCounts</dt>
             #    <dd>
             #    A mapping from the Tag GUID to the number of notes (from some
             #    selection) that have the corresponding tag.
             #    </dd>
-            # 
+            #
             #  <dt>trashCount</dt>
             #    <dd>
             #    If this is set, then this is the number of notes that are in the trash.
@@ -611,20 +611,20 @@ module Evernote
             end
 
             # Information for tracking the display of a particular ad by a client.
-            # 
+            #
             # <dl>
             #  <dt>adId</dt>
             #    <dd>
             #      The identifier for this ad, from a previous Ad.id given to the client
             #    </dd>
-            # 
+            #
             #  <dt>impressionCount</dt>
             #    <dd>
             #      The number of times this ad was displayed since the last successful
             #      ad retrieval.  The client should only report times the ad was selected
             #      when the client was visible.
             #    </dd>
-            # 
+            #
             #  <dt>impressionTime</dt>
             #    <dd>
             #      The number of seconds that the client displayed the advertisement since
@@ -658,26 +658,26 @@ module Evernote
             # Parameters that will be given by a client to the service when it requests
             # a set of advertisements to display.  If any of these values are omitted,
             # the service will use default values.
-            # 
+            #
             # <dl>
             #  <dt>clientLanguage</dt>
             #    <dd>
             #      The ISO 639-1 language code for the primary language for the client.
             #      If omitted, English will be assumed ('en').
             #    </dd>
-            # 
+            #
             #  <dt>impressions</dt>
             #    <dd>
             #      A list of the impression counts and total display time for the ads
             #      that were displayed in the last day.
             #    </dd>
-            # 
+            #
             #  <dt>supportHtml</dt>
             #    <dd>
             #      If true, the client requesting the ads supports ads specified via
             #      general HTML (with rich media, Javascript, etc.).
             #    </dd>
-            # 
+            #
             #  <dt>clientProperties</dt>
             #    <dd>
             #      If provided, this may contain a set of key/value pairs that identify
@@ -711,7 +711,7 @@ module Evernote
 
             # Parameters that must be given to the NoteStore emailNote call. These allow
             # the caller to specify the note to send, the recipient addresses, etc.
-            # 
+            #
             # <dl>
             #  <dt>guid</dt>
             #    <dd>
@@ -719,7 +719,7 @@ module Evernote
             #      should be retrieved from the service and sent as email.  If not set,
             #      the 'note' field must be provided instead.
             #    </dd>
-            # 
+            #
             #  <dt>note</dt>
             #    <dd>
             #      If the 'guid' field is not set, this field must be provided, including
@@ -727,28 +727,28 @@ module Evernote
             #      This can be used for a Note that as not been created in the service,
             #      for example by a local client with local notes.
             #    </dd>
-            # 
+            #
             #  <dt>toAddresses</dt>
             #    <dd>
             #      If provided, this should contain a list of the SMTP email addresses
             #      that should be included in the "To:" line of the email.
             #      Callers must specify at least one "to" or "cc" email address.
             #    </dd>
-            # 
+            #
             #  <dt>ccAddresses</dt>
             #    <dd>
             #      If provided, this should contain a list of the SMTP email addresses
             #      that should be included in the "Cc:" line of the email.
             #      Callers must specify at least one "to" or "cc" email address.
             #    </dd>
-            # 
+            #
             #  <dt>subject</dt>
             #    <dd>
             #      If provided, this should contain the subject line of the email that
             #      will be sent.  If not provided, the title of the note will be used
             #      as the subject of the email.
             #    </dd>
-            # 
+            #
             #  <dt>message</dt>
             #    <dd>
             #      If provided, this is additional personal text that should be included
@@ -784,7 +784,7 @@ module Evernote
             # Identfying information about previous versions of a note that are backed up
             # within Evernote's servers.  Used in the return value of the listNoteVersions
             # call.
-            # 
+            #
             # <dl>
             #  <dt>updateSequenceNum</dt>
             #  <dd>

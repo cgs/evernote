@@ -5,5 +5,5 @@ require 'rspec'
 require 'yaml'
 
 RSpec.configure do |config|
-  
+
 end

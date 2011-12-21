@@ -4,15 +4,15 @@ module Evernote
 
   class UserStore
     AuthenticationFailure = Class.new(StandardError)
-    
+
     def initialize(uri, credentials, thrift_client_options = {})
-      
+
       raise ArgumentError, "credentials must be passed in as a hash" unless credentials.class == Hash
-      
+
       credentials=credentials.inject({}) { |h,(k,v)| h[k.to_sym] = v; h } # convert any stringifyed hash keys into symbols
-      
-      @consumer_key = credentials[:consumer_key] 
-      @consumer_secret = credentials[:consumer_secret] 
+
+      @consumer_key = credentials[:consumer_key]
+      @consumer_secret = credentials[:consumer_secret]
       @username = credentials[:username]
       @password = credentials[:password]
 
@@ -21,16 +21,16 @@ module Evernote
       end
 
       @client = Evernote::Client.new(Evernote::EDAM::UserStore::UserStore::Client, uri, thrift_client_options)
-      
+
       validate_version
     end
-    
+
     def authenticate
       @client.authenticate(@username, @password, @consumer_key, @consumer_secret)
     rescue Evernote::EDAM::Error::EDAMUserException
       raise AuthenticationFailure
     end
-    
+
     def method_missing(name, *args, &block)
       @client.send(name, *args, &block)
     end

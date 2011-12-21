@@ -30,14 +30,14 @@ module Evernote
             # attempts to add a note to their account which would exceed their storage
             # quota, this type of exception may be thrown to indicate the source of the
             # error so that they can choose an alternate action.
-            # 
+            #
             # This exception would not be used for internal system errors that do not
             # reflect user actions, but rather reflect a problem within the service that
             # the user cannot resolve.
-            # 
+            #
             # errorCode:  The numeric code indicating the type of error that occurred.
             #   must be one of the values of EDAMErrorCode.
-            # 
+            #
             # parameter:  If the error applied to a particular input parameter, this will
             #   indicate which parameter.
             class EDAMUserException < ::Thrift::Exception
@@ -64,10 +64,10 @@ module Evernote
 
             # This exception is thrown by EDAM procedures when a call fails as a result of
             # an a problem in the service that could not be changed through user action.
-            # 
+            #
             # errorCode:  The numeric code indicating the type of error that occurred.
             #   must be one of the values of EDAMErrorCode.
-            # 
+            #
             # message:  This may contain additional information about the error
             class EDAMSystemException < ::Thrift::Exception
               include ::Thrift::Struct, ::Thrift::Struct_Union
@@ -95,9 +95,9 @@ module Evernote
             # an operation that does not exist.  This may be thrown based on an invalid
             # primary identifier (e.g. a bad GUID), or when the caller refers to an object
             # by another unique identifier (e.g. a User's email address).
-            # 
+            #
             # identifier:  the object identifier that was not found on the server.
-            # 
+            #
             # key:  the value passed from the client in the identifier, which was not
             #   found.  E.g. the GUID of an object that was not found.
             class EDAMNotFoundException < ::Thrift::Exception

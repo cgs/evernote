@@ -54,18 +54,18 @@ module Evernote
             #  a large image.  This structure is used in the protocol to represent
             #  any of those large blocks of data when they are transmitted or when
             #  they are only referenced their metadata.
-            # 
+            #
             # <dl>
             #  <dt>bodyHash</dt>
             #    <dd>This field carries a one-way hash of the contents of the
             #    data body, in binary form.  The hash function is MD5<br/>
             #    Length:  EDAM_HASH_LEN (exactly)
             #    </dd>
-            # 
+            #
             #  <dt>size</dt>
             #    <dd>The length, in bytes, of the data body.
             #    </dd>
-            # 
+            #
             #  <dt>body</dt>
             #    <dd>This field is set to contain the binary contents of the data
             #    whenever the resource is being transferred.  If only metadata is
@@ -96,7 +96,7 @@ module Evernote
 
             #  A structure holding the optional attributes that can be stored
             #  on a User.  These are generally less critical than the core User fields.
-            # 
+            #
             # <dl>
             #  <dt>defaultLocationName</dt>
             #    <dd>the location string that should be associated
@@ -104,30 +104,30 @@ module Evernote
             #    specified.<br/>
             #    Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX
             #    </dd>
-            # 
+            #
             #  <dt>defaultLatitude</dt>
             #    <dd>if set, this is the latitude that should be
             #    assigned to any notes that have no other latitude information.
             #    </dd>
-            # 
+            #
             #  <dt>defaultLongitude</dt>
             #    <dd>if set, this is the longitude that should be
             #    assigned to any notes that have no other longitude information.
             #    </dd>
-            # 
+            #
             #  <dt>preactivation</dt>
             #    <dd>if set, the user account is not yet confirmed for
             #    login.  I.e. the account has been created, but we are still waiting for
             #    the user to complete the activation step.
             #    </dd>
-            # 
+            #
             #  <dt>viewedPromotions</dt>
             #    <dd>a list of promotions the user has seen.
             #     This list may occasionally be modified by the system when promotions are
             #     no longer available.<br/>
             #     Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX
             #    </dd>
-            # 
+            #
             #  <dt>incomingEmailAddress</dt>
             #    <dd>if set, this is the email address that the
             #     user may send email to in order to add an email note directly into the
@@ -136,7 +136,7 @@ module Evernote
             #     If this is not set, the user may not add notes via the gateway.<br/>
             #     Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX
             #    </dd>
-            # 
+            #
             #  <dt>recentMailedAddresses</dt>
             #    <dd>if set, this will contain a list of email
             #     addresses that have recently been used as recipients
@@ -146,92 +146,92 @@ module Evernote
             #     Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX each<br/>
             #     Max:  EDAM_USER_RECENT_MAILED_ADDRESSES_MAX entries
             #    </dd>
-            # 
+            #
             #  <dt>comments</dt>
             #    <dd>Free-form text field that may hold general support
             #     information, etc.<br/>
             #     Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX
             #    </dd>
-            # 
+            #
             #  <dt>dateAgreedToTermsOfService</dt>
             #    <dd>The date/time when the user agreed to
             #     the terms of service.  This can be used as the effective "start date"
             #     for the account.
             #    </dd>
-            # 
+            #
             #  <dt>maxReferrals</dt>
             #    <dd>The number of referrals that the user is permitted
             #     to make.
             #    </dd>
-            # 
+            #
             #  <dt>referralCount</dt>
             #    <dd>The number of referrals sent from this account.
             #    </dd>
-            # 
+            #
             #  <dt>refererCode</dt>
             #    <dd>A code indicating where the user was sent from. AKA
             #     promotion code
             #    </dd>
-            #     
+            #
             #  <dt>sentEmailDate</dt>
             #    <dd>The most recent date when the user sent outbound
             #     emails from the service.  Used with sentEmailCount to limit the number
             #     of emails that can be sent per day.
             #    </dd>
-            #     
+            #
             #  <dt>sentEmailCount</dt>
             #    <dd>The number of emails that were sent from the user
             #     via the service on sentEmailDate.  Used to enforce a limit on the number
             #     of emails per user per day to prevent spamming.
             #    </dd>
-            # 
+            #
             #  <dt>dailyEmailLimit</dt>
             #    <dd>If set, this is the maximum number of emails that
             #     may be sent in a given day from this account.  If unset, the server will
             #     use the configured default limit.
             #    </dd>
-            # 
+            #
             #  <dt>emailOptOutDate</dt>
             #    <dd>If set, this is the date when the user asked
             #     to be excluded from offers and promotions sent by Evernote.  If not set,
             #     then the user currently agrees to receive these messages.
             #    </dd>
-            # 
+            #
             #  <dt>partnerEmailOptInDate</dt>
             #    <dd>If set, this is the date when the user asked
             #     to be included in offers and promotions sent by Evernote's partners.
             #     If not sent, then the user currently does not agree to receive these
             #     emails.
             #    </dd>
-            # 
+            #
             #  <dt>preferredLanguage</dt>
             #    <dd>a 2 character language codes based on:
             #        http://ftp.ics.uci.edu/pub/ietf/http/related/iso639.txt used for
             #       localization purposes to determine what language to use for the web
             #       interface and for other direct communication (e.g. emails).
             #    </dd>
-            # 
+            #
             #  <dt>preferredCountry</dt>
             #    <dd>Preferred country code based on ISO 3166-1-alpha-2 indicating the
             #    users preferred country</dd>
-            # 
+            #
             #  <dt>clipFullPage</dt>
             #    <dd>Boolean flag set to true if the user wants to clip full pages by
             #    default when they use the web clipper without a selection.</dd>
-            # 
+            #
             #  <dt>twitterUserName</dt>
             #    <dd>The username of the account of someone who has chosen to enable
             #    Twittering into Evernote.  This value is subject to change, since users
             #    may change their Twitter user name.</dd>
-            # 
+            #
             #  <dt>twitterId</dt>
             #    <dd>The unique identifier of the user's Twitter account if that user
             #    has chosen to enable Twittering into Evernote.</dd>
-            # 
+            #
             #  <dt>groupName</dt>
             #    <dd>A name identifier used to identify a particular set of branding and
             #     light customization.</dd>
-            #     
+            #
             #  <dt>recognitionLanguage</dt>
             #    <dd>a 2 character language codes based on:
             #        http://ftp.ics.uci.edu/pub/ietf/http/related/iso639.txt
@@ -239,17 +239,17 @@ module Evernote
             #        when processing images and PDF files to find text.
             #        If not set, then the 'preferredLanguage' will be used.
             #    </dd>
-            # 
+            #
             #  <dt>customerProfileId</dt>
             #    <dd>a numeric identified which provides a linkage between the user record
             #        and the direct credit card payment creditcard profile.
             #    </dd>
-            # 
+            #
             #  <dt>educationalInstitution</dt>
             #    <dd>a flag indicating that the user is part of an educational institution which
             #    makes them eligible for discounts on bulk purchases
             #    </dd>
-            # 
+            #
             #  <dt>businessAddress</dt>
             #    <dd>A string recording the business address of a Sponsored Account user who has requested invoicing.
             #    </dd>
@@ -325,7 +325,7 @@ module Evernote
             end
 
             #  This represents the bookkeeping information for the user's subscription.
-            #  
+            #
             # <dl>
             #  <dt>uploadLimit</dt>
             #    <dd>The number of bytes that can be uploaded to the account
@@ -459,7 +459,7 @@ module Evernote
             #    <dd>The unique numeric identifier for the account, which will not
             #    change for the lifetime of the account.
             #    </dd>
-            # 
+            #
             #  <dt>username</dt>
             #    <dd>The name that the user provides to log in to their
             #    account. In the future, this may be empty for some accounts if their login
@@ -470,7 +470,7 @@ module Evernote
             #    <br/>
             #    Regex:  EDAM_USER_USERNAME_REGEX
             #    </dd>
-            # 
+            #
             #  <dt>email</dt>
             #    <dd>The email address registered for the user.  Must comply with
             #    RFC 2821 and RFC 2822.<br/>
@@ -478,7 +478,7 @@ module Evernote
             #    <br/>
             #    Regex:  EDAM_EMAIL_REGEX
             #    </dd>
-            # 
+            #
             #  <dt>name</dt>
             #    <dd>The printable name of the user, which may be a combination
             #    of given and family names.  This is used instead of separate "first"
@@ -490,7 +490,7 @@ module Evernote
             #    <br/>
             #    Regex:  EDAM_USER_NAME_REGEX
             #    </dd>
-            # 
+            #
             #  <dt>timezone</dt>
             #    <dd>The zone ID for the user's default location.  If present,
             #    this may be used to localize the display of any timestamp for which no
@@ -504,43 +504,43 @@ module Evernote
             #    <br/>
             #    Regex:  EDAM_TIMEZONE_REGEX
             #    </dd>
-            # 
+            #
             #  <dt>privilege</dt>
             #    <dd>The level of access permitted for the user.
             #    </dd>
-            # 
+            #
             #  <dt>created</dt>
             #    <dd>The date and time when this user account was created in the
             #    service.
             #    </dd>
-            # 
+            #
             #  <dt>updated</dt>
             #    <dd>The date and time when this user account was last modified
             #    in the service.
             #    </dd>
-            # 
+            #
             #  <dt>deleted</dt>
             #    <dd>If the account has been deleted from the system (e.g. as
             #    the result of a legal request by the user), the date and time of the
             #    deletion will be represented here.  If not, this value will not be set.
             #    </dd>
-            # 
+            #
             #  <dt>active</dt>
             #    <dd>If the user account is available for login and
             #    synchronization, this flag will be set to true.
             #    </dd>
-            # 
+            #
             #  <dt>shardId</dt>
             #    <dd>The name of the virtual server that manages the state of
             #    this user.  This value is used internally to determine which system should
             #    service requests about this user's data.
             #    </dd>
-            # 
+            #
             #  <dt>attributes</dt>
             #    <dd>If present, this will contain a list of the attributes
             #    for this user account.
             #    </dd>
-            # 
+            #
             #  <dt>accounting</dt>
             #    <dd>Bookkeeping information for the user's subscription.
             #    </dd>
@@ -599,7 +599,7 @@ module Evernote
             #    <br/>
             #    Regex:  EDAM_GUID_REGEX
             #    </dd>
-            # 
+            #
             #  <dt>name</dt>
             #    <dd>A sequence of characters representing the tag's identifier.
             #    Case is preserved, but is ignored for comparisons.
@@ -612,7 +612,7 @@ module Evernote
             #    <br/>
             #    Regex:  EDAM_TAG_NAME_REGEX
             #    </dd>
-            # 
+            #
             #  <dt>parentGuid</dt>
             #    <dd>If this is set, then this is the GUID of the tag that
             #    holds this tag within the tag organizational heirarchy.  If this is
@@ -624,7 +624,7 @@ module Evernote
             #    <br/>
             #    Regex:  EDAM_GUID_REGEX
             #    </dd>
-            # 
+            #
             #  <dt>updateSequenceNum</dt>
             #    <dd>A number identifying the last transaction to
             #    modify the state of this object.  The USN values are sequential within an
@@ -661,55 +661,55 @@ module Evernote
             #   <br/>
             #    Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX
             #   </dd>
-            # 
+            #
             # <dt>timestamp</dt>
             #   <dd>the date and time that is associated with this resource
             #   (e.g. the time embedded in an image from a digital camera with a clock)
             #   </dd>
-            # 
+            #
             # <dt>latitude</dt>
             #   <dd>the latitude where the resource was captured
             #   </dd>
-            # 
+            #
             # <dt>longitude</dt>
             #   <dd>the longitude where the resource was captured
             #   </dd>
-            # 
+            #
             # <dt>altitude</dt>
             #   <dd>the altitude where the resource was captured
             #   </dd>
-            # 
+            #
             # <dt>cameraMake</dt>
             #   <dd>information about an image's camera, e.g. as embedded in
             #   the image's EXIF data
             #   <br/>
             #   Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX
             #   </dd>
-            # 
+            #
             # <dt>cameraModel</dt>
             #   <dd>information about an image's camera, e.g. as embedded
             #   in the image's EXIF data
             #   <br/>
             #   Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX
             #   </dd>
-            # 
+            #
             # <dt>clientWillIndex</dt>
             #   <dd>if true, then the original client that submitted
             #   the resource plans to submit the recognition index for this resource at a
             #   later time.
             #   </dd>
-            # 
+            #
             # <dt>recoType</dt>
             #   <dd>DEPRECATED - this field is no longer set by the service, so should
             #     be ignored.
             #   </dd>
-            # 
+            #
             # <dt>fileName</dt>
             #   <dd>if the resource came from a source that provided an
             #   explicit file name, the original name will be stored here.  Many resources
             #   come from unnamed sources, so this will not always be set.
             #   </dd>
-            # 
+            #
             # <dt>attachment</dt>
             #   <dd>this will be true if the resource is a Premium file attachment.  This
             #   will be available within the search grammar so that you can identify
@@ -764,7 +764,7 @@ module Evernote
             #   <br/>
             #   Regex:  EDAM_GUID_REGEX
             #   </dd>
-            # 
+            #
             # <dt>noteGuid</dt>
             #   <dd>The unique identifier of the Note that holds this
             #   Resource. Will be set whenever the resource is retrieved from the service,
@@ -774,13 +774,13 @@ module Evernote
             #   <br/>
             #   Regex:  EDAM_GUID_REGEX
             #   </dd>
-            # 
+            #
             # <dt>data</dt>
             #   <dd>The contents of the resource.
             #   Maximum length:  The data.body is limited to EDAM_RESOURCE_SIZE_MAX_FREE
             #   for free accounts and EDAM_RESOURCE_SIZE_MAX_PREMIUM for premium accounts.
             #   </dd>
-            # 
+            #
             # <dt>mime</dt>
             #   <dd>The MIME type for the embedded resource.  E.g. "image/gif"
             #   <br/>
@@ -788,41 +788,41 @@ module Evernote
             #   <br/>
             #   Regex:  EDAM_MIME_REGEX
             #   </dd>
-            # 
+            #
             # <dt>width</dt>
             #   <dd>If set, this contains the display width of this resource, in
             #   pixels.
             #   </dd>
-            # 
+            #
             # <dt>height</dt>
             #   <dd>If set, this contains the display height of this resource,
             #   in pixels.
             #   </dd>
-            # 
+            #
             # <dt>duration</dt>
             #   <dd>DEPRECATED: ignored.
             #   </dd>
-            # 
+            #
             # <dt>active</dt>
             #   <dd>DEPRECATED: ignored.
             #   </dd>
-            # 
+            #
             # <dt>recognition</dt>
             #   <dd>If set, this will hold the encoded data that provides
             #   information on search and recognition within this resource.
             #   </dd>
-            # 
+            #
             # <dt>attributes</dt>
             #   <dd>A list of the attributes for this resource.
             #   </dd>
-            # 
+            #
             # <dt>updateSequenceNum</dt>
             #   <dd>A number identifying the last transaction to
             #   modify the state of this object. The USN values are sequential within an
             #   account, and can be used to compare the order of modifications within the
             #   service.
             #   </dd>
-            # 
+            #
             # <dt>alternateData</dt>
             #   <dd>Some Resources may be assigned an alternate data format by the service
             #   which may be more appropriate for indexing or rendering than the original
@@ -873,38 +873,38 @@ module Evernote
             # <dt>subjectDate</dt>
             #   <dd>time that the note refers to
             #   </dd>
-            # 
+            #
             # <dt>latitude</dt>
             #   <dd>the latitude where the note was taken
             #   </dd>
-            # 
+            #
             # <dt>longitude</dt>
             #   <dd>the longitude where the note was taken
             #   </dd>
-            # 
+            #
             # <dt>altitude</dt>
             #   <dd>the altitude where the note was taken
             #   </dd>
-            # 
+            #
             # <dt>author</dt>
             #   <dd>the author of the content of the note
             #   <br/>
             #   Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX
             #   </dd>
-            # 
+            #
             # <dt>source</dt>
             #   <dd>the method that the note was added to the account, if the
             #   note wasn't directly authored in an Evernote client.
             #   <br/>
             #   Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX
             #   </dd>
-            # 
+            #
             # <dt>sourceURL</dt>
             #   <dd>the original location where the resource was hosted
             #   <br/>
             #   Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX
             #   </dd>
-            # 
+            #
             # <dt>sourceApplication</dt>
             #   <dd>an identifying string for the application that
             #   created this note.  This string does not have a guaranteed syntax or
@@ -912,7 +912,7 @@ module Evernote
             #   <br/>
             #   Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX
             #   </dd>
-            # 
+            #
             # <dt>shareDate</dt>
             #  <dd>The date and time when this note was directly shared via its own URL.
             #  This is only set on notes that were individually shared, it's independent
@@ -920,7 +920,7 @@ module Evernote
             #  is treated as "read-only" for clients ... the server will ignore changes
             #  to this field from an external client.
             #  </dd>
-            # 
+            #
             # </dl>
             class NoteAttributes
               include ::Thrift::Struct, ::Thrift::Struct_Union
@@ -955,7 +955,7 @@ module Evernote
             end
 
             # Represents a single note in the user's account.
-            # 
+            #
             # <dl>
             # <dt>guid</dt>
             #   <dd>The unique identifier of this note.  Will be set by the
@@ -965,7 +965,7 @@ module Evernote
             #   <br/>
             #   Regex:  EDAM_GUID_REGEX
             #   </dd>
-            # 
+            #
             # <dt>title</dt>
             #   <dd>The subject of the note.  Can't begin or end with a space.
             #   <br/>
@@ -973,7 +973,7 @@ module Evernote
             #   <br/>
             #   Regex:  EDAM_NOTE_TITLE_REGEX
             #   </dd>
-            # 
+            #
             # <dt>content</dt>
             #   <dd>The XHTML block that makes up the note.  This is
             #   the canonical form of the note's contents, so will include abstract
@@ -984,7 +984,7 @@ module Evernote
             #   <br/>
             #   Length:  EDAM_NOTE_CONTENT_LEN_MIN - EDAM_NOTE_CONTENT_LEN_MAX
             #   </dd>
-            # 
+            #
             # <dt>contentHash</dt>
             #   <dd>The binary MD5 checksum of the UTF-8 encoded content
             #   body. This will always be set by the server, but clients may choose to omit
@@ -992,13 +992,13 @@ module Evernote
             #   <br/>
             #   Length:  EDAM_HASH_LEN (exactly)
             #   </dd>
-            # 
+            #
             # <dt>contentLength</dt>
             #   <dd>The number of Unicode characters in the content of
             #   the note.  This will always be set by the service, but clients may choose
             #   to omit this value when they submit a Note.
             #   </dd>
-            # 
+            #
             # <dt>created</dt>
             #   <dd>The date and time when the note was created in one of the
             #   clients.  In most cases, this will match the user's sense of when
@@ -1008,14 +1008,14 @@ module Evernote
             #   ordering between notes.  Notes created directly through the service
             #   (e.g. via the web GUI) will have an absolutely ordered "created" value.
             #   </dd>
-            # 
+            #
             # <dt>updated</dt>
             #   <dd>The date and time when the note was last modified in one of
             #   the clients.  In most cases, this will match the user's sense of when
             #   the note was modified, but this field may not be absolutely reliable
             #   due to the possibility of client clock errors.
             #   </dd>
-            # 
+            #
             # <dt>deleted</dt>
             #   <dd>If present, the note is considered "deleted", and this
             #   stores the date and time when the note was deleted by one of the clients.
@@ -1023,19 +1023,19 @@ module Evernote
             #   deleted, but this field may be unreliable due to the possibility of
             #   client clock errors.
             #   </dd>
-            # 
+            #
             # <dt>active</dt>
             #   <dd>If the note is available for normal actions and viewing,
             #   this flag will be set to true.
             #   </dd>
-            # 
+            #
             # <dt>updateSequenceNum</dt>
             #   <dd>A number identifying the last transaction to
             #   modify the state of this note (including changes to the note's attributes
             #   or resources).  The USN values are sequential within an account,
             #   and can be used to compare the order of modifications within the service.
             #   </dd>
-            # 
+            #
             # <dt>notebookGuid</dt>
             #   <dd>The unique identifier of the notebook that contains
             #   this note.  If no notebookGuid is provided on a call to createNote(), the
@@ -1045,7 +1045,7 @@ module Evernote
             #   <br/>
             #   Regex:  EDAM_GUID_REGEX
             #   </dd>
-            # 
+            #
             # <dt>tagGuids</dt>
             #   <dd>A list of the GUID identifiers for tags that are applied to this note.
             #   This may be provided in a call to createNote() to unambiguously declare
@@ -1056,7 +1056,7 @@ module Evernote
             #   the server will assume that no changes have been made to the resources.
             #   Maximum:  EDAM_NOTE_TAGS_MAX tags per note
             #   </dd>
-            # 
+            #
             # <dt>resources</dt>
             #   <dd>The list of resources that are embedded within this note.
             #   If the list of resources are omitted on a call to updateNote(), then
@@ -1066,13 +1066,13 @@ module Evernote
             #   the Note is returned in the future.
             #   Maximum:  EDAM_NOTE_RESOURCES_MAX resources per note
             #   </dd>
-            # 
+            #
             # <dt>attributes</dt>
             #   <dd>A list of the attributes for this note.
             #   If the list of attributes are omitted on a call to updateNote(), then
             #   the server will assume that no changes have been made to the resources.
             #   </dd>
-            # 
+            #
             # <dt>tagNames</dt>
             #   <dd>May be provided by clients during calls to createNote() as an
             #   alternative to providing the tagGuids of existing tags.  If any tagNames
@@ -1140,18 +1140,18 @@ module Evernote
             #   <br/>
             #   Regex:  EDAM_PUBLISHING_URI_REGEX
             #   </dd>
-            # 
+            #
             # <dt>order</dt>
             #   <dd>When the notes are publicly displayed, they will be sorted
             #   based on the requested criteria.
             #   </dd>
-            # 
+            #
             # <dt>ascending</dt>
             #   <dd>If this is set to true, then the public notes will be
             #   displayed in ascending order (e.g. from oldest to newest).  Otherwise,
             #   the notes will be displayed in descending order (e.g. newest to oldest).
             #   </dd>
-            # 
+            #
             # <dt>publicDescription</dt>
             #   <dd>This field may be used to provide a short
             #   description of the notebook, which may be displayed when (e.g.) the
@@ -1197,7 +1197,7 @@ module Evernote
             #   <br/>
             #   Regex:  EDAM_GUID_REGEX
             #   </dd>
-            # 
+            #
             # <dt>name</dt>
             #   <dd>A sequence of characters representing the name of the
             #   notebook.  May be changed by clients, but the account may not contain two
@@ -1208,14 +1208,14 @@ module Evernote
             #   <br/>
             #   Regex:  EDAM_NOTEBOOK_NAME_REGEX
             #   </dd>
-            # 
+            #
             # <dt>updateSequenceNum</dt>
             #   <dd>A number identifying the last transaction to
             #   modify the state of this object.  The USN values are sequential within an
             #   account, and can be used to compare the order of modifications within the
             #   service.
             #   </dd>
-            # 
+            #
             # <dt>defaultNotebook</dt>
             #   <dd>If true, this notebook should be used for new notes
             #   whenever the user has not (or cannot) specify a desired target notebook.
@@ -1228,21 +1228,21 @@ module Evernote
             #   set to false by the service.  If the account has no default notebook
             #   set, the service will use the most recent notebook as the default.
             #   </dd>
-            # 
+            #
             # <dt>serviceCreated</dt>
             #   <dd>The time when this notebook was created on the
             #   service. This will be set on the service during creation, and the service
             #   will provide this value when it returns a Notebook to a client.
             #   The service will ignore this value if it is sent by clients.
             #   </dd>
-            # 
+            #
             # <dt>serviceUpdated</dt>
             #   <dd>The time when this notebook was last modified on the
             #   service.  This will be set on the service during creation, and the service
             #   will provide this value when it returns a Notebook to a client.
             #   The service will ignore this value if it is sent by clients.
             #   </dd>
-            # 
+            #
             # <dt>publishing</dt>
             #   <dd>If the Notebook has been opened for public access (i.e.
             #   if 'published' is set to true), then this will point to the set of
@@ -1252,7 +1252,7 @@ module Evernote
             #   Clients that do not wish to change the publishing behavior of a Notebook
             #   should not set this value when calling NoteStore.updateNotebook().
             #   </dd>
-            # 
+            #
             # <dt>published</dt>
             #   <dd>If this is set to true, then the Notebook will be
             #   accessible to the public via the 'publishing' specification, which must
@@ -1261,7 +1261,7 @@ module Evernote
             #   Clients that do not wish to change the publishing behavior of a Notebook
             #   should not set this value when calling NoteStore.updateNotebook().
             #   </dd>
-            # 
+            #
             # <dt>stack</dt>
             #   <dd>If this is set, then the notebook is visually contained within a stack
             #   of notebooks with this name.  All notebooks in the same account with the
@@ -1269,7 +1269,7 @@ module Evernote
             #   Notebooks with no stack set are "top level" and not contained within a
             #   stack.
             #   </dd>
-            # 
+            #
             # <dt>sharedNotebookIds</dt>
             #   <dd>If this notebook has been shared with one or more individuals, then
             #   this will contain the 'id' fields to identify those SharedNotebook
@@ -1321,7 +1321,7 @@ module Evernote
             #   <br/>
             #   Regex:  EDAM_GUID_REGEX
             #   </dd>
-            # 
+            #
             # <dt>name</dt>
             #   <dd>The name of the saved search to display in the GUI.  The
             #   account may only contain one search with a given name (case-insensitive
@@ -1331,18 +1331,18 @@ module Evernote
             #   <br/>
             #   Regex:  EDAM_SAVED_SEARCH_NAME_REGEX
             #   </dd>
-            # 
+            #
             # <dt>query</dt>
             #   <dd>A string expressing the search to be performed.
             #   <br/>
             #   Length:  EDAM_SAVED_SEARCH_QUERY_LEN_MIN - EDAM_SAVED_SEARCH_QUERY_LEN_MAX
             #   </dd>
-            # 
+            #
             # <dt>format</dt>
             #   <dd>The format of the query string, to determine how to parse
             #   and process it.
             #   </dd>
-            # 
+            #
             # <dt>updateSequenceNum</dt>
             #   <dd>A number identifying the last transaction to
             #   modify the state of this object.  The USN values are sequential within an
@@ -1380,61 +1380,61 @@ module Evernote
             # An advertisement that may be displayed within an Evernote client.
             # Advertisements are either a snippet of HTML or else they
             # are an image (of type: JPEG, GIF, PNG) with an associated destination URL.
-            # 
+            #
             # <dl>
             #   <dt>id</dt>
             #   <dd>The unique identifier of this advertisement within Evernote's ad
             #   inventory.
             #   </dd>
-            # 
+            #
             #   <dt>width</dt>
             #   <dd>This ad should be displayed within a rectangle that is this wide,
             #   in pixels.
             #   </dd>
-            # 
+            #
             #   <dt>height</dt>
             #   <dd>This ad should be displayed within a rectangle that is this high,
             #   in pixels.
             #   </dd>
-            # 
+            #
             #   <dt>advertiserName</dt>
             #   <dd>A string containing a readable version of the name of this advertiser.
             #   </dd>
-            # 
+            #
             #   <dt>imageUrl</dt>
             #   <dd>The location of the image to display for this ad.</dd>
-            # 
+            #
             #   <dt>destinationUrl</dt>
             #   <dd>When a user clicks on the ad, this is the destination they should be
             #   sent to in a browser.</dd>
-            # 
+            #
             #   <dt>displaySeconds</dt>
             #   <dd>The number of seconds that the ad should be displayed before it is
             #   replaced with a different ad.</dd>
-            # 
+            #
             #   <dt>score</dt>
             #   <dd>A numeric indicator of the relative value of this ad, which can be
             #   compared against other ads from the same day.
             #   </dd>
-            # 
+            #
             #   <dt>image</dt>
             #   <dd>If present, this is the raw image bits of the image file to display
             #   for the ad.  If not present, the imageUrl should be retrieved directly.
             #   </dd>
-            # 
+            #
             #   <dt>imageMime</dt>
             #   <dd>The MIME type of the 'image' bytes, if those are set.</dd>
-            # 
+            #
             #   <dt>html</dt>
             #   <dd>The exact HTML to display for this ad, to support rich or external
             #   advertisements.</dd>
-            # 
+            #
             #   <dt>displayFrequency</dt>
             #   <dd>If this value is set, this is the relatively frequency that this
             #   ad should be displayed in the daily set of ads, relative to a base
             #   frequency of 1.0.  I.e. an ad with a frequency of 3.0 should be displayed
             #   three times more frequently than an ad with a frequency of 1.0.</dd>
-            # 
+            #
             #   <dt>openInTrunk</dt>
             #   <dd>If true, the ad should be opened in the embedded Trunk window by
             #   clients with Trunk support.</dd>
@@ -1484,27 +1484,27 @@ module Evernote
             # <dl>
             # <dt>id</dt>
             # <dd>the primary identifier of the share</dd>
-            # 
+            #
             # <dt>userId</dt>
             # <dd>the user id of the owner of the notebook</dd>
-            # 
+            #
             # <dt>notebookGuid</dt>
             # <dd>the GUID of the associated notebook shared.</dd>
-            # 
+            #
             # <dt>email</dt>
             # <dd>the email address of the recipient - used by the notebook
             # owner to identify who they shared with.</dd>
-            # 
+            #
             # <dt>notebookModifiable</dt>
             # <dd>a flag indicating the share is read/write -otherwise it's read only</dd>
-            # 
+            #
             # <dt>requireLogin</dt>
             # <dd>indicates that a user must login to access the share</dd>
-            # 
+            #
             # <dt>serviceCreated</dt>
             # <dd>the date the owner first created the share with the specific email
             #   address</dd>
-            # 
+            #
             # <dt>username</dt>
             # <dd>the username of the user who can access this share.
             #   Once it's assigned it cannot be changed.</dd>
@@ -1543,24 +1543,24 @@ module Evernote
 
             # A link in an users account that refers them to a public or individual share in
             # another user's account.
-            # 
+            #
             # <dl>
             # <dt>shareName</dt>
             # <dd>the display name of the shared notebook.
             #   The link owner can change this.</dd>
-            # 
+            #
             # <dt>username</dt>
             # <dd>the username of the user who owns the shared or public notebook</dd>
-            # 
+            #
             # <dt>shardId</dt>
             # <dd>the shard ID of the notebook if the notebook is not public</dt>
-            # 
+            #
             # <dt>shareKey</dt>
             # <dd>the secret key that provides access to the shared notebook</dd>
-            # 
+            #
             # <dt>uri</dt>
             # <dd>the identifier of the public notebook</dd>
-            # 
+            #
             # <dt>guid</dt>
             #   <dd>The unique identifier of this linked notebook.  Will be set whenever
             #   a resource is retrieved from the service, but may be null when a client
@@ -1570,7 +1570,7 @@ module Evernote
             #   <br/>
             #   Regex:  EDAM_GUID_REGEX
             #   </dd>
-            # 
+            #
             # <dt>updateSequenceNum</dt>
             #   <dd>A number identifying the last transaction to
             #   modify the state of this object.  The USN values are sequential within an
