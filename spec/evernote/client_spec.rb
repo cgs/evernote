@@ -5,10 +5,10 @@ describe "Evernote::Client" do
     klass = mock("SomeInternalEvernoteClass")
     opts = { :transport => Thrift::HTTPClientTransport }
     ThriftClient.should_receive(:new).with(klass, "https://www.example.com", opts)
-    
+
     Evernote::Client.new(klass, "https://www.example.com")
   end
-  
+
   it "should proxy methods" do
     thrift_client = mock("ThriftClient")
     ThriftClient.stub!(:new => thrift_client)

@@ -13,14 +13,14 @@ Gem::Specification.new do |s|
   s.homepage    = "http://github.com/cgs/evernote"
   s.summary     = "High level wrapper for the Evernote API"
   s.description = "A high level wrapper around Evernote's Thrift-generated ruby code. It bundles up Evernote's thrift-generated code and creates some simple wrapper classes."
- 
+
   s.required_rubygems_version = ">= 1.3.6"
 
   s.add_dependency "thrift_client"
-  
+
   s.add_development_dependency "rspec"
   s.add_development_dependency "yard"
- 
+
   s.files = Dir.glob("{lib,spec,vendor}/**/*") +
     %w(LICENSE README.mkd Rakefile .gitignore example.rb)
   s.require_path = 'lib'
