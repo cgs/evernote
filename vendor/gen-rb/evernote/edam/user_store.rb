@@ -98,6 +98,23 @@ require 'user_store_types'
                         raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getPublicUserInfo failed: unknown result')
                       end
 
+                      def getPremiumInfo(authenticationToken)
+                        send_getPremiumInfo(authenticationToken)
+                        return recv_getPremiumInfo()
+                      end
+
+                      def send_getPremiumInfo(authenticationToken)
+                        send_message('getPremiumInfo', GetPremiumInfo_args, :authenticationToken => authenticationToken)
+                      end
+
+                      def recv_getPremiumInfo()
+                        result = receive_message(GetPremiumInfo_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getPremiumInfo failed: unknown result')
+                      end
+
                     end
 
                     class Processor
@@ -164,6 +181,19 @@ require 'user_store_types'
                         write_result(result, oprot, 'getPublicUserInfo', seqid)
                       end
 
+                      def process_getPremiumInfo(seqid, iprot, oprot)
+                        args = read_args(iprot, GetPremiumInfo_args)
+                        result = GetPremiumInfo_result.new()
+                        begin
+                          result.success = @handler.getPremiumInfo(args.authenticationToken)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        end
+                        write_result(result, oprot, 'getPremiumInfo', seqid)
+                      end
+
                     end
 
                     # HELPER FUNCTIONS AND STRUCTURES
@@ -177,7 +207,7 @@ require 'user_store_types'
                       FIELDS = {
                         CLIENTNAME => {:type => ::Thrift::Types::STRING, :name => 'clientName'},
                         EDAMVERSIONMAJOR => {:type => ::Thrift::Types::I16, :name => 'edamVersionMajor', :default => 1},
-                        EDAMVERSIONMINOR => {:type => ::Thrift::Types::I16, :name => 'edamVersionMinor', :default => 19}
+                        EDAMVERSIONMINOR => {:type => ::Thrift::Types::I16, :name => 'edamVersionMinor', :default => 20}
                       }
 
                       def struct_fields; FIELDS; end
@@ -346,6 +376,42 @@ require 'user_store_types'
                         NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException},
                         SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetPremiumInfo_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetPremiumInfo_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::UserStore::PremiumInfo},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException}
                       }
 
                       def struct_fields; FIELDS; end

@@ -17,6 +17,8 @@ require 'limits_types'
 
             EDAM_ATTRIBUTE_LIST_MAX = 100
 
+            EDAM_ATTRIBUTE_MAP_MAX = 100
+
             EDAM_GUID_LEN_MIN = 36
 
             EDAM_GUID_LEN_MAX = 36
@@ -57,6 +59,8 @@ require 'limits_types'
 
             EDAM_MIME_TYPE_AMR = %q"audio/amr"
 
+            EDAM_MIME_TYPE_MP4_VIDEO = %q"video/mp4"
+
             EDAM_MIME_TYPE_INK = %q"application/vnd.evernote.ink"
 
             EDAM_MIME_TYPE_PDF = %q"application/pdf"
@@ -72,6 +76,7 @@ require 'limits_types'
               %q"audio/amr",
               %q"application/vnd.evernote.ink",
               %q"application/pdf",
+              %q"video/mp4",
             ])
 
             EDAM_COMMERCE_SERVICE_GOOGLE = %q"Google"
@@ -125,6 +130,20 @@ require 'limits_types'
             EDAM_NOTE_CONTENT_LEN_MIN = 0
 
             EDAM_NOTE_CONTENT_LEN_MAX = 5242880
+
+            EDAM_APPLICATIONDATA_NAME_LEN_MIN = 3
+
+            EDAM_APPLICATIONDATA_NAME_LEN_MAX = 32
+
+            EDAM_APPLICATIONDATA_VALUE_LEN_MIN = 0
+
+            EDAM_APPLICATIONDATA_VALUE_LEN_MAX = 4092
+
+            EDAM_APPLICATIONDATA_ENTRY_LEN_MAX = 4095
+
+            EDAM_APPLICATIONDATA_NAME_REGEX = %q"^[A-Za-z0-9_.-]{3,32}$"
+
+            EDAM_APPLICATIONDATA_VALUE_REGEX = %q"^[^\\p{Cc}]{0,4092}$"
 
             EDAM_NOTEBOOK_NAME_LEN_MIN = 1
 
@@ -199,6 +218,22 @@ require 'limits_types'
             EDAM_USER_LINKED_NOTEBOOK_MAX = 100
 
             EDAM_NOTEBOOK_SHARED_NOTEBOOK_MAX = 250
+
+            EDAM_NOTE_CONTENT_CLASS_LEN_MIN = 3
+
+            EDAM_NOTE_CONTENT_CLASS_LEN_MAX = 32
+
+            EDAM_HELLO_APP_CONTENT_CLASS_PREFIX = %q"evernote.hello."
+
+            EDAM_FOOD_APP_CONTENT_CLASS_PREFIX = %q"evernote.food."
+
+            EDAM_NOTE_CONTENT_CLASS_REGEX = %q"^[A-Za-z0-9_.-]{3,32}$"
+
+            EDAM_CONTENT_CLASS_HELLO_ENCOUNTER = %q"evernote.hello.encounter"
+
+            EDAM_CONTENT_CLASS_HELLO_PROFILE = %q"evernote.hello.profile"
+
+            EDAM_CONTENT_CLASS_FOOD_MEAL = %q"evernote.food.meal"
 
     end
   end

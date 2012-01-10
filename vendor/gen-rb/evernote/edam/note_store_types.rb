@@ -224,6 +224,139 @@ module Evernote
               ::Thrift::Struct.generate_accessors self
             end
 
+            #  This structure is used with the 'getFilteredSyncChunk' call to provide
+            #  fine-grained control over the data that's returned when a client needs
+            #  to synchronize with the service. Each flag in this structure specifies
+            #  whether to include one class of data in the results of that call.
+            # 
+            # <dl>
+            #  <dt>includeNotes</dt>
+            #    <dd>
+            #    If true, then the server will include the SyncChunks.notes field
+            #    </dd>
+            # 
+            #  <dt>includeNoteResources</dt>
+            #    <dd>
+            #    If true, then the server will include the 'resources' field on all of
+            #    the Notes that are in SyncChunk.notes.
+            #    If 'includeNotes' is false, then this will have no effect.
+            #    </dd>
+            # 
+            #  <dt>includeNoteAttributes</dt>
+            #    <dd>
+            #    If true, then the server will include the 'attributes' field on all of
+            #    the Notes that are in SyncChunks.notes.
+            #    If 'includeNotes' is false, then this will have no effect.
+            #    </dd>
+            # 
+            #  <dt>includeNotebooks</dt>
+            #    <dd>
+            #    If true, then the server will include the SyncChunks.notebooks field
+            #    </dd>
+            # 
+            #  <dt>includeTags</dt>
+            #    <dd>
+            #    If true, then the server will include the SyncChunks.tags field
+            #    </dd>
+            # 
+            #  <dt>includeSearches</dt>
+            #    <dd>
+            #    If true, then the server will include the SyncChunks.searches field
+            #    </dd>
+            # 
+            #  <dt>includeResources</dt>
+            #    <dd>
+            #    If true, then the server will include the SyncChunks.resources field.
+            #    Since the Resources are also provided with their Note
+            #    (in the Notes.resources list), this is primarily useful for clients that
+            #    want to watch for changes to individual Resources due to recognition data
+            #    being added.
+            #    </dd>
+            # 
+            #  <dt>includeLinkedNotebooks</dt>
+            #    <dd>
+            #    If true, then the server will include the SyncChunks.linkedNotebooks field.
+            #    </dd>
+            # 
+            #  <dt>includeExpunged</dt>
+            #    <dd>
+            #    If true, then the server will include the 'expunged' data for any type
+            #    of included data.  For example, if 'includeTags' and 'includeExpunged'
+            #    are both true, then the SyncChunks.expungedTags field will be set with
+            #    the GUIDs of tags that have been expunged from the server.
+            #    </dd>
+            # 
+            #  <dt>includeNoteApplicationDataFullMap</dt>
+            #    <dd>
+            #    If true, then the values for the applicationData map will be filled
+            #    in, assuming notes and note attributes are being returned.  Otherwise,
+            #    only the keysOnly field will be filled in.
+            #    </dd>
+            # 
+            #  <dt>includeResourceApplicationDataFullMap</dt>
+            #    <dd>
+            #    If true, then the fullMap values for the applicationData map will be
+            #    filled in, assuming resources and resource attributes are being returned
+            #    (includeResources is true).  Otherwise, only the keysOnly field will be
+            #    filled in.
+            #    </dd>
+            # 
+            #  <dt>includeNoteResourceApplicationDataFullMap</dt>
+            #    <dd>
+            #    If true, then the fullMap values for the applicationData map will be
+            #    filled in for resources found inside of notes, assuming resources are
+            #    being returned in notes (includeNoteResources is true).  Otherwise,
+            #    only the keysOnly field will be filled in.
+            #    </dd>
+            #    
+            #  <dt>requireNoteContentClass</dt>
+            #    <dd>
+            #    If set, then only send notes whose content class matches this value.
+            #    The value can be a literal match or, if the last character is an
+            #    asterisk, a prefix match.
+            #    </dd>
+            #     
+            #  </dl>
+            class SyncChunkFilter
+              include ::Thrift::Struct, ::Thrift::Struct_Union
+              INCLUDENOTES = 1
+              INCLUDENOTERESOURCES = 2
+              INCLUDENOTEATTRIBUTES = 3
+              INCLUDENOTEBOOKS = 4
+              INCLUDETAGS = 5
+              INCLUDESEARCHES = 6
+              INCLUDERESOURCES = 7
+              INCLUDELINKEDNOTEBOOKS = 8
+              INCLUDEEXPUNGED = 9
+              INCLUDENOTEAPPLICATIONDATAFULLMAP = 10
+              INCLUDERESOURCEAPPLICATIONDATAFULLMAP = 12
+              INCLUDENOTERESOURCEAPPLICATIONDATAFULLMAP = 13
+              REQUIRENOTECONTENTCLASS = 11
+
+              FIELDS = {
+                INCLUDENOTES => {:type => ::Thrift::Types::BOOL, :name => 'includeNotes', :optional => true},
+                INCLUDENOTERESOURCES => {:type => ::Thrift::Types::BOOL, :name => 'includeNoteResources', :optional => true},
+                INCLUDENOTEATTRIBUTES => {:type => ::Thrift::Types::BOOL, :name => 'includeNoteAttributes', :optional => true},
+                INCLUDENOTEBOOKS => {:type => ::Thrift::Types::BOOL, :name => 'includeNotebooks', :optional => true},
+                INCLUDETAGS => {:type => ::Thrift::Types::BOOL, :name => 'includeTags', :optional => true},
+                INCLUDESEARCHES => {:type => ::Thrift::Types::BOOL, :name => 'includeSearches', :optional => true},
+                INCLUDERESOURCES => {:type => ::Thrift::Types::BOOL, :name => 'includeResources', :optional => true},
+                INCLUDELINKEDNOTEBOOKS => {:type => ::Thrift::Types::BOOL, :name => 'includeLinkedNotebooks', :optional => true},
+                INCLUDEEXPUNGED => {:type => ::Thrift::Types::BOOL, :name => 'includeExpunged', :optional => true},
+                INCLUDENOTEAPPLICATIONDATAFULLMAP => {:type => ::Thrift::Types::BOOL, :name => 'includeNoteApplicationDataFullMap', :optional => true},
+                INCLUDERESOURCEAPPLICATIONDATAFULLMAP => {:type => ::Thrift::Types::BOOL, :name => 'includeResourceApplicationDataFullMap', :optional => true},
+                INCLUDENOTERESOURCEAPPLICATIONDATAFULLMAP => {:type => ::Thrift::Types::BOOL, :name => 'includeNoteResourceApplicationDataFullMap', :optional => true},
+                REQUIRENOTECONTENTCLASS => {:type => ::Thrift::Types::STRING, :name => 'requireNoteContentClass', :optional => true}
+              }
+
+              def struct_fields; FIELDS; end
+
+              def validate
+              end
+
+              ::Thrift::Struct.generate_accessors self
+            end
+
             #  A list of criteria that are used to indicate which notes are desired from
             #  the account.  This is used in queries to the NoteStore to determine
             #  which notes should be retrieved.
@@ -382,27 +515,27 @@ module Evernote
               ::Thrift::Struct.generate_accessors self
             end
 
-            # * This structure is used in the set of results returned by the
-            # * findNotesMetadata function.  It represents the high-level information about
-            # * a single Note, without some of the larger deep structure.  This allows
-            # * for the information about a list of Notes to be returned relatively quickly
-            # * with less marshalling and data transfer to remote clients.
-            # * Most fields in this structure are identical to the corresponding field in
-            # * the Note structure, with the exception of:
-            # *
-            # * <dl>
-            #  * <dt>largestResourceMime</dt>
-            # *   <dd>If set, then this will contain the MIME type of the largest Resource
-            # *   (in bytes) within the Note.  This may be useful, for example, to choose
-            # *   an appropriate icon or thumbnail to represent the Note.
-            # *   </dd>
-            # *
-            # * <dt>largestResourceSize</dt>
-            # *  <dd>If set, this will contain the size of the largest Resource file, in
-            # *  bytes, within the Note.  This may be useful, for example, to decide whether
-            # *  to ask the server for a thumbnail to represent the Note.
-            # *  </dd>
-            # * </dl>
+            # This structure is used in the set of results returned by the
+            # findNotesMetadata function.  It represents the high-level information about
+            # a single Note, without some of the larger deep structure.  This allows
+            # for the information about a list of Notes to be returned relatively quickly
+            # with less marshalling and data transfer to remote clients.
+            # Most fields in this structure are identical to the corresponding field in
+            # the Note structure, with the exception of:
+            # 
+            # <dl>
+            # <dt>largestResourceMime</dt>
+            #   <dd>If set, then this will contain the MIME type of the largest Resource
+            #   (in bytes) within the Note.  This may be useful, for example, to choose
+            #   an appropriate icon or thumbnail to represent the Note.
+            #   </dd>
+            # 
+            # <dt>largestResourceSize</dt>
+            #  <dd>If set, this will contain the size of the largest Resource file, in
+            #  bytes, within the Note.  This may be useful, for example, to decide whether
+            #  to ask the server for a thumbnail to represent the Note.
+            #  </dd>
+            # </dl>
             class NoteMetadata
               include ::Thrift::Struct, ::Thrift::Struct_Union
               GUID = 1
@@ -781,7 +914,7 @@ module Evernote
               ::Thrift::Struct.generate_accessors self
             end
 
-            # Identfying information about previous versions of a note that are backed up
+            # Identifying information about previous versions of a note that are backed up
             # within Evernote's servers.  Used in the return value of the listNoteVersions
             # call.
             # 
@@ -807,7 +940,7 @@ module Evernote
             #  </dd>
             #  <dt>title</dt>
             #  <dd>
-            #    The title of the note when this particular verison was saved.  (The
+            #    The title of the note when this particular version was saved.  (The
             #    current title of the note may differ from this value.)
             #  </dd>
             # </dl>

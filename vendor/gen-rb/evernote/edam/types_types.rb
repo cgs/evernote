@@ -172,13 +172,13 @@ module Evernote
             #    <dd>A code indicating where the user was sent from. AKA
             #     promotion code
             #    </dd>
-            #     
+            # 
             #  <dt>sentEmailDate</dt>
             #    <dd>The most recent date when the user sent outbound
             #     emails from the service.  Used with sentEmailCount to limit the number
             #     of emails that can be sent per day.
             #    </dd>
-            #     
+            # 
             #  <dt>sentEmailCount</dt>
             #    <dd>The number of emails that were sent from the user
             #     via the service on sentEmailDate.  Used to enforce a limit on the number
@@ -231,7 +231,7 @@ module Evernote
             #  <dt>groupName</dt>
             #    <dd>A name identifier used to identify a particular set of branding and
             #     light customization.</dd>
-            #     
+            # 
             #  <dt>recognitionLanguage</dt>
             #    <dd>a 2 character language codes based on:
             #        http://ftp.ics.uci.edu/pub/ietf/http/related/iso639.txt
@@ -252,6 +252,12 @@ module Evernote
             # 
             #  <dt>businessAddress</dt>
             #    <dd>A string recording the business address of a Sponsored Account user who has requested invoicing.
+            #    </dd>
+            #  </dl>
+            # 
+            #  <dt>hideSponsorBilling</dt>
+            #    <dd>A flag indicating whether to hide the billing information on a sponsored
+            #        account owner's settings page
             #    </dd>
             #  </dl>
             class UserAttributes
@@ -284,6 +290,7 @@ module Evernote
               REFERRALPROOF = 28
               EDUCATIONALDISCOUNT = 29
               BUSINESSADDRESS = 30
+              HIDESPONSORBILLING = 31
 
               FIELDS = {
                 DEFAULTLOCATIONNAME => {:type => ::Thrift::Types::STRING, :name => 'defaultLocationName', :optional => true},
@@ -313,7 +320,8 @@ module Evernote
                 CUSTOMERPROFILEID => {:type => ::Thrift::Types::I64, :name => 'customerProfileId', :optional => true},
                 REFERRALPROOF => {:type => ::Thrift::Types::STRING, :name => 'referralProof', :optional => true},
                 EDUCATIONALDISCOUNT => {:type => ::Thrift::Types::BOOL, :name => 'educationalDiscount', :optional => true},
-                BUSINESSADDRESS => {:type => ::Thrift::Types::STRING, :name => 'businessAddress', :optional => true}
+                BUSINESSADDRESS => {:type => ::Thrift::Types::STRING, :name => 'businessAddress', :optional => true},
+                HIDESPONSORBILLING => {:type => ::Thrift::Types::BOOL, :name => 'hideSponsorBilling', :optional => true}
               }
 
               def struct_fields; FIELDS; end
@@ -325,7 +333,7 @@ module Evernote
             end
 
             #  This represents the bookkeeping information for the user's subscription.
-            #  
+            # 
             # <dl>
             #  <dt>uploadLimit</dt>
             #    <dd>The number of bytes that can be uploaded to the account
@@ -615,7 +623,7 @@ module Evernote
             # 
             #  <dt>parentGuid</dt>
             #    <dd>If this is set, then this is the GUID of the tag that
-            #    holds this tag within the tag organizational heirarchy.  If this is
+            #    holds this tag within the tag organizational hierarchy.  If this is
             #    not set, then the tag has no parent and it is a "top level" tag.
             #    Cycles are not allowed (e.g. a->parent->parent == a) and will be
             #    rejected by the service.
@@ -644,6 +652,46 @@ module Evernote
                 NAME => {:type => ::Thrift::Types::STRING, :name => 'name', :optional => true},
                 PARENTGUID => {:type => ::Thrift::Types::STRING, :name => 'parentGuid', :optional => true},
                 UPDATESEQUENCENUM => {:type => ::Thrift::Types::I32, :name => 'updateSequenceNum', :optional => true}
+              }
+
+              def struct_fields; FIELDS; end
+
+              def validate
+              end
+
+              ::Thrift::Struct.generate_accessors self
+            end
+
+            # A structure that wraps a map of name/value pairs whose values are not
+            # always present in the structure in order to reduce space when obtaining
+            # batches of entities that contain the map.  When a client provides a LazyMap
+            # to the server, the fullMap field must be set and the keysOnly field will
+            # be ignored by the server.  When the server provides the client with a
+            # LazyMap, it will fill in either the keysOnly field or the fullMap field,
+            # but not both, based on the API and parameters.
+            # 
+            # Check the API documentation of the individual calls involving the LazyMap
+            # for full details including the constraints of the names and values of the
+            # map.
+            # 
+            # <dl>
+            # <dt>keysOnly</dt>
+            #   <dd>The set of keys for the map.  This field is ignored by the
+            #       server when set.
+            #   </dd>
+            # 
+            # <dt>fullMap</dt>
+            #   <dd>The complete map, including all keys and values.
+            #   </dd>
+            # </dl>
+            class LazyMap
+              include ::Thrift::Struct, ::Thrift::Struct_Union
+              KEYSONLY = 1
+              FULLMAP = 2
+
+              FIELDS = {
+                KEYSONLY => {:type => ::Thrift::Types::SET, :name => 'keysOnly', :element => {:type => ::Thrift::Types::STRING}, :optional => true},
+                FULLMAP => {:type => ::Thrift::Types::MAP, :name => 'fullMap', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::STRING}, :optional => true}
               }
 
               def struct_fields; FIELDS; end
@@ -711,10 +759,27 @@ module Evernote
             #   </dd>
             # 
             # <dt>attachment</dt>
-            #   <dd>this will be true if the resource is a Premium file attachment.  This
-            #   will be available within the search grammar so that you can identify
-            #   notes that contain attachments.
+            #   <dd>this will be true if the resource should be displayed as an attachment,
+            #   or false if the resource should be displayed inline (if possible).
             #   </dd>
+            # 
+            # <dt>applicationData</dt>
+            # <dd>Provides a location for applications to store a relatively small
+            # (4kb) blob of data associated with a Resource that is not visible to the user
+            # and that is opaque to the Evernote service. A single application may use at most
+            # one entry in this map, using its API consumer key as the map key. See the
+            # documentation for LazyMap for a description of when the actual map values
+            # are returned by the service.
+            # <p>To safely add or modify your application's entry in the map, use
+            # NoteStore.setResourceApplicationDataEntry. To safely remove your application's
+            # entry from the map, use NoteStore.unsetResourceApplicationDataEntry.</p>
+            # Minimum length of a name (key): EDAM_APPLICATIONDATA_NAME_LEN_MIN
+            # <br/>
+            # Sum max size of key and value: EDAM_APPLICATIONDATA_ENTRY_LEN_MAX
+            # <br/>
+            # Syntax regex for name (key): EDAM_APPLICATIONDATA_NAME_REGEX
+            # </dd>
+            # 
             # </dl>
             class ResourceAttributes
               include ::Thrift::Struct, ::Thrift::Struct_Union
@@ -729,6 +794,7 @@ module Evernote
               RECOTYPE = 9
               FILENAME = 10
               ATTACHMENT = 11
+              APPLICATIONDATA = 12
 
               FIELDS = {
                 SOURCEURL => {:type => ::Thrift::Types::STRING, :name => 'sourceURL', :optional => true},
@@ -741,7 +807,8 @@ module Evernote
                 CLIENTWILLINDEX => {:type => ::Thrift::Types::BOOL, :name => 'clientWillIndex', :optional => true},
                 RECOTYPE => {:type => ::Thrift::Types::STRING, :name => 'recoType', :optional => true},
                 FILENAME => {:type => ::Thrift::Types::STRING, :name => 'fileName', :optional => true},
-                ATTACHMENT => {:type => ::Thrift::Types::BOOL, :name => 'attachment', :optional => true}
+                ATTACHMENT => {:type => ::Thrift::Types::BOOL, :name => 'attachment', :optional => true},
+                APPLICATIONDATA => {:type => ::Thrift::Types::STRUCT, :name => 'applicationData', :class => Evernote::EDAM::Type::LazyMap, :optional => true}
               }
 
               def struct_fields; FIELDS; end
@@ -894,13 +961,14 @@ module Evernote
             # 
             # <dt>source</dt>
             #   <dd>the method that the note was added to the account, if the
-            #   note wasn't directly authored in an Evernote client.
+            #   note wasn't directly authored in an Evernote desktop client.
             #   <br/>
             #   Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX
             #   </dd>
             # 
             # <dt>sourceURL</dt>
-            #   <dd>the original location where the resource was hosted
+            #   <dd>the original location where the resource was hosted. For web clips,
+            #   this will be the URL of the page that was clipped.
             #   <br/>
             #   Length:  EDAM_ATTRIBUTE_LEN_MIN - EDAM_ATTRIBUTE_LEN_MAX
             #   </dd>
@@ -915,11 +983,60 @@ module Evernote
             # 
             # <dt>shareDate</dt>
             #  <dd>The date and time when this note was directly shared via its own URL.
-            #  This is only set on notes that were individually shared, it's independent
-            #  of any notebook-level sharing of the containing notepbook.  This field
-            #  is treated as "read-only" for clients ... the server will ignore changes
+            #  This is only set on notes that were individually shared - it is independent
+            #  of any notebook-level sharing of the containing notepbook. This field
+            #  is treated as "read-only" for clients; the server will ignore changes
             #  to this field from an external client.
             #  </dd>
+            # 
+            # <dt>placeName</dt>
+            # <dd>Allows the user to assign a human-readable location name associated
+            # with a note. Users may assign values like 'Home' and 'Work'. Place
+            # names may also be populated with values from geonames database
+            # (e.g., a restaurant name). Applications are encouraged to normalize values
+            # so that grouping values by place name provides a useful result. Applications
+            # MUST NOT automatically add place name values based on geolocation without
+            # confirmation from the user; that is, the value in this field should be
+            # more useful than a simple automated lookup based on the note's latitude
+            # and longitude.</dd>
+            # 
+            # <dt>contentClass</dt>
+            # <dd>The class (or type) of note. This field is used to indicate to
+            # clients that special structured information is represented within
+            # the note such that special rules apply when making
+            # modifications. If contentClass is set and the client
+            # application does not specifically support the specified class,
+            # the client MUST treat the note as read-only. In this case, the
+            # client MAY modify the note's notebook and tags via the
+            # Note.notebookGuid and Note.tagGuids fields.
+            # <p>Applications should set contentClass only when they are creating notes
+            # that contain structured information that needs to be maintained in order
+            # for the user to be able to use the note within that application.
+            # Setting contentClass makes a note read-only in other applications, so
+            # there is a trade-off when an application chooses to use contentClass.
+            # Applications that set contentClass when creating notes must use a contentClass
+            # string of the form <i>CompanyName.ApplicationName</i> to ensure uniqueness.</p>
+            # Length restrictions: EDAM_ATTRIBUTE_LEN_MIN, EDAM_ATTRIBUTE_LEN_MAX
+            # <br/>
+            # Regex: EDAM_ATTRIBUTE_REGEX
+            # </dd>
+            # 
+            # <dt>applicationData</dt>
+            # <dd>Provides a location for applications to store a relatively small
+            # (4kb) blob of data that is not meant to be visible to the user and
+            # that is opaque to the Evernote service. A single application may use at most
+            # one entry in this map, using its API consumer key as the map key. See the
+            # documentation for LazyMap for a description of when the actual map values
+            # are returned by the service.
+            # <p>To safely add or modify your application's entry in the map, use
+            # NoteStore.setNoteApplicationDataEntry. To safely remove your application's
+            # entry from the map, use NoteStore.unsetNoteApplicationDataEntry.</p>
+            # Minimum length of a name (key): EDAM_APPLICATIONDATA_NAME_LEN_MIN
+            # <br/>
+            # Sum max size of key and value: EDAM_APPLICATIONDATA_ENTRY_LEN_MAX
+            # <br/>
+            # Syntax regex for name (key): EDAM_APPLICATIONDATA_NAME_REGEX
+            # </dd>
             # 
             # </dl>
             class NoteAttributes
@@ -933,6 +1050,9 @@ module Evernote
               SOURCEURL = 15
               SOURCEAPPLICATION = 16
               SHAREDATE = 17
+              PLACENAME = 21
+              CONTENTCLASS = 22
+              APPLICATIONDATA = 23
 
               FIELDS = {
                 SUBJECTDATE => {:type => ::Thrift::Types::I64, :name => 'subjectDate', :optional => true},
@@ -943,7 +1063,10 @@ module Evernote
                 SOURCE => {:type => ::Thrift::Types::STRING, :name => 'source', :optional => true},
                 SOURCEURL => {:type => ::Thrift::Types::STRING, :name => 'sourceURL', :optional => true},
                 SOURCEAPPLICATION => {:type => ::Thrift::Types::STRING, :name => 'sourceApplication', :optional => true},
-                SHAREDATE => {:type => ::Thrift::Types::I64, :name => 'shareDate', :optional => true}
+                SHAREDATE => {:type => ::Thrift::Types::I64, :name => 'shareDate', :optional => true},
+                PLACENAME => {:type => ::Thrift::Types::STRING, :name => 'placeName', :optional => true},
+                CONTENTCLASS => {:type => ::Thrift::Types::STRING, :name => 'contentClass', :optional => true},
+                APPLICATIONDATA => {:type => ::Thrift::Types::STRUCT, :name => 'applicationData', :class => Evernote::EDAM::Type::LazyMap, :optional => true}
               }
 
               def struct_fields; FIELDS; end

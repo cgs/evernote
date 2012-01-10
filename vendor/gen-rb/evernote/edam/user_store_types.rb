@@ -11,6 +11,14 @@ require 'errors_types'
 module Evernote
   module EDAM
     module UserStore
+            module SponsoredGroupRole
+              GROUP_MEMBER = 1
+              GROUP_ADMIN = 2
+              GROUP_OWNER = 3
+              VALUE_MAP = {1 => "GROUP_MEMBER", 2 => "GROUP_ADMIN", 3 => "GROUP_OWNER"}
+              VALID_VALUES = Set.new([GROUP_MEMBER, GROUP_ADMIN, GROUP_OWNER]).freeze
+            end
+
             #  This structure is used to provide publicly-available user information
             #  about a particular account.
             # <dl>
@@ -52,6 +60,95 @@ module Evernote
                 raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field shardId is unset!') unless @shardId
                 unless @privilege.nil? || Evernote::EDAM::Type::PrivilegeLevel::VALID_VALUES.include?(@privilege)
                   raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Invalid value of field privilege!')
+                end
+              end
+
+              ::Thrift::Struct.generate_accessors self
+            end
+
+            #  This structure is used to provide information about a user's Premium account.
+            # <dl>
+            #  <dt>currentTime:</dt>
+            #    <dd>
+            #    The server-side date and time when this data was generated.
+            #    </dd>
+            #  <dt>premium:</dt>
+            #    <dd>
+            # 	 True if the user's account is Premium.
+            #    </dd>
+            #  <dt>premiumRecurring</dt>
+            #    <dd>
+            #    True if the user's account is Premium and has a recurring payment method.
+            #    </dd>
+            #  <dt>premiumExpirationDate:</dt>
+            #    <dd>
+            #    The date when the user's Premium account expires, or the date when the user's
+            #    account will be charged if it has a recurring payment method.
+            #    </dd>
+            #  <dt>premiumExtendable:</dt>
+            #    <dd>
+            #    True if the user is eligible for purchasing Premium account extensions.
+            #    </dd>
+            #  <dt>premiumPending:</dt>
+            #    <dd>
+            #    True if the user's Premium account is pending payment confirmation
+            #    </dd>
+            #  <dt>premiumCancellationPending:</dt>
+            #    <dd>
+            #    True if the user has requested that no further charges to be made; the Premium
+            #    account will remain active until it expires.
+            #    </dd>
+            #  <dt>canPurchaseUploadAllowance:</dt>
+            #    <dd>
+            #    True if the user is eligible for purchasing additional upload allowance.
+            #    </dd>
+            #  <dt>sponsoredGroupName:</dt>
+            #    <dd>
+            #    The name of the sponsored group that the user is part of.
+            #    </dd>
+            #  <dt>sponsoredGroupRole:</dt>
+            #    <dd>
+            #    The role of the user within a sponsored group.
+            #    </dd>
+            #  </dl>
+            class PremiumInfo
+              include ::Thrift::Struct, ::Thrift::Struct_Union
+              CURRENTTIME = 1
+              PREMIUM = 2
+              PREMIUMRECURRING = 3
+              PREMIUMEXPIRATIONDATE = 4
+              PREMIUMEXTENDABLE = 5
+              PREMIUMPENDING = 6
+              PREMIUMCANCELLATIONPENDING = 7
+              CANPURCHASEUPLOADALLOWANCE = 8
+              SPONSOREDGROUPNAME = 9
+              SPONSOREDGROUPROLE = 10
+
+              FIELDS = {
+                CURRENTTIME => {:type => ::Thrift::Types::I64, :name => 'currentTime'},
+                PREMIUM => {:type => ::Thrift::Types::BOOL, :name => 'premium'},
+                PREMIUMRECURRING => {:type => ::Thrift::Types::BOOL, :name => 'premiumRecurring'},
+                PREMIUMEXPIRATIONDATE => {:type => ::Thrift::Types::I64, :name => 'premiumExpirationDate', :optional => true},
+                PREMIUMEXTENDABLE => {:type => ::Thrift::Types::BOOL, :name => 'premiumExtendable'},
+                PREMIUMPENDING => {:type => ::Thrift::Types::BOOL, :name => 'premiumPending'},
+                PREMIUMCANCELLATIONPENDING => {:type => ::Thrift::Types::BOOL, :name => 'premiumCancellationPending'},
+                CANPURCHASEUPLOADALLOWANCE => {:type => ::Thrift::Types::BOOL, :name => 'canPurchaseUploadAllowance'},
+                SPONSOREDGROUPNAME => {:type => ::Thrift::Types::STRING, :name => 'sponsoredGroupName', :optional => true},
+                SPONSOREDGROUPROLE => {:type => ::Thrift::Types::I32, :name => 'sponsoredGroupRole', :optional => true, :enum_class => Evernote::EDAM::UserStore::SponsoredGroupRole}
+              }
+
+              def struct_fields; FIELDS; end
+
+              def validate
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field currentTime is unset!') unless @currentTime
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field premium is unset!') if @premium.nil?
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field premiumRecurring is unset!') if @premiumRecurring.nil?
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field premiumExtendable is unset!') if @premiumExtendable.nil?
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field premiumPending is unset!') if @premiumPending.nil?
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field premiumCancellationPending is unset!') if @premiumCancellationPending.nil?
+                raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field canPurchaseUploadAllowance is unset!') if @canPurchaseUploadAllowance.nil?
+                unless @sponsoredGroupRole.nil? || Evernote::EDAM::UserStore::SponsoredGroupRole::VALID_VALUES.include?(@sponsoredGroupRole)
+                  raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Invalid value of field sponsoredGroupRole!')
                 end
               end
 
