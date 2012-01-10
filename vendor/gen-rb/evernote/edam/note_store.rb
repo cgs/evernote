@@ -48,6 +48,23 @@ require 'note_store_types'
                         raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getSyncChunk failed: unknown result')
                       end
 
+                      def getFilteredSyncChunk(authenticationToken, afterUSN, maxEntries, filter)
+                        send_getFilteredSyncChunk(authenticationToken, afterUSN, maxEntries, filter)
+                        return recv_getFilteredSyncChunk()
+                      end
+
+                      def send_getFilteredSyncChunk(authenticationToken, afterUSN, maxEntries, filter)
+                        send_message('getFilteredSyncChunk', GetFilteredSyncChunk_args, :authenticationToken => authenticationToken, :afterUSN => afterUSN, :maxEntries => maxEntries, :filter => filter)
+                      end
+
+                      def recv_getFilteredSyncChunk()
+                        result = receive_message(GetFilteredSyncChunk_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getFilteredSyncChunk failed: unknown result')
+                      end
+
                       def getLinkedNotebookSyncState(authenticationToken, linkedNotebook)
                         send_getLinkedNotebookSyncState(authenticationToken, linkedNotebook)
                         return recv_getLinkedNotebookSyncState()
@@ -491,6 +508,78 @@ require 'note_store_types'
                         raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getNote failed: unknown result')
                       end
 
+                      def getNoteApplicationData(authenticationToken, guid)
+                        send_getNoteApplicationData(authenticationToken, guid)
+                        return recv_getNoteApplicationData()
+                      end
+
+                      def send_getNoteApplicationData(authenticationToken, guid)
+                        send_message('getNoteApplicationData', GetNoteApplicationData_args, :authenticationToken => authenticationToken, :guid => guid)
+                      end
+
+                      def recv_getNoteApplicationData()
+                        result = receive_message(GetNoteApplicationData_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getNoteApplicationData failed: unknown result')
+                      end
+
+                      def getNoteApplicationDataEntry(authenticationToken, guid, key)
+                        send_getNoteApplicationDataEntry(authenticationToken, guid, key)
+                        return recv_getNoteApplicationDataEntry()
+                      end
+
+                      def send_getNoteApplicationDataEntry(authenticationToken, guid, key)
+                        send_message('getNoteApplicationDataEntry', GetNoteApplicationDataEntry_args, :authenticationToken => authenticationToken, :guid => guid, :key => key)
+                      end
+
+                      def recv_getNoteApplicationDataEntry()
+                        result = receive_message(GetNoteApplicationDataEntry_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getNoteApplicationDataEntry failed: unknown result')
+                      end
+
+                      def setNoteApplicationDataEntry(authenticationToken, guid, key, value)
+                        send_setNoteApplicationDataEntry(authenticationToken, guid, key, value)
+                        return recv_setNoteApplicationDataEntry()
+                      end
+
+                      def send_setNoteApplicationDataEntry(authenticationToken, guid, key, value)
+                        send_message('setNoteApplicationDataEntry', SetNoteApplicationDataEntry_args, :authenticationToken => authenticationToken, :guid => guid, :key => key, :value => value)
+                      end
+
+                      def recv_setNoteApplicationDataEntry()
+                        result = receive_message(SetNoteApplicationDataEntry_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'setNoteApplicationDataEntry failed: unknown result')
+                      end
+
+                      def unsetNoteApplicationDataEntry(authenticationToken, guid, key)
+                        send_unsetNoteApplicationDataEntry(authenticationToken, guid, key)
+                        return recv_unsetNoteApplicationDataEntry()
+                      end
+
+                      def send_unsetNoteApplicationDataEntry(authenticationToken, guid, key)
+                        send_message('unsetNoteApplicationDataEntry', UnsetNoteApplicationDataEntry_args, :authenticationToken => authenticationToken, :guid => guid, :key => key)
+                      end
+
+                      def recv_unsetNoteApplicationDataEntry()
+                        result = receive_message(UnsetNoteApplicationDataEntry_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'unsetNoteApplicationDataEntry failed: unknown result')
+                      end
+
                       def getNoteContent(authenticationToken, guid)
                         send_getNoteContent(authenticationToken, guid)
                         return recv_getNoteContent()
@@ -742,6 +831,78 @@ require 'note_store_types'
                         raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getResource failed: unknown result')
                       end
 
+                      def getResourceApplicationData(authenticationToken, guid)
+                        send_getResourceApplicationData(authenticationToken, guid)
+                        return recv_getResourceApplicationData()
+                      end
+
+                      def send_getResourceApplicationData(authenticationToken, guid)
+                        send_message('getResourceApplicationData', GetResourceApplicationData_args, :authenticationToken => authenticationToken, :guid => guid)
+                      end
+
+                      def recv_getResourceApplicationData()
+                        result = receive_message(GetResourceApplicationData_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getResourceApplicationData failed: unknown result')
+                      end
+
+                      def getResourceApplicationDataEntry(authenticationToken, guid, key)
+                        send_getResourceApplicationDataEntry(authenticationToken, guid, key)
+                        return recv_getResourceApplicationDataEntry()
+                      end
+
+                      def send_getResourceApplicationDataEntry(authenticationToken, guid, key)
+                        send_message('getResourceApplicationDataEntry', GetResourceApplicationDataEntry_args, :authenticationToken => authenticationToken, :guid => guid, :key => key)
+                      end
+
+                      def recv_getResourceApplicationDataEntry()
+                        result = receive_message(GetResourceApplicationDataEntry_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'getResourceApplicationDataEntry failed: unknown result')
+                      end
+
+                      def setResourceApplicationDataEntry(authenticationToken, guid, key, value)
+                        send_setResourceApplicationDataEntry(authenticationToken, guid, key, value)
+                        return recv_setResourceApplicationDataEntry()
+                      end
+
+                      def send_setResourceApplicationDataEntry(authenticationToken, guid, key, value)
+                        send_message('setResourceApplicationDataEntry', SetResourceApplicationDataEntry_args, :authenticationToken => authenticationToken, :guid => guid, :key => key, :value => value)
+                      end
+
+                      def recv_setResourceApplicationDataEntry()
+                        result = receive_message(SetResourceApplicationDataEntry_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'setResourceApplicationDataEntry failed: unknown result')
+                      end
+
+                      def unsetResourceApplicationDataEntry(authenticationToken, guid, key)
+                        send_unsetResourceApplicationDataEntry(authenticationToken, guid, key)
+                        return recv_unsetResourceApplicationDataEntry()
+                      end
+
+                      def send_unsetResourceApplicationDataEntry(authenticationToken, guid, key)
+                        send_message('unsetResourceApplicationDataEntry', UnsetResourceApplicationDataEntry_args, :authenticationToken => authenticationToken, :guid => guid, :key => key)
+                      end
+
+                      def recv_unsetResourceApplicationDataEntry()
+                        result = receive_message(UnsetResourceApplicationDataEntry_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'unsetResourceApplicationDataEntry failed: unknown result')
+                      end
+
                       def updateResource(authenticationToken, resource)
                         send_updateResource(authenticationToken, resource)
                         return recv_updateResource()
@@ -934,6 +1095,24 @@ require 'note_store_types'
                         raise result.notFoundException unless result.notFoundException.nil?
                         raise result.systemException unless result.systemException.nil?
                         raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'createSharedNotebook failed: unknown result')
+                      end
+
+                      def sendMessageToSharedNotebookMembers(authenticationToken, notebookGuid, messageText, recipients)
+                        send_sendMessageToSharedNotebookMembers(authenticationToken, notebookGuid, messageText, recipients)
+                        return recv_sendMessageToSharedNotebookMembers()
+                      end
+
+                      def send_sendMessageToSharedNotebookMembers(authenticationToken, notebookGuid, messageText, recipients)
+                        send_message('sendMessageToSharedNotebookMembers', SendMessageToSharedNotebookMembers_args, :authenticationToken => authenticationToken, :notebookGuid => notebookGuid, :messageText => messageText, :recipients => recipients)
+                      end
+
+                      def recv_sendMessageToSharedNotebookMembers()
+                        result = receive_message(SendMessageToSharedNotebookMembers_result)
+                        return result.success unless result.success.nil?
+                        raise result.userException unless result.userException.nil?
+                        raise result.notFoundException unless result.notFoundException.nil?
+                        raise result.systemException unless result.systemException.nil?
+                        raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'sendMessageToSharedNotebookMembers failed: unknown result')
                       end
 
                       def listSharedNotebooks(authenticationToken)
@@ -1179,6 +1358,19 @@ require 'note_store_types'
                           result.systemException = systemException
                         end
                         write_result(result, oprot, 'getSyncChunk', seqid)
+                      end
+
+                      def process_getFilteredSyncChunk(seqid, iprot, oprot)
+                        args = read_args(iprot, GetFilteredSyncChunk_args)
+                        result = GetFilteredSyncChunk_result.new()
+                        begin
+                          result.success = @handler.getFilteredSyncChunk(args.authenticationToken, args.afterUSN, args.maxEntries, args.filter)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        end
+                        write_result(result, oprot, 'getFilteredSyncChunk', seqid)
                       end
 
                       def process_getLinkedNotebookSyncState(seqid, iprot, oprot)
@@ -1544,6 +1736,66 @@ require 'note_store_types'
                         write_result(result, oprot, 'getNote', seqid)
                       end
 
+                      def process_getNoteApplicationData(seqid, iprot, oprot)
+                        args = read_args(iprot, GetNoteApplicationData_args)
+                        result = GetNoteApplicationData_result.new()
+                        begin
+                          result.success = @handler.getNoteApplicationData(args.authenticationToken, args.guid)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'getNoteApplicationData', seqid)
+                      end
+
+                      def process_getNoteApplicationDataEntry(seqid, iprot, oprot)
+                        args = read_args(iprot, GetNoteApplicationDataEntry_args)
+                        result = GetNoteApplicationDataEntry_result.new()
+                        begin
+                          result.success = @handler.getNoteApplicationDataEntry(args.authenticationToken, args.guid, args.key)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'getNoteApplicationDataEntry', seqid)
+                      end
+
+                      def process_setNoteApplicationDataEntry(seqid, iprot, oprot)
+                        args = read_args(iprot, SetNoteApplicationDataEntry_args)
+                        result = SetNoteApplicationDataEntry_result.new()
+                        begin
+                          result.success = @handler.setNoteApplicationDataEntry(args.authenticationToken, args.guid, args.key, args.value)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'setNoteApplicationDataEntry', seqid)
+                      end
+
+                      def process_unsetNoteApplicationDataEntry(seqid, iprot, oprot)
+                        args = read_args(iprot, UnsetNoteApplicationDataEntry_args)
+                        result = UnsetNoteApplicationDataEntry_result.new()
+                        begin
+                          result.success = @handler.unsetNoteApplicationDataEntry(args.authenticationToken, args.guid, args.key)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'unsetNoteApplicationDataEntry', seqid)
+                      end
+
                       def process_getNoteContent(seqid, iprot, oprot)
                         args = read_args(iprot, GetNoteContent_args)
                         result = GetNoteContent_result.new()
@@ -1752,6 +2004,66 @@ require 'note_store_types'
                         write_result(result, oprot, 'getResource', seqid)
                       end
 
+                      def process_getResourceApplicationData(seqid, iprot, oprot)
+                        args = read_args(iprot, GetResourceApplicationData_args)
+                        result = GetResourceApplicationData_result.new()
+                        begin
+                          result.success = @handler.getResourceApplicationData(args.authenticationToken, args.guid)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'getResourceApplicationData', seqid)
+                      end
+
+                      def process_getResourceApplicationDataEntry(seqid, iprot, oprot)
+                        args = read_args(iprot, GetResourceApplicationDataEntry_args)
+                        result = GetResourceApplicationDataEntry_result.new()
+                        begin
+                          result.success = @handler.getResourceApplicationDataEntry(args.authenticationToken, args.guid, args.key)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'getResourceApplicationDataEntry', seqid)
+                      end
+
+                      def process_setResourceApplicationDataEntry(seqid, iprot, oprot)
+                        args = read_args(iprot, SetResourceApplicationDataEntry_args)
+                        result = SetResourceApplicationDataEntry_result.new()
+                        begin
+                          result.success = @handler.setResourceApplicationDataEntry(args.authenticationToken, args.guid, args.key, args.value)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'setResourceApplicationDataEntry', seqid)
+                      end
+
+                      def process_unsetResourceApplicationDataEntry(seqid, iprot, oprot)
+                        args = read_args(iprot, UnsetResourceApplicationDataEntry_args)
+                        result = UnsetResourceApplicationDataEntry_result.new()
+                        begin
+                          result.success = @handler.unsetResourceApplicationDataEntry(args.authenticationToken, args.guid, args.key)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        end
+                        write_result(result, oprot, 'unsetResourceApplicationDataEntry', seqid)
+                      end
+
                       def process_updateResource(seqid, iprot, oprot)
                         args = read_args(iprot, UpdateResource_args)
                         result = UpdateResource_result.new()
@@ -1907,6 +2219,21 @@ require 'note_store_types'
                           result.systemException = systemException
                         end
                         write_result(result, oprot, 'createSharedNotebook', seqid)
+                      end
+
+                      def process_sendMessageToSharedNotebookMembers(seqid, iprot, oprot)
+                        args = read_args(iprot, SendMessageToSharedNotebookMembers_args)
+                        result = SendMessageToSharedNotebookMembers_result.new()
+                        begin
+                          result.success = @handler.sendMessageToSharedNotebookMembers(args.authenticationToken, args.notebookGuid, args.messageText, args.recipients)
+                        rescue Evernote::EDAM::Error::EDAMUserException => userException
+                          result.userException = userException
+                        rescue Evernote::EDAM::Error::EDAMNotFoundException => notFoundException
+                          result.notFoundException = notFoundException
+                        rescue Evernote::EDAM::Error::EDAMSystemException => systemException
+                          result.systemException = systemException
+                        end
+                        write_result(result, oprot, 'sendMessageToSharedNotebookMembers', seqid)
                       end
 
                       def process_listSharedNotebooks(seqid, iprot, oprot)
@@ -2152,6 +2479,48 @@ require 'note_store_types'
                     end
 
                     class GetSyncChunk_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::NoteStore::SyncChunk},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetFilteredSyncChunk_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      AFTERUSN = 2
+                      MAXENTRIES = 3
+                      FILTER = 4
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        AFTERUSN => {:type => ::Thrift::Types::I32, :name => 'afterUSN'},
+                        MAXENTRIES => {:type => ::Thrift::Types::I32, :name => 'maxEntries'},
+                        FILTER => {:type => ::Thrift::Types::STRUCT, :name => 'filter', :class => Evernote::EDAM::NoteStore::SyncChunkFilter}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetFilteredSyncChunk_result
                       include ::Thrift::Struct, ::Thrift::Struct_Union
                       SUCCESS = 0
                       USEREXCEPTION = 1
@@ -3177,6 +3546,174 @@ require 'note_store_types'
                       ::Thrift::Struct.generate_accessors self
                     end
 
+                    class GetNoteApplicationData_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      GUID = 2
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetNoteApplicationData_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::LazyMap},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetNoteApplicationDataEntry_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      GUID = 2
+                      KEY = 3
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'},
+                        KEY => {:type => ::Thrift::Types::STRING, :name => 'key'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetNoteApplicationDataEntry_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success'},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class SetNoteApplicationDataEntry_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      GUID = 2
+                      KEY = 3
+                      VALUE = 4
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'},
+                        KEY => {:type => ::Thrift::Types::STRING, :name => 'key'},
+                        VALUE => {:type => ::Thrift::Types::STRING, :name => 'value'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class SetNoteApplicationDataEntry_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class UnsetNoteApplicationDataEntry_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      GUID = 2
+                      KEY = 3
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'},
+                        KEY => {:type => ::Thrift::Types::STRING, :name => 'key'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class UnsetNoteApplicationDataEntry_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
                     class GetNoteContent_args
                       include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
@@ -3755,6 +4292,174 @@ require 'note_store_types'
                       ::Thrift::Struct.generate_accessors self
                     end
 
+                    class GetResourceApplicationData_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      GUID = 2
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetResourceApplicationData_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::LazyMap},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetResourceApplicationDataEntry_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      GUID = 2
+                      KEY = 3
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'},
+                        KEY => {:type => ::Thrift::Types::STRING, :name => 'key'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class GetResourceApplicationDataEntry_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success'},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class SetResourceApplicationDataEntry_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      GUID = 2
+                      KEY = 3
+                      VALUE = 4
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'},
+                        KEY => {:type => ::Thrift::Types::STRING, :name => 'key'},
+                        VALUE => {:type => ::Thrift::Types::STRING, :name => 'value'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class SetResourceApplicationDataEntry_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class UnsetResourceApplicationDataEntry_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      GUID = 2
+                      KEY = 3
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        GUID => {:type => ::Thrift::Types::STRING, :name => 'guid'},
+                        KEY => {:type => ::Thrift::Types::STRING, :name => 'key'}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class UnsetResourceApplicationDataEntry_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      SYSTEMEXCEPTION = 2
+                      NOTFOUNDEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
                     class UpdateResource_args
                       include ::Thrift::Struct, ::Thrift::Struct_Union
                       AUTHENTICATIONTOKEN = 1
@@ -4180,6 +4885,50 @@ require 'note_store_types'
 
                       FIELDS = {
                         SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Evernote::EDAM::Type::SharedNotebook},
+                        USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
+                        NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException},
+                        SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class SendMessageToSharedNotebookMembers_args
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      AUTHENTICATIONTOKEN = 1
+                      NOTEBOOKGUID = 2
+                      MESSAGETEXT = 3
+                      RECIPIENTS = 4
+
+                      FIELDS = {
+                        AUTHENTICATIONTOKEN => {:type => ::Thrift::Types::STRING, :name => 'authenticationToken'},
+                        NOTEBOOKGUID => {:type => ::Thrift::Types::STRING, :name => 'notebookGuid'},
+                        MESSAGETEXT => {:type => ::Thrift::Types::STRING, :name => 'messageText'},
+                        RECIPIENTS => {:type => ::Thrift::Types::LIST, :name => 'recipients', :element => {:type => ::Thrift::Types::STRING}}
+                      }
+
+                      def struct_fields; FIELDS; end
+
+                      def validate
+                      end
+
+                      ::Thrift::Struct.generate_accessors self
+                    end
+
+                    class SendMessageToSharedNotebookMembers_result
+                      include ::Thrift::Struct, ::Thrift::Struct_Union
+                      SUCCESS = 0
+                      USEREXCEPTION = 1
+                      NOTFOUNDEXCEPTION = 2
+                      SYSTEMEXCEPTION = 3
+
+                      FIELDS = {
+                        SUCCESS => {:type => ::Thrift::Types::I32, :name => 'success'},
                         USEREXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'userException', :class => Evernote::EDAM::Error::EDAMUserException},
                         NOTFOUNDEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'notFoundException', :class => Evernote::EDAM::Error::EDAMNotFoundException},
                         SYSTEMEXCEPTION => {:type => ::Thrift::Types::STRUCT, :name => 'systemException', :class => Evernote::EDAM::Error::EDAMSystemException}
