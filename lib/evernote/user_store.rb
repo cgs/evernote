@@ -7,7 +7,7 @@ module Evernote
     
     def initialize(uri, credentials, thrift_client_options = {})
       
-      raise ArgumentError, "credentials must be passed in as a hash" unless credentials.class == Hash
+      raise ArgumentError, "credentials must be passed in as a hash" unless credentials.is_a? Hash
       
       credentials=credentials.inject({}) { |h,(k,v)| h[k.to_sym] = v; h } # convert any stringifyed hash keys into symbols
       
