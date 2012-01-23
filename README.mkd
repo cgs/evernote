@@ -46,7 +46,8 @@ Thanks to the following peeps for helping out:
 * Peter Mangiafico (peetucket)
 * d1
 * Mikhail Zelenin (MioGreen)
-
+* Jimmy Zimmerman (jimmyz)
+* Buck Doyle (backspace)
 
 ## Copyright ##
 Copyright (c) 2011 Chris Sepic. See LICENSE for details.
