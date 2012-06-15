@@ -2,7 +2,7 @@
 This gem is a high level wrapper around Evernote's Thrift-generated ruby code. It bundles up Evernote's thrift-generated code and creates some simple wrapper classes.
 
 # setup #
-Get yourself a "Client application" API key from Evernote (http://www.evernote.com/about/developer/api/#key), which gives you a "consumer_key" and "consumer_secret" (note that a "web application" API key uses OAuth to authenticate and will not work).  Put the key in a YML file or any other place you put configuration information.  Also, get yourself a username and password on both their sandbox system (http://sandbox.evernote.com) and live system.  You will be using sandbox for testing.
+Get a "Client application" API key from Evernote (http://www.evernote.com/about/developer/api/#key), which gives you a "consumer_key" and "consumer_secret" (note that a "web application" API key uses OAuth to authenticate and will not work).  Put the key in a YML file or any other place you put configuration information.  Also, get yourself a username and password on both their sandbox system (http://sandbox.evernote.com) and live system.  You will be using sandbox for testing.
 
 # usage #
 This script is also located in /example.rb
@@ -40,6 +40,9 @@ The evernote API can be viewed at http://www.evernote.com/about/developer/api/re
 
 If the vendored code is out of date and you get an error indicating so, feel free to create an issue at http://github.com/cgs/evernote/issues
 
+# TODO #
+* OAuth support - will gladly accept a patch for this!
+
 # contributors #
 Thanks to the following peeps for helping out:
 
@@ -48,6 +51,7 @@ Thanks to the following peeps for helping out:
 * Mikhail Zelenin (MioGreen)
 * Jimmy Zimmerman (jimmyz)
 * Buck Doyle (backspace)
+* Philippe Creux (pcreux)
 
 ## Copyright ##
 Copyright (c) 2011 Chris Sepic. See LICENSE for details.
